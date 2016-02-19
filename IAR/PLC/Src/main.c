@@ -60,6 +60,9 @@ SPI_HandleTypeDef hspi2;
 
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
+TIM_HandleTypeDef htim11;
+TIM_HandleTypeDef htim13;
+TIM_HandleTypeDef htim14;
 
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
@@ -91,6 +94,9 @@ static void MX_TIM7_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USART6_UART_Init(void);
+static void MX_TIM11_Init(void);
+static void MX_TIM13_Init(void);
+static void MX_TIM14_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
@@ -142,6 +148,9 @@ int main(void)
   MX_USART6_UART_Init();
   MX_FATFS_Init();
   MX_USB_HOST_Init();
+  MX_TIM11_Init();
+  MX_TIM13_Init();
+  MX_TIM14_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -485,6 +494,45 @@ void MX_TIM7_Init(void)
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig);
+
+}
+
+/* TIM11 init function */
+void MX_TIM11_Init(void)
+{
+
+  htim11.Instance = TIM11;
+  htim11.Init.Prescaler = 0;
+  htim11.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim11.Init.Period = 1919;
+  htim11.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  HAL_TIM_Base_Init(&htim11);
+
+}
+
+/* TIM13 init function */
+void MX_TIM13_Init(void)
+{
+
+  htim13.Instance = TIM13;
+  htim13.Init.Prescaler = 999;
+  htim13.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim13.Init.Period = 47;
+  htim13.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  HAL_TIM_Base_Init(&htim13);
+
+}
+
+/* TIM14 init function */
+void MX_TIM14_Init(void)
+{
+
+  htim14.Instance = TIM14;
+  htim14.Init.Prescaler = 9999;
+  htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim14.Init.Period = 959;
+  htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  HAL_TIM_Base_Init(&htim14);
 
 }
 
