@@ -1,9 +1,0 @@
-WeSpeakEnglish@bet....
-$ git remote add PLC https://github.com/WeSpeakEnglish/STM32PLC.git
-
-
-$ git add *
-
-$ git commit -m "Publish"
-
-$ git push
