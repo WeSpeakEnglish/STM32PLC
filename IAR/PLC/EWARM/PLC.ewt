@@ -1062,6 +1062,12 @@
         <name>$PROJ_DIR$\..\Src\bsp_driver_sd.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\core.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\core.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\fatfs.c</name>
       </file>
       <file>
