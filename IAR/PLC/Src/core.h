@@ -6,6 +6,7 @@
 #endif /* __cplusplus */
    
 typedef signed char s8;
+typedef unsigned char u8;
 
 void RoutineFast(void);
 void RoutineMedium(void);
