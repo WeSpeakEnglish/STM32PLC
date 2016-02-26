@@ -1,4 +1,9 @@
 #include "core.h"
+
+extern volatile s8 Semaphore; // that semaphore for queues and routines control if you need :)
+extern volatile u16 WaitQFast; // set this variable and stay waiting on the fast queue
+
+
 // there are three different queues and routines for corresponding timers 
 // Released Three full independent queues and service functions with their content
 
@@ -59,7 +64,7 @@ s8 S_first =0; // number of the first element of slow-speed queue
 s8 M_first =0; // number of the first element of medium-speed queue
 s8 F_first =0; // number of the first element of fast-speed queue
 
-s8 Semaphore =0; // that semaphore for queues and routines control if you need :)
+
 
 //for the debugging only
 void emptyS(){;} // dummy function for safe initialization of queue Slow
@@ -130,5 +135,12 @@ void (*F_pull(void))(void){
  F_first%=Q_SIZE_FAST;
 return pullVar;
 }
-
-
+// vait some condition but no more that, for exapmle: while (var1!=0 && WaitOnQ())
+u8 WaitOnFastQ(){
+  if(WaitQFast){
+         F_pull()(); 
+         WaitQFast--; 
+         return 0;
+  }
+return 0;
+};

@@ -34,6 +34,7 @@
 #include "stm32f7xx_hal.h"
 #include "fatfs.h"
 #include "usb_host.h"
+#include "core.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -107,7 +108,7 @@ void MX_USB_HOST_Process(void);
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int main(void)
 {
 
@@ -169,7 +170,7 @@ int main(void)
   /* USER CODE END 3 */
 
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /** System Clock Configuration
 */
 void SystemClock_Config(void)

@@ -1,13 +1,16 @@
 #ifndef __CORE_H
 #define __CORE_H
+#include "variables.h"
 
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
-   
-typedef signed char s8;
-typedef unsigned char u8;
 
+//here is our variables
+extern volatile s8 Semaphore; // that semaphore for queues and routines control if you need :)
+extern volatile u16 WaitQFast; // set this variable and stay waiting on the fast queue
+
+///////////////////////  
 void RoutineFast(void);
 void RoutineMedium(void);
 void RoutineSlow(void);
