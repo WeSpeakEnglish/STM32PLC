@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : LTDC.h
+  * File Name          : TIM.h
   * Description        : This file provides code for the configuration
-  *                      of the LTDC instances.
+  *                      of the TIM instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -32,8 +32,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __ltdc_H
-#define __ltdc_H
+#ifndef __tim_H
+#define __tim_H
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -45,13 +45,21 @@
 
 /* USER CODE END Includes */
 
-extern LTDC_HandleTypeDef hltdc;
+extern TIM_HandleTypeDef htim6;
+extern TIM_HandleTypeDef htim7;
+extern TIM_HandleTypeDef htim11;
+extern TIM_HandleTypeDef htim13;
+extern TIM_HandleTypeDef htim14;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_LTDC_Init(void);
+void MX_TIM6_Init(void);
+void MX_TIM7_Init(void);
+void MX_TIM11_Init(void);
+void MX_TIM13_Init(void);
+void MX_TIM14_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -60,7 +68,7 @@ void MX_LTDC_Init(void);
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ ltdc_H */
+#endif /*__ tim_H */
 
 /**
   * @}

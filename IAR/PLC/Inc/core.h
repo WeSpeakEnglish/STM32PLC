@@ -8,7 +8,6 @@
 
 //here is our variables
 extern volatile s8 Semaphore; // that semaphore for queues and routines control if you need :)
-extern volatile u16 WaitQFast; // set this variable and stay waiting on the fast queue
 
 ///////////////////////  
 void RoutineFast(void);
@@ -27,6 +26,9 @@ void pFastQueueIni(void);
 s8 F_push(void (*pointerQ)(void));
 void (*F_pull(void))(void);
 ///////////////////////////
+//waiting functions
+void WaitOnFastQ(void); // just push a task from the Fast Queue 
+void DelayOnFastQ(u16 WaitQFast); // push several tasks from the Fast Queue
 
 //max size of queues is 127 elements (signed char) 
 #define Q_SIZE_SLOW 8   // the size of slow queue

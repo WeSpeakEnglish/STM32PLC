@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : LTDC.h
+  * File Name          : SDMMC.h
   * Description        : This file provides code for the configuration
-  *                      of the LTDC instances.
+  *                      of the SDMMC instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -32,8 +32,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __ltdc_H
-#define __ltdc_H
+#ifndef __sdmmc_H
+#define __sdmmc_H
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -45,13 +45,14 @@
 
 /* USER CODE END Includes */
 
-extern LTDC_HandleTypeDef hltdc;
+extern SD_HandleTypeDef hsd1;
+extern HAL_SD_CardInfoTypedef SDCardInfo1;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_LTDC_Init(void);
+void MX_SDMMC1_SD_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -60,7 +61,7 @@ void MX_LTDC_Init(void);
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ ltdc_H */
+#endif /*__ sdmmc_H */
 
 /**
   * @}

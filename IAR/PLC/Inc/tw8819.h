@@ -1133,9 +1133,9 @@
 	#define REG3FE	0xFE
 //#define REG3FF	0xFF
 
-#define	ReadTW88( a, b )		I2C_BufferRead( TW8819_ADDRESS, a, b, 1, 0)
-#define	WriteTW88( a, b )		I2C_BufferWrite(TW8819_ADDRESS, a, b, 1, 0)
-#define WriteTW88Page( a )		I2C_BufferWrite(TW8819_ADDRESS, 0xff, a, 1, 0)
+//#define	ReadTW88(a, b)		I2C_BufferRead( TW8819_ADDRESS, a, b, 1, 0)
+//#define	WriteTW88(a, b)		I2C_BufferWrite(TW8819_ADDRESS, a, b, 1, 0) // I2C_BufferWrite(uint8_t dev,uint16_t addr, uint8_t *buf, uint16_t len,uint8_t mode16)
+//#define WriteTW88Page(a)	HAL_I2C_Master_Transmit(&hi2c2, TW8819_ADDRESS, a, 2, 1000);//I2C_BufferWrite(TW8819_ADDRESS, 0xff, a, 1, 0) uint8_t I2C_BufferWrite(uint8_t dev,uint16_t addr, uint8_t *buf, uint16_t len,uint8_t mode16)
 
 u16 SetYCbCrContrast(u16 val);
 u16 ReadYCbCrContrast(void);
@@ -1149,9 +1149,18 @@ u16 SetYCbCrSharp(u16 val);
 u16 ReadYCbCrSharp(void);
 
 
+////////////
+u8 ReadTW88(u8 addr, u8* buf ); 
+u8 WriteTW88(u8 addr, u8* buf);
+u8 WriteTW88Page(u8* buf);
+//
+
+
 void BD_Init_TW8819();
 void ReadTW8819ID(void);
 void Switch_Camera(u8 cam);
-u8 ChangeCVBS( void );
+u8 ChangeCVBS(void);
+void LCD_Video_GPIO_Deinit(void);
+void LCD_Video_GPIO_Init(void);
 
 #endif

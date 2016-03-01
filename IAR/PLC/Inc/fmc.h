@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : LTDC.h
+  * File Name          : FMC.h
   * Description        : This file provides code for the configuration
-  *                      of the LTDC instances.
+  *                      of the FMC peripheral.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -32,8 +32,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __ltdc_H
-#define __ltdc_H
+#ifndef __FMC_H
+#define __FMC_H
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -45,13 +45,18 @@
 
 /* USER CODE END Includes */
 
-extern LTDC_HandleTypeDef hltdc;
+extern NAND_HandleTypeDef hnand1;
+extern SDRAM_HandleTypeDef hsdram1;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_LTDC_Init(void);
+void MX_FMC_Init(void);
+void HAL_NAND_MspInit(NAND_HandleTypeDef* hnand);
+void HAL_NAND_MspDeInit(NAND_HandleTypeDef* hnand);
+void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef* hsdram);
+void HAL_SDRAM_MspDeInit(SDRAM_HandleTypeDef* hsdram);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -60,7 +65,7 @@ void MX_LTDC_Init(void);
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ ltdc_H */
+#endif /*__FMC_H */
 
 /**
   * @}

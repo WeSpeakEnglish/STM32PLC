@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : LTDC.h
+  * File Name          : DAC.c
   * Description        : This file provides code for the configuration
-  *                      of the LTDC instances.
+  *                      of the DAC instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -31,36 +31,93 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __ltdc_H
-#define __ltdc_H
-#ifdef __cplusplus
- extern "C" {
-#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f7xx_hal.h"
+#include "dac.h"
 
-/* USER CODE BEGIN Includes */
+#include "gpio.h"
 
-/* USER CODE END Includes */
+/* USER CODE BEGIN 0 */
 
-extern LTDC_HandleTypeDef hltdc;
+/* USER CODE END 0 */
 
-/* USER CODE BEGIN Private defines */
+DAC_HandleTypeDef hdac;
 
-/* USER CODE END Private defines */
+/* DAC init function */
+void MX_DAC_Init(void)
+{
+  DAC_ChannelConfTypeDef sConfig;
 
-void MX_LTDC_Init(void);
+    /**DAC Initialization 
+    */
+  hdac.Instance = DAC;
+  HAL_DAC_Init(&hdac);
 
-/* USER CODE BEGIN Prototypes */
+    /**DAC channel OUT1 config 
+    */
+  sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
+  sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+  HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1);
 
-/* USER CODE END Prototypes */
+    /**DAC channel OUT2 config 
+    */
+  HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_2);
 
-#ifdef __cplusplus
 }
-#endif
-#endif /*__ ltdc_H */
+
+void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
+{
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+  if(hdac->Instance==DAC)
+  {
+  /* USER CODE BEGIN DAC_MspInit 0 */
+
+  /* USER CODE END DAC_MspInit 0 */
+    /* Peripheral clock enable */
+    __DAC_CLK_ENABLE();
+  
+    /**DAC GPIO Configuration    
+    PA4     ------> DAC_OUT1
+    PA5     ------> DAC_OUT2 
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* USER CODE BEGIN DAC_MspInit 1 */
+
+  /* USER CODE END DAC_MspInit 1 */
+  }
+}
+
+void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
+{
+
+  if(hdac->Instance==DAC)
+  {
+  /* USER CODE BEGIN DAC_MspDeInit 0 */
+
+  /* USER CODE END DAC_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __DAC_CLK_DISABLE();
+  
+    /**DAC GPIO Configuration    
+    PA4     ------> DAC_OUT1
+    PA5     ------> DAC_OUT2 
+    */
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_4|GPIO_PIN_5);
+
+  }
+  /* USER CODE BEGIN DAC_MspDeInit 1 */
+
+  /* USER CODE END DAC_MspDeInit 1 */
+} 
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /**
   * @}

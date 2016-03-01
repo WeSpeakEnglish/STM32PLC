@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : LTDC.h
+  * File Name          : DMA2D.c
   * Description        : This file provides code for the configuration
-  *                      of the LTDC instances.
+  *                      of the DMA2D instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -31,36 +31,69 @@
   *
   ******************************************************************************
   */
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __ltdc_H
-#define __ltdc_H
-#ifdef __cplusplus
- extern "C" {
-#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f7xx_hal.h"
+#include "dma2d.h"
 
-/* USER CODE BEGIN Includes */
+/* USER CODE BEGIN 0 */
 
-/* USER CODE END Includes */
+/* USER CODE END 0 */
 
-extern LTDC_HandleTypeDef hltdc;
+DMA2D_HandleTypeDef hdma2d;
 
-/* USER CODE BEGIN Private defines */
+/* DMA2D init function */
+void MX_DMA2D_Init(void)
+{
 
-/* USER CODE END Private defines */
+  hdma2d.Instance = DMA2D;
+  hdma2d.Init.Mode = DMA2D_M2M;
+  hdma2d.Init.ColorMode = DMA2D_RGB888;
+  hdma2d.Init.OutputOffset = 0;
+  hdma2d.LayerCfg[1].InputOffset = 0;
+  hdma2d.LayerCfg[1].InputColorMode = CM_RGB888;
+  hdma2d.LayerCfg[1].AlphaMode = DMA2D_NO_MODIF_ALPHA;
+  hdma2d.LayerCfg[1].InputAlpha = 0;
+  HAL_DMA2D_Init(&hdma2d);
 
-void MX_LTDC_Init(void);
+  HAL_DMA2D_ConfigLayer(&hdma2d, 1);
 
-/* USER CODE BEGIN Prototypes */
-
-/* USER CODE END Prototypes */
-
-#ifdef __cplusplus
 }
-#endif
-#endif /*__ ltdc_H */
+
+void HAL_DMA2D_MspInit(DMA2D_HandleTypeDef* hdma2d)
+{
+
+  if(hdma2d->Instance==DMA2D)
+  {
+  /* USER CODE BEGIN DMA2D_MspInit 0 */
+
+  /* USER CODE END DMA2D_MspInit 0 */
+    /* Peripheral clock enable */
+    __DMA2D_CLK_ENABLE();
+  /* USER CODE BEGIN DMA2D_MspInit 1 */
+
+  /* USER CODE END DMA2D_MspInit 1 */
+  }
+}
+
+void HAL_DMA2D_MspDeInit(DMA2D_HandleTypeDef* hdma2d)
+{
+
+  if(hdma2d->Instance==DMA2D)
+  {
+  /* USER CODE BEGIN DMA2D_MspDeInit 0 */
+
+  /* USER CODE END DMA2D_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __DMA2D_CLK_DISABLE();
+  }
+  /* USER CODE BEGIN DMA2D_MspDeInit 1 */
+
+  /* USER CODE END DMA2D_MspDeInit 1 */
+} 
+
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 
 /**
   * @}

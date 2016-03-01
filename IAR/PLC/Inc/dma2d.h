@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : LTDC.h
+  * File Name          : DMA2D.h
   * Description        : This file provides code for the configuration
-  *                      of the LTDC instances.
+  *                      of the DMA2D instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -32,8 +32,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __ltdc_H
-#define __ltdc_H
+#ifndef __dma2d_H
+#define __dma2d_H
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -45,13 +45,13 @@
 
 /* USER CODE END Includes */
 
-extern LTDC_HandleTypeDef hltdc;
+extern DMA2D_HandleTypeDef hdma2d;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_LTDC_Init(void);
+void MX_DMA2D_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -60,7 +60,7 @@ void MX_LTDC_Init(void);
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ ltdc_H */
+#endif /*__ dma2d_H */
 
 /**
   * @}
