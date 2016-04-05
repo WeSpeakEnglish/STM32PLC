@@ -13,7 +13,7 @@ CStepIntDis=_ 0
 stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=-1838998300
+Checksum=1507208685
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -106,7 +106,7 @@ mode=0
 [Breakpoints2]
 Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\spi.c}.64.3" 0 0 1 "" 0 "" 0
 Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.369.7" 0 0 1 "" 0 "" 0
-Bp2=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.342.5" 0 0 1 "" 0 "" 0
+Bp2=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\main.c}.143.2" 0 0 1 "" 0 "" 0
 Count=3
 [Log file]
 LoggingEnabled=_ 0

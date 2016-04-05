@@ -342,7 +342,7 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
     if(__HAL_LTDC_GET_IT_SOURCE(hltdc, LTDC_IT_FU) != RESET)
     {
       /* Disable the FIFO underrun interrupt */
-   //   __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_FU);
+      __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_FU);
 
       /* Clear the FIFO underrun flag */
       __HAL_LTDC_CLEAR_FLAG(hltdc, LTDC_FLAG_FU);

@@ -123,7 +123,7 @@ int main(void)
   MX_DMA2D_Init();
   MX_FMC_Init();
   MX_I2C2_Init();
-//  MX_LTDC_Init();
+  MX_LTDC_Init();
   MX_SDMMC1_SD_Init();
   MX_SPI2_Init();
   MX_TIM6_Init();
@@ -140,7 +140,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
  //MPU_Config(); 
  SDRAM_Initialization_Sequence(&hsdram1);
-  
+ DAC->CR |= DAC_CR_EN1;
+   
   pMediumQueueIni(); // fill the medium queue by Zero functions
   pFastQueueIni(); // fill the medium queue by Zero functions
   
@@ -167,8 +168,12 @@ int main(void)
   
   //RCC->PLLSAICFGR =  
 
+//LCD_SetLight(280);
+for(i=0; i< 10; i++)
+ LCD_SetLight(i); 
 
-  
+
+ RCC->PLLSAICFGR =0x44003300; 
   for(i=0; i< 1000; i++){
     
     
@@ -177,7 +182,7 @@ int main(void)
 
     
 
-//RCC->PLLSAICFGR =0x44002800;
+
 Show_GUI();
  for(j = 0; j < 200000; j++) RoutineMedium();
 //RCC->PLLSAICFGR = 0x44003FC0;
@@ -259,6 +264,8 @@ void SystemClock_Config(void)
   PeriphClkInitStruct.Clk48ClockSelection = RCC_CLK48SOURCE_PLL;
   PeriphClkInitStruct.Sdmmc1ClockSelection = RCC_SDMMC1CLKSOURCE_CLK48;
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
+
+  HAL_RCC_EnableCSS();
 
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 

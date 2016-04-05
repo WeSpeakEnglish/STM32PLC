@@ -1,6 +1,6 @@
 [PreviousGenFiles]
-HeaderPath=E:/PLC/Inc
-SourcePath=E:/PLC/Src
+HeaderPath=E:/PLC/IAR/PLC/Inc
+SourcePath=E:/PLC/IAR/PLC/Src
 SourceFiles=ffconf.h;bsp_driver_sd.h;fatfs.h;usb_host.h;usbh_conf.h;stm32f7xx_it.h;stm32f7xx_hal_conf.h;mxconstants.h;bsp_driver_sd.c;fatfs.c;usb_host.c;usbh_conf.c;stm32f7xx_it.c;stm32f7xx_hal_msp.c;main.c;gpio.h;adc.h;can.h;dac.h;dma2d.h;fmc.h;i2c.h;ltdc.h;sdmmc.h;spi.h;tim.h;usart.h;gpio.c;adc.c;can.c;dac.c;dma2d.c;fmc.c;i2c.c;ltdc.c;sdmmc.c;spi.c;tim.c;usart.c;bsp_driver_sdram.h;bsp_driver_sdram.c;
 HeaderFiles=ffconf.h;bsp_driver_sd.h;fatfs.h;usb_host.h;usbh_conf.h;stm32f7xx_it.h;stm32f7xx_hal_conf.h;mxconstants.h;gpio.h;adc.h;can.h;dac.h;dma2d.h;fmc.h;i2c.h;ltdc.h;sdmmc.h;spi.h;tim.h;usart.h;bsp_driver_sdram.h;
 

@@ -220,7 +220,7 @@ void     LCD_SetColorPixel(uint32_t Color);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 void LCD_InitParams(uint32_t LayerIndex, uint32_t BackColor, uint32_t TextColor, sFONT* pFont);
 void Fast_LCD_DrawPixel(uint16_t Xpos, uint16_t Ypos, uint32_t ARGB_Code);
-
+void LCD_SetLight(uint16_t);
 #ifdef __cplusplus
 }
 #endif

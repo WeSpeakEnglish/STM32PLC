@@ -283,6 +283,7 @@ HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
 64msec / 4096 fresh = 15.62 us 
 refresh count= 15.62usec * 84MHz  - 20 =  1292 */
 HAL_SDRAM_ProgramRefreshRate(hsdram, 1386);     //refresh count
+
 }
 
 

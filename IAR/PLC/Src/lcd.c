@@ -73,6 +73,7 @@
 #include "dma2d.h"
 #include "ltdc.h"
 #include "video.h"
+#include "dac.h"
 #include "../../../Utilities/Fonts/fonts.h"
 #include "../../../Utilities/Fonts/font24.c"
 #include "../../../Utilities/Fonts/font20.c"
@@ -1355,5 +1356,28 @@ uint8_t LCD_Init(void){
 // LCD_DrawCircle(200, 234, 40);
 // LCD_DrawCircle(200, 234, 39);
 return 0;
+}
+
+void LCD_SetLight(uint16_t Volume){ 
+
+  switch(Volume){
+    case 10: Volume = 500; break;
+    case 9 : Volume = 600; break;
+    case 8 : Volume = 700; break;
+    case 7 : Volume = 800; break;
+    case 6 : Volume = 900; break;
+    case 5 : Volume = 1000; break;
+    case 4 : Volume = 1100; break;
+    case 3 : Volume = 1200; break; 
+    case 2 : Volume = 1300; break;
+    case 1 : Volume = 1400; break;
+    case 0 : DAC->DHR12R1 = 4096; break;
+  
+  }  
+  
+ 
+
+// HAL_DAC_Stop(&hdac, DAC_CHANNEL_1);
+
 }
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
