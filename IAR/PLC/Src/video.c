@@ -67,24 +67,7 @@ u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
 
 
 
-void Show_GUI(void){
- 
- GUI_Release();
- 
- if(!LayerOfView){
-     HAL_LTDC_SetAddress(&hltdc, SDRAM_BANK_ADDR + LAYER_1_OFFSET, 0); // set the present layer address
-     _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET); // fill the other layer
-    }
- else{
-     HAL_LTDC_SetAddress(&hltdc, SDRAM_BANK_ADDR + LAYER_2_OFFSET, 0); // set the present layer address
-    _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET); // fill the other layer
- }
- 
- 
- LayerOfView++;
- LayerOfView %= 2;
 
-}  
 
 void Fill_Background(void){
 

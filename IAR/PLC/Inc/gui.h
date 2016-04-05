@@ -41,5 +41,6 @@ void GUI_Release(); // release interface
 u8 GUI_Del_Obj(GUI_Object* deleteObj); // delete Object
 u8 GUI_Hide_Obj(GUI_Object* hideObj); // hide Object
 u8 GUI_SetVisibility_Obj(GUI_Object* Obj, u32 Value); //set Visibility
-
+ void Show_GUI(void);
+ 
 #endif

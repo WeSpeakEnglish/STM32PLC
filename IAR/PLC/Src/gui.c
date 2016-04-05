@@ -1,6 +1,8 @@
 #include "gui.h"
 #include "lcd.h"
+#include "video.h"
 #include <stdarg.h>
+#include "ltdc.h"
 
 static GUI_Object GUI_Objects[MAX_OBJECTS_Q];
 
@@ -101,3 +103,23 @@ u8 GUI_SetVisibility_Obj(GUI_Object* Obj, u32 Value){  // the alpha level of Obj
  Obj->color = Value;  // hide object
 return 0;
 }
+
+void Show_GUI(void){
+ 
+ GUI_Release();
+ 
+ if(!LayerOfView){
+     HAL_LTDC_SetAddress(&hltdc, SDRAM_BANK_ADDR + LAYER_1_OFFSET, 0); // set the present layer address
+     _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET); // fill the other layer
+    }
+ else{
+     HAL_LTDC_SetAddress(&hltdc, SDRAM_BANK_ADDR + LAYER_2_OFFSET, 0); // set the present layer address
+    _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET); // fill the other layer
+ }
+ 
+ 
+ LayerOfView++;
+ LayerOfView %= 2;
+
+}  
+
