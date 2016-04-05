@@ -45,7 +45,12 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
+void NMI_Handler(void);
+void HardFault_Handler(void);
 void MemManage_Handler(void);
+void BusFault_Handler(void);
+void UsageFault_Handler(void);
+void DebugMon_Handler(void);
 void SysTick_Handler(void);
 void EXTI0_IRQHandler(void);
 void CAN1_TX_IRQHandler(void);
@@ -55,8 +60,12 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void);
 void I2C2_EV_IRQHandler(void);
 void TIM8_UP_TIM13_IRQHandler(void);
 void TIM8_TRG_COM_TIM14_IRQHandler(void);
+void FMC_IRQHandler(void);
 void OTG_FS_IRQHandler(void);
 void USART6_IRQHandler(void);
+void LTDC_IRQHandler(void);
+void LTDC_ER_IRQHandler(void);
+void DMA2D_IRQHandler(void);
 
 #ifdef __cplusplus
 }

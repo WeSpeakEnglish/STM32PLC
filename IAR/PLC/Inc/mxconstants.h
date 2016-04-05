@@ -37,6 +37,7 @@
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
+#define DATA_IN_ExtSDRAM 1
 
 /* USER CODE BEGIN Private defines */
 

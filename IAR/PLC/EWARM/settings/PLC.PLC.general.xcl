@@ -1,0 +1,15 @@
+"D:\Program Files\IAR Systems\Embedded Workbench 7.3\arm\bin\armproc.dll" 
+
+"D:\Program Files\IAR Systems\Embedded Workbench 7.3\arm\bin\armstlink2.dll" 
+
+"E:\PLC\EWARM\PLC\Exe\PLC.out" 
+
+--plugin "D:\Program Files\IAR Systems\Embedded Workbench 7.3\arm\bin\armbat.dll" 
+
+--device_macro "D:\Program Files\IAR Systems\Embedded Workbench 7.3\arm\config\debugger\ST\STM32F7xx.dmac" 
+
+--flash_loader "D:\Program Files\IAR Systems\Embedded Workbench 7.3\arm\config\flashloader\ST\FlashSTM32F756xG.board" 
+
+
+
+

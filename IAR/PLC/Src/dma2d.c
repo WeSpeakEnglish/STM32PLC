@@ -46,16 +46,10 @@ void MX_DMA2D_Init(void)
 {
 
   hdma2d.Instance = DMA2D;
-  hdma2d.Init.Mode = DMA2D_M2M;
-  hdma2d.Init.ColorMode = DMA2D_RGB888;
+  hdma2d.Init.Mode = DMA2D_R2M;
+  hdma2d.Init.ColorMode = DMA2D_ARGB8888;
   hdma2d.Init.OutputOffset = 0;
-  hdma2d.LayerCfg[1].InputOffset = 0;
-  hdma2d.LayerCfg[1].InputColorMode = CM_RGB888;
-  hdma2d.LayerCfg[1].AlphaMode = DMA2D_NO_MODIF_ALPHA;
-  hdma2d.LayerCfg[1].InputAlpha = 0;
   HAL_DMA2D_Init(&hdma2d);
-
-  HAL_DMA2D_ConfigLayer(&hdma2d, 1);
 
 }
 
@@ -68,7 +62,11 @@ void HAL_DMA2D_MspInit(DMA2D_HandleTypeDef* hdma2d)
 
   /* USER CODE END DMA2D_MspInit 0 */
     /* Peripheral clock enable */
-    __DMA2D_CLK_ENABLE();
+    __HAL_RCC_DMA2D_CLK_ENABLE();
+
+    /* Peripheral interrupt init */
+    HAL_NVIC_SetPriority(DMA2D_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(DMA2D_IRQn);
   /* USER CODE BEGIN DMA2D_MspInit 1 */
 
   /* USER CODE END DMA2D_MspInit 1 */
@@ -84,7 +82,11 @@ void HAL_DMA2D_MspDeInit(DMA2D_HandleTypeDef* hdma2d)
 
   /* USER CODE END DMA2D_MspDeInit 0 */
     /* Peripheral clock disable */
-    __DMA2D_CLK_DISABLE();
+    __HAL_RCC_DMA2D_CLK_DISABLE();
+
+    /* Peripheral interrupt Deinit*/
+    HAL_NVIC_DisableIRQ(DMA2D_IRQn);
+
   }
   /* USER CODE BEGIN DMA2D_MspDeInit 1 */
 

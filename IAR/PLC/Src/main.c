@@ -46,10 +46,18 @@
 #include "usb_host.h"
 #include "gpio.h"
 #include "fmc.h"
-#include "variables.h"
 
 /* USER CODE BEGIN Includes */
 #include "ltdc.h"
+#include "core.h"
+#include "image888.h"
+#include "lcd.h"
+#include "../../../Utilities/Fonts/fonts.h"
+#include "video.h"
+#include "gui.h"
+#include "variables.h"  
+#include "userinterface.h"    
+    
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -57,6 +65,7 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
+__no_init volatile  u32 my_array_in_SDRAM[0x02000000>>2]@0xC0000000;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -69,14 +78,26 @@ void MX_USB_HOST_Process(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+#define SDRAM_BANK_ADDR  0xC0000000
+#define IS42S16160G_SIZE 0x2000000
 
+
+#define TM_SDRAM_Write32(address, value)    (*(__IO uint32_t *) (SDRAM_START_ADR + (address)) = (value))
+#define TM_SDRAM_Read32(address)            (*(__IO uint32_t *) (SDRAM_START_ADR + (address)))
+#define TM_SDRAM_Write16(address, value)    (*(__IO uint16_t *) (SDRAM_START_ADR + (address)) = (value))
+#define TM_SDRAM_Read16(address)            (*(__IO uint16_t *) (SDRAM_START_ADR + (address)))
+#define TM_SDRAM_Write8(address, value)        (*(__IO uint8_t *) (SDRAM_START_ADR + (address)) = (value))
+#define TM_SDRAM_Read8(address)                (*(__IO uint8_t *) (SDRAM_START_ADR + (address)))
+#define TM_SDRAM_WriteFloat(address, value)    (*(__IO float *) (SDRAM_START_ADR + (address)) = (value))
+#define TM_SDRAM_ReadFloat(address)            (*(__IO float *) (SDRAM_START_ADR + (address)))
 /* USER CODE END 0 */
 
 int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-   
+  uint32_t i,j;
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
   /* USER CODE END 1 */
 
   /* Enable I-Cache-------------------------------------------------------------*/
@@ -102,7 +123,7 @@ int main(void)
   MX_DMA2D_Init();
   MX_FMC_Init();
   MX_I2C2_Init();
-  MX_LTDC_Init();
+//  MX_LTDC_Init();
   MX_SDMMC1_SD_Init();
   MX_SPI2_Init();
   MX_TIM6_Init();
@@ -117,19 +138,73 @@ int main(void)
   MX_TIM14_Init();
 
   /* USER CODE BEGIN 2 */
+ //MPU_Config(); 
+ SDRAM_Initialization_Sequence(&hsdram1);
+  
+  pMediumQueueIni(); // fill the medium queue by Zero functions
+  pFastQueueIni(); // fill the medium queue by Zero functions
+  
 
+   
+   for(i=0;i<4000000>>2;i++){
+  my_array_in_SDRAM[i] = 0x00000000;
+   }
+
+ 
+     //initialize 
+   //fill the background
+  _HW_Fill_Finite_Color(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, 0xFFFFFFFF);
+  while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
+  //fill the first layer  
+  _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET);
+  while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
+  //fill the second layer
+   _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET);
+   while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
+  
+  MX_LTDC_Init();
+  LCD_Init();
+  
+  //RCC->PLLSAICFGR =  
+
+
+  
+  for(i=0; i< 1000; i++){
+    
+    
+
+  Load_GUI_1();
+
+    
+
+//RCC->PLLSAICFGR =0x44002800;
+Show_GUI();
+ for(j = 0; j < 200000; j++) RoutineMedium();
+//RCC->PLLSAICFGR = 0x44003FC0;
+ // for(j = 0; j < 150000; j++) RoutineMedium();
+
+ // Load_GUI_2();
+
+
+//  Show_GUI();
+
+
+  }
+  
+  RCC->PLLSAICFGR = 0x44003FC0;
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  while(1){
   /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
   /* USER CODE BEGIN 3 */
-
+    RoutineMedium(); // get and run deals from medium queue 
   }
+
   /* USER CODE END 3 */
 
 }
@@ -143,7 +218,7 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
 
-  __PWR_CLK_ENABLE();
+  __HAL_RCC_PWR_CLK_ENABLE();
 
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
@@ -151,13 +226,13 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 4;
-  RCC_OscInitStruct.PLL.PLLN = 192;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 432;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 8;
+  RCC_OscInitStruct.PLL.PLLQ = 9;
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
-  HAL_PWREx_ActivateOverDrive();
+  HAL_PWREx_EnableOverDrive();
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -165,24 +240,24 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_6);
+  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7);
 
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC|RCC_PERIPHCLK_USART2
                               |RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_USART6
                               |RCC_PERIPHCLK_I2C2|RCC_PERIPHCLK_SDMMC1
                               |RCC_PERIPHCLK_CLK48;
-  PeriphClkInitStruct.PLLSAI.PLLSAIN = 200;
-  PeriphClkInitStruct.PLLSAI.PLLSAIR = 3;
+  PeriphClkInitStruct.PLLSAI.PLLSAIN = 220;
+  PeriphClkInitStruct.PLLSAI.PLLSAIR = 4;
   PeriphClkInitStruct.PLLSAI.PLLSAIQ = 2;
-  PeriphClkInitStruct.PLLSAI.PLLSAIP = RCC_PLLSAIP_DIV2;
+  PeriphClkInitStruct.PLLSAI.PLLSAIP = RCC_PLLSAIP_DIV8;
   PeriphClkInitStruct.PLLSAIDivQ = 1;
-  PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_4;
+  PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_2;
   PeriphClkInitStruct.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInitStruct.Usart3ClockSelection = RCC_USART3CLKSOURCE_PCLK1;
   PeriphClkInitStruct.Usart6ClockSelection = RCC_USART6CLKSOURCE_PCLK2;
   PeriphClkInitStruct.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
   PeriphClkInitStruct.Clk48ClockSelection = RCC_CLK48SOURCE_PLL;
-  PeriphClkInitStruct.Sdmmc1ClockSelection = RCC_SDMMC1CLKSOURCE_SYSCLK;
+  PeriphClkInitStruct.Sdmmc1ClockSelection = RCC_SDMMC1CLKSOURCE_CLK48;
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
 
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);

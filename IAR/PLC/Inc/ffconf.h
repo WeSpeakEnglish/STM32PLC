@@ -10,6 +10,7 @@
 /-----------------------------------------------------------------------------*/
 #include "stm32f7xx_hal.h"
 #include "bsp_driver_sd.h"
+#include "bsp_driver_sdram.h"
 #include "usbh_core.h"
 #include "usbh_msc.h"
 
@@ -21,7 +22,7 @@
 / Functions and Buffer Configurations
 /-----------------------------------------------------------------------------*/
 
-#define _FS_TINY             0      /* 0:Normal or 1:Tiny */
+#define _FS_TINY             1      /* 0:Normal or 1:Tiny */
 /* This option switches tiny buffer configuration. (0:Normal or 1:Tiny)
 /  At the tiny configuration, size of the file object (FIL) is reduced _MAX_SS
 /  bytes. Instead of private sector buffer eliminated from the file object,
@@ -51,7 +52,7 @@
 /  1: Enable without LF-CRLF conversion.
 /  2: Enable with LF-CRLF conversion. */
 
-#define _USE_FIND            0
+#define _USE_FIND            1
 /* This option switches filtered directory read feature and related functions,
 /  f_findfirst() and f_findnext(). (0:Disable or 1:Enable) */
 
@@ -83,7 +84,7 @@
 / Locale and Namespace Configurations
 /-----------------------------------------------------------------------------*/
 
-#define _CODE_PAGE         1252
+#define _CODE_PAGE         1251
 /* This option specifies the OEM code page to be used on the target system.
 /  Incorrect setting of the code page can cause a file open failure.
 /
@@ -158,7 +159,7 @@
 / Drive/Volume Configurations
 /----------------------------------------------------------------------------*/
 
-#define _VOLUMES    2
+#define _VOLUMES    3
 /* Number of volumes (logical drives) to be used. */
 
 /* USER CODE BEGIN Volumes */  
