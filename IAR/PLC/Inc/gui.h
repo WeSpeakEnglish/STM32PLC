@@ -21,7 +21,7 @@
 
 typedef struct{
 
-  u8 visibility;                //Visibility of Objects ALFA
+  u32 color;                //Visibility of Objects ALFA
   s8 z_index;                   //[MAX_OBJECTS_Q];
   u8 type;                      //[MAX_OBJECTS_Q];
   u8 existance;                // deleted or not
@@ -35,7 +35,7 @@ typedef struct{
 
 void GUI_Free(void);
 
-GUI_Object* GUI_SetObject(u32 typeObj, u32 visibObj, u32 z_Index, u32 NumbOfParms,...);
+GUI_Object* GUI_SetObject(u32 typeObj, u32 colorObj, u32 z_Index, u32 NumbOfParms,...);
 
 void GUI_Release(); // release interface
 u8 GUI_Del_Obj(GUI_Object* deleteObj); // delete Object

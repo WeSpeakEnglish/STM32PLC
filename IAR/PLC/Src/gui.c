@@ -10,7 +10,7 @@ int i, j;
  for(i = 0; i < MAX_OBJECTS_Q;  i++) {
    GUI_Objects[i].existance = 0;
    GUI_Objects[i].type = 0;
-   GUI_Objects[i].visibility = 0;
+   GUI_Objects[i].color = 0;
    GUI_Objects[i].z_index = 0;
    for (j = 0; j < MAX_PARAMS_Q; j++)
    GUI_Objects[i].params[j] = 0;
@@ -19,7 +19,7 @@ return;
 }
 
  
-GUI_Object*  GUI_SetObject(u32 typeObj, u32 visibObj, u32 z_Index, u32 NumbOfParms,...){
+GUI_Object*  GUI_SetObject(u32 typeObj, u32 colorObj, u32 z_Index, u32 NumbOfParms,...){
  va_list arg_ptr;
  static int i, j;      //indexes
  u8 takedFlag = 0;     // Take
@@ -40,7 +40,7 @@ GUI_Object*  GUI_SetObject(u32 typeObj, u32 visibObj, u32 z_Index, u32 NumbOfPar
  if (takedFlag){ 
    GUI_Objects[i].existance = 1; // set the status of existance
    GUI_Objects[i].type = typeObj;
-   GUI_Objects[i].visibility = visibObj;
+   GUI_Objects[i].color = colorObj;
    GUI_Objects[i].z_index = z_Index;
 
    for(j = 0; j < NumbOfParms; j++){
@@ -64,6 +64,7 @@ void GUI_Release(){  // create GUI
     for(i = 0; i < MAX_OBJECTS_Q; i++){
      if(GUI_Objects[i].z_index == j){
        if(GUI_Objects[i].existance){
+      LCD_SetColorPixel(GUI_Objects[i].color); // set the font, color of font and the color of line
         switch(GUI_Objects[i].type){
           case LINE_TYPE:
              LCD_DrawLine(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2], GUI_Objects[i].params[3]);
@@ -92,11 +93,11 @@ return 0;
 }
 
 u8 GUI_Hide_Obj(GUI_Object* hideObj){
- hideObj->visibility = 0;  // hide object
+ hideObj->color = (hideObj->color)&0x00FFFFFF;  // hide object
 return 0;
 }
 
 u8 GUI_SetVisibility_Obj(GUI_Object* Obj, u32 Value){  // the alpha level of Object
- Obj->visibility = Value;  // hide object
+ Obj->color = Value;  // hide object
 return 0;
 }

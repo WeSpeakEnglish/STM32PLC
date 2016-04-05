@@ -125,6 +125,7 @@
 /* Default LCD configuration with LCD Layer 1 */
 static uint32_t            ActiveLayer = 0;
 static LCD_DrawPropTypeDef DrawProp[MAX_LAYER_NUMBER];
+static uint32_t LayerIndex = 0;
 /**
   * @}
   */ 
@@ -1321,10 +1322,15 @@ static void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uin
 /**
   * @}
   */
-void LCD_InitParams(uint32_t LayerIndex, uint32_t BackColor, uint32_t TextColor, sFONT* pFont){
+void LCD_InitParams(uint32_t LayerIndexGet, uint32_t BackColor, uint32_t TextColor, sFONT* pFont){
+  LayerIndex = LayerIndexGet;
   DrawProp[LayerIndex].BackColor = BackColor; 
   DrawProp[LayerIndex].pFont     = pFont;
   DrawProp[LayerIndex].TextColor = TextColor; 
+}
+
+void LCD_SetColorPixel(uint32_t Color){
+DrawProp[LayerIndex].TextColor = Color;
 }
 /**
   * @}

@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\Program Files\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "E:\PLC\EWARM\settings\PLC.PLC.general.xcl" --backend -f "E:\PLC\EWARM\settings\PLC.PLC.driver.xcl" 
+"D:\Program Files\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "E:\PLC\IAR\PLC\EWARM\settings\PLC.PLC.general.xcl" --backend -f "E:\PLC\IAR\PLC\EWARM\settings\PLC.PLC.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\Program Files\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "E:\PLC\EWARM\settings\PLC.PLC.general.xcl" "--debug_file=%~1" --backend -f "E:\PLC\EWARM\settings\PLC.PLC.driver.xcl" 
+"D:\Program Files\IAR Systems\Embedded Workbench 7.3\common\bin\cspybat" -f "E:\PLC\IAR\PLC\EWARM\settings\PLC.PLC.general.xcl" "--debug_file=%~1" --backend -f "E:\PLC\IAR\PLC\EWARM\settings\PLC.PLC.driver.xcl" 
 
 @echo off 
 :end

@@ -215,6 +215,7 @@ void     LCD_FillEllipse(int Xpos, int Ypos, int XRadius, int YRadius);
 
 void     LCD_DisplayOff(void);
 void     LCD_DisplayOn(void);
+void     LCD_SetColorPixel(uint32_t Color);
 //void     LCD_InitParams(void);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 void LCD_InitParams(uint32_t LayerIndex, uint32_t BackColor, uint32_t TextColor, sFONT* pFont);
