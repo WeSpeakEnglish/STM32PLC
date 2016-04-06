@@ -65,7 +65,7 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-__no_init volatile  u32 my_array_in_SDRAM[0x02000000>>2]@0xC0000000;
+__no_init volatile  u8 my_array_in_SDRAM[0x02000000]@0xC0000000;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -138,8 +138,8 @@ int main(void)
   MX_TIM14_Init();
 
   /* USER CODE BEGIN 2 */
- //MPU_Config(); 
- SDRAM_Initialization_Sequence(&hsdram1);
+  MPU_Config(); 
+  SDRAM_Initialization_Sequence(&hsdram1);
  DAC->CR |= DAC_CR_EN1;
    
   pMediumQueueIni(); // fill the medium queue by Zero functions
@@ -148,7 +148,7 @@ int main(void)
 
    
    for(i=0;i<4000000>>2;i++){
-  my_array_in_SDRAM[i] = 0x00000000;
+  my_array_in_SDRAM[i] = 0x00;
    }
 
  
