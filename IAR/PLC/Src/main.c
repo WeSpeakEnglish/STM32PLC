@@ -173,8 +173,8 @@ for(i=0; i< 10; i++)
  LCD_SetLight(i); 
 
 
- RCC->PLLSAICFGR =0x44003300; 
-  for(i=0; i< 1000; i++){
+
+  for(i=0; i< 10000; i++){
     
     
 
@@ -184,7 +184,7 @@ for(i=0; i< 10; i++)
 
 
 Show_GUI();
- for(j = 0; j < 200000; j++) RoutineMedium();
+ 
 //RCC->PLLSAICFGR = 0x44003FC0;
  // for(j = 0; j < 150000; j++) RoutineMedium();
 
@@ -196,7 +196,7 @@ Show_GUI();
 
   }
   
-  RCC->PLLSAICFGR = 0x44003FC0;
+
   
   /* USER CODE END 2 */
 
