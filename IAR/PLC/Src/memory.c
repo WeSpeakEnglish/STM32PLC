@@ -29,7 +29,5 @@ void NAND_readId(void)
 	{
           
 		sprintf(buf, "Nand Flash ID = %02X,%02X,%02X,%02X\n",NAND_ID.Maker_Id, NAND_ID.Device_Id, NAND_ID.Third_Id, NAND_ID.Fourth_Id);
-		sprintf(buf, "Nand Flash ID = %02X,%02X,%02X,%02X\n",NAND_ID.Maker_Id, NAND_ID.Device_Id, NAND_ID.Third_Id, NAND_ID.Fourth_Id);
-                //print(buf);
 	}
 }
