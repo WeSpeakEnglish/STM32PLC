@@ -121,5 +121,15 @@ void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
   RCC->PLLSAICFGR = 0x44003FC0;
 }
 
+void LCD_Layers_Init(void){
+  _HW_Fill_Finite_Color(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, 0xFFFFFFFF);
+  while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
+  //fill the first layer  
+  _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET);
+  while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
+  //fill the second layer
+   _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET);
+   while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
+}
 
 

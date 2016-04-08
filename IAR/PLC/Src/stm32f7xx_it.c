@@ -36,7 +36,7 @@
 #include "stm32f7xx_it.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "timer13.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -188,7 +188,7 @@ void TIM8_UP_TIM13_IRQHandler(void)
   /* USER CODE END TIM8_UP_TIM13_IRQn 0 */
   HAL_TIM_IRQHandler(&htim13);
   /* USER CODE BEGIN TIM8_UP_TIM13_IRQn 1 */
-
+  TIM13_IRQHandler();
   /* USER CODE END TIM8_UP_TIM13_IRQn 1 */
 }
 

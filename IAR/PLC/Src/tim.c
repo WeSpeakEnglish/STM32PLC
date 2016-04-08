@@ -94,10 +94,10 @@ void MX_TIM13_Init(void)
 {
 
   htim13.Instance = TIM13;
-  htim13.Init.Prescaler = 999;
+  htim13.Init.Prescaler = 10000;
   htim13.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim13.Init.Period = 47;
-  htim13.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim13.Init.Period = 10000;
+  htim13.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
   HAL_TIM_Base_Init(&htim13);
 
 }

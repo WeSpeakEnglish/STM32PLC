@@ -60,24 +60,24 @@ void MX_FMC_Init(void)
   hnand1.Init.MemoryDataWidth = FMC_NAND_MEM_BUS_WIDTH_8;
   hnand1.Init.EccComputation = FMC_NAND_ECC_ENABLE;
   hnand1.Init.ECCPageSize = FMC_NAND_ECC_PAGE_SIZE_512BYTE;
-  hnand1.Init.TCLRSetupTime = 0;
-  hnand1.Init.TARSetupTime = 0;
+  hnand1.Init.TCLRSetupTime = 2;
+  hnand1.Init.TARSetupTime = 2;
   /* hnand1.Info */
   hnand1.Info.PageSize = 512;
   hnand1.Info.SpareAreaSize = 16;
   hnand1.Info.BlockSize = 32;
   hnand1.Info.BlockNbr = 4096;
-  hnand1.Info.ZoneSize = 0;
+  hnand1.Info.ZoneSize = 4096;
   /* ComSpaceTiming */
-  ComSpaceTiming.SetupTime = 252;
-  ComSpaceTiming.WaitSetupTime = 252;
-  ComSpaceTiming.HoldSetupTime = 252;
-  ComSpaceTiming.HiZSetupTime = 252;
+  ComSpaceTiming.SetupTime = 0;
+  ComSpaceTiming.WaitSetupTime = 2;
+  ComSpaceTiming.HoldSetupTime = 1;
+  ComSpaceTiming.HiZSetupTime = 0;
   /* AttSpaceTiming */
-  AttSpaceTiming.SetupTime = 252;
-  AttSpaceTiming.WaitSetupTime = 252;
-  AttSpaceTiming.HoldSetupTime = 252;
-  AttSpaceTiming.HiZSetupTime = 252;
+  AttSpaceTiming.SetupTime = 0;
+  AttSpaceTiming.WaitSetupTime = 2;
+  AttSpaceTiming.HoldSetupTime = 1;
+  AttSpaceTiming.HiZSetupTime = 1;
 
   HAL_NAND_Init(&hnand1, &ComSpaceTiming, &AttSpaceTiming);
 

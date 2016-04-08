@@ -1030,6 +1030,9 @@
         <name>$PROJ_DIR$\..\Src\main.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\memory.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\sdmmc.c</name>
       </file>
       <file>
@@ -1046,6 +1049,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\tim.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\timer13.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\tw8819.c</name>

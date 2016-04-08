@@ -20,7 +20,9 @@ extern const u32 ProjectionLayerAddress[2]; // Were we fill out our objects?
 
  void _HW_Fill_Finite_Color(u32 StartAddress, u32 color);
  void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress);
- #ifdef __cplusplus
+ void LCD_Layers_Init(void);
+
+#ifdef __cplusplus
  }
 #endif
 

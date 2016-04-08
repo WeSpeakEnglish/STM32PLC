@@ -52,20 +52,22 @@
 #include "core.h"
 #include "image888.h"
 #include "lcd.h"
-#include "../../../Utilities/Fonts/fonts.h"
 #include "video.h"
 #include "gui.h"
 #include "variables.h"  
-#include "userinterface.h"    
+#include "userinterface.h" 
+#include "memory.h"
+#include "timer13.h"
+
     
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
 /* Private variables ---------------------------------------------------------*/
 
-__no_init volatile  u8 my_array_in_SDRAM[0x02000000]@0xC0000000;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,26 +80,17 @@ void MX_USB_HOST_Process(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-#define SDRAM_BANK_ADDR  0xC0000000
-#define IS42S16160G_SIZE 0x2000000
 
 
-#define TM_SDRAM_Write32(address, value)    (*(__IO uint32_t *) (SDRAM_START_ADR + (address)) = (value))
-#define TM_SDRAM_Read32(address)            (*(__IO uint32_t *) (SDRAM_START_ADR + (address)))
-#define TM_SDRAM_Write16(address, value)    (*(__IO uint16_t *) (SDRAM_START_ADR + (address)) = (value))
-#define TM_SDRAM_Read16(address)            (*(__IO uint16_t *) (SDRAM_START_ADR + (address)))
-#define TM_SDRAM_Write8(address, value)        (*(__IO uint8_t *) (SDRAM_START_ADR + (address)) = (value))
-#define TM_SDRAM_Read8(address)                (*(__IO uint8_t *) (SDRAM_START_ADR + (address)))
-#define TM_SDRAM_WriteFloat(address, value)    (*(__IO float *) (SDRAM_START_ADR + (address)) = (value))
-#define TM_SDRAM_ReadFloat(address)            (*(__IO float *) (SDRAM_START_ADR + (address)))
+
+
 /* USER CODE END 0 */
 
 int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  uint32_t i,j;
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
+  uint32_t i, a;
   /* USER CODE END 1 */
 
   /* Enable I-Cache-------------------------------------------------------------*/
@@ -138,7 +131,7 @@ int main(void)
   MX_TIM14_Init();
 
   /* USER CODE BEGIN 2 */
-  MPU_Config(); 
+//  MPU_Config(); 
   SDRAM_Initialization_Sequence(&hsdram1);
  DAC->CR |= DAC_CR_EN1;
    
@@ -147,54 +140,31 @@ int main(void)
   
 
    
-   for(i=0;i<4000000>>2;i++){
-  my_array_in_SDRAM[i] = 0x00;
-   }
+
+// NAND_free();  
 
  
      //initialize 
    //fill the background
-  _HW_Fill_Finite_Color(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, 0xFFFFFFFF);
-  while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
-  //fill the first layer  
-  _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET);
-  while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
-  //fill the second layer
-   _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET);
-   while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
-  
+//  NAND_free();
+  NAND_readId();
+  Timer13_Init();
+  SDRAM_free();
+  LCD_Layers_Init();
   MX_LTDC_Init();
   LCD_Init();
-  
-  //RCC->PLLSAICFGR =  
 
-//LCD_SetLight(280);
+  
 for(i=0; i< 10; i++)
  LCD_SetLight(i); 
-
-
-
-  for(i=0; i< 10000; i++){
+for(i=0; i< 10000; i++){
     
     
 
   Load_GUI_1();
-
-    
-
-
-Show_GUI();
+  Show_GUI();
  
-//RCC->PLLSAICFGR = 0x44003FC0;
- // for(j = 0; j < 150000; j++) RoutineMedium();
-
- // Load_GUI_2();
-
-
-//  Show_GUI();
-
-
-  }
+ }
   
 
   
