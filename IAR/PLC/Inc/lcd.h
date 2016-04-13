@@ -218,9 +218,11 @@ void     LCD_DisplayOn(void);
 void     LCD_SetColorPixel(uint32_t Color);
 //void     LCD_InitParams(void);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+void LCD_DrawFullCircle(uint16_t Xpos, uint16_t Ypos, uint16_t radius);
 void LCD_InitParams(uint32_t LayerIndex, uint32_t BackColor, uint32_t TextColor, sFONT* pFont);
 void Fast_LCD_DrawPixel(uint16_t Xpos, uint16_t Ypos, uint32_t ARGB_Code);
 void LCD_SetLight(uint16_t);
+void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2);
 #ifdef __cplusplus
 }
 #endif

@@ -11,7 +11,8 @@
 #define         HORIZONTAL_LINE_TYPE         3
 #define         POLYGON_TYPE                 4
 #define         TEXT_TYPE                    5
-#define         CIRCLE_TYPE                  6   
+#define         CIRCLE_TYPE                  6  
+#define         FILLED_CIRCLE_TYPE           7
 
 
 ////////////////////////

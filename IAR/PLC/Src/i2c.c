@@ -48,7 +48,7 @@ void MX_I2C2_Init(void)
 {
 
   hi2c2.Instance = I2C2;
-  hi2c2.Init.Timing = 0x1070699E;
+  hi2c2.Init.Timing = 0x0050195D;
   hi2c2.Init.OwnAddress1 = 0;
   hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -60,7 +60,7 @@ void MX_I2C2_Init(void)
 
     /**Configure Analogue filter 
     */
-  HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE);
+  HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_DISABLE);
 
 }
 
@@ -81,7 +81,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF4_I2C2;
     HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
@@ -91,6 +91,8 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     /* Peripheral interrupt init */
     HAL_NVIC_SetPriority(I2C2_EV_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(I2C2_EV_IRQn);
+    HAL_NVIC_SetPriority(I2C2_ER_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(I2C2_ER_IRQn);
   /* USER CODE BEGIN I2C2_MspInit 1 */
 
   /* USER CODE END I2C2_MspInit 1 */
@@ -116,6 +118,8 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
 
     /* Peripheral interrupt Deinit*/
     HAL_NVIC_DisableIRQ(I2C2_EV_IRQn);
+
+    HAL_NVIC_DisableIRQ(I2C2_ER_IRQn);
 
   }
   /* USER CODE BEGIN I2C2_MspDeInit 1 */

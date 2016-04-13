@@ -74,6 +74,7 @@
 #include "ltdc.h"
 #include "video.h"
 #include "dac.h"
+#include "core.h"
 #include "../../../Utilities/Fonts/fonts.h"
 #include "../../../Utilities/Fonts/font24.c"
 #include "../../../Utilities/Fonts/font20.c"
@@ -768,6 +769,66 @@ void LCD_DrawCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
   } 
 }
 
+void LCD_DrawFullCircle(uint16_t Xpos, uint16_t Ypos, uint16_t radius)
+{
+//	uint16_t textColor, backColor;
+	
+	int16_t f = 1 - radius;
+	int16_t ddF_x = 1;
+	int16_t ddF_y = -2 * radius;
+	int16_t x = 0;
+	int16_t y = radius;
+
+	//LCD_GetColors(&textColor, &backColor);
+	//LCD_SetTextColor(backColor);
+        
+	//LCD_DrawLine(Xpos + x, Ypos - y, 2*y, LCD_DIR_VERTICAL);
+        LCD_DrawLine( Xpos + x, Ypos - y, Xpos + x, Ypos + y);//, DrawProp[ActiveLayer].TextColor);
+//	LCD_DrawLine(Xpos - x, Ypos - y, 2*y, LCD_DIR_VERTICAL);
+//	LCD_DrawLine(Xpos + y, Ypos - x, 2*x, LCD_DIR_VERTICAL);
+//	LCD_DrawLine(Xpos - y, Ypos - x, 2*x, LCD_DIR_VERTICAL);
+
+//	LCD_PutPixel(Xpos, Ypos + radius);
+//	LCD_PutPixel(Xpos, Ypos - radius);
+//	LCD_PutPixel(Xpos + radius, Ypos);
+//	LCD_PutPixel(Xpos - radius, Ypos);
+
+	while(x < y)
+	{
+		// ddF_x == 2 * x + 1;
+		// ddF_y == -2 * y;
+		// f == x*x + y*y - radius*radius + 2*x - y + 1;
+		if(f >= 0)
+		{
+			y--;
+			ddF_y += 2;
+			f += ddF_y;
+		}
+		x++;
+		ddF_x += 2;
+		f += ddF_x;
+                //while(!PLC_DMA2D_Status.Ready)M_pull();
+                 //LCD_DrawLine( Xpos + x, Ypos - y, Xpos + x, Ypos + y);//, DrawProp[ActiveLayer].TextColor);
+                   DrawFastLineVertical(Xpos + x, Ypos - y, Ypos + y);
+             //    _HW_DrawLine( 200, 200, 200, 300, 0xFF0000FF);
+	//	_HW_DrawLine( (s16)(Xpos + x), (s16)(Ypos - y), (s16)(Xpos + x), (s16) (Ypos + y), 0xFF000000);
+                //LCD_DrawLine(Xpos + x, Ypos - y, 2*y, LCD_DIR_VERTICAL);
+            //     while(!PLC_DMA2D_Status.Ready)M_pull();
+               // LCD_DrawLine( Xpos - x, Ypos - y, Xpos - x, Ypos + y);//, DrawProp[ActiveLayer].TextColor);  
+                   DrawFastLineVertical(Xpos - x, Ypos - y, Ypos + y);
+		//LCD_DrawLine(Xpos - x, Ypos - y, 2*y, LCD_DIR_VERTICAL);
+ //               while(!PLC_DMA2D_Status.Ready)M_pull();
+                   DrawFastLineVertical(Xpos + y, Ypos - x, Ypos + x);
+                //LCD_DrawLine( Xpos + y, Ypos - x, Xpos + y, Ypos + x);//, DrawProp[ActiveLayer].TextColor);    
+		//LCD_DrawLine(Xpos + y, Ypos - x, 2*x, LCD_DIR_VERTICAL);
+ //               while(!PLC_DMA2D_Status.Ready)M_pull();
+                   DrawFastLineVertical(Xpos - y, Ypos - x, Ypos + x);   
+              //  LCD_DrawLine( Xpos - y, Ypos - x, Xpos - y, Ypos + x);//, DrawProp[ActiveLayer].TextColor);    
+		//LCD_DrawLine(Xpos - y, Ypos - x, 2*x, LCD_DIR_VERTICAL);
+	}
+
+//	LCD_DrawCircle(Xpos, Ypos, radius);
+}
 /**
   * @brief  Draws an poly-line (between many points).
   * @param  Points: Pointer to the points array
@@ -1380,4 +1441,19 @@ void LCD_SetLight(uint16_t Volume){
 // HAL_DAC_Stop(&hdac, DAC_CHANNEL_1);
 
 }
+
+void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2){
+ uint16_t temp;
+ if (y1  > y2){
+  temp = y1;
+  y1 = y2;
+  y2 = temp;
+ }
+  while(y1 < y2)
+    *(__IO uint32_t*)(ProjectionLayerAddress[LayerOfView] + 4 * (y1++) * DisplayWIDTH + 4*x1) = DrawProp[ActiveLayer].TextColor;
+  *(__IO uint32_t*)(ProjectionLayerAddress[LayerOfView] + 4 * y2 * DisplayWIDTH + 4*x1) = DrawProp[ActiveLayer].TextColor;
+  //*(__IO uint32_t*)(ProjectionLayerAddress[LayerOfView] + 4 * (Ypos * DisplayWIDTH + Xpos)) = ARGB_Code;  //Fast, just write
+}
+
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

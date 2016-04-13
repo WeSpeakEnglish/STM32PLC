@@ -58,6 +58,8 @@
 #include "userinterface.h" 
 #include "memory.h"
 #include "timer13.h"
+#include "timer14.h"
+#include "stmpe811.h"    
 
     
 /* USER CODE END Includes */
@@ -91,6 +93,7 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
   uint32_t i, a;
+  uint8_t y,mm;
   /* USER CODE END 1 */
 
   /* Enable I-Cache-------------------------------------------------------------*/
@@ -138,30 +141,37 @@ int main(void)
   pMediumQueueIni(); // fill the medium queue by Zero functions
   pFastQueueIni(); // fill the medium queue by Zero functions
   
-
-   
-
-// NAND_free();  
-
- 
-     //initialize 
-   //fill the background
-//  NAND_free();
   NAND_readId();
-  Timer13_Init();
+  Timer14_Init_Deal(1000, 0); //just init timer
+
+
+    UB_Touch_Init();
+    
+   // for(i = 0; i < 1000; i++ ){
+    
+  //  }
+  //P_Touch_Config();
+ // P_Touch_ReadID();
+
+Timer13_Init();
+
   SDRAM_free();
   LCD_Layers_Init();
   MX_LTDC_Init();
   LCD_Init();
+  
 
   
 for(i=0; i< 10; i++)
  LCD_SetLight(i); 
+
+Load_GUI_1();
+
 for(i=0; i< 10000; i++){
     
     
 
-  Load_GUI_1();
+  Run_GUI_1();
   Show_GUI();
  
  }

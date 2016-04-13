@@ -11,6 +11,7 @@
 #include "i2c.h"
 #include "variables.h"
 #include "core.h"
+Touch_Data_t Touch_Data;
 
 void P_Touch_Reset(void); // reset MC
 uint8_t P_Touch_FnctCmd(uint8_t Fct, FunctionalState NewState); 
@@ -57,7 +58,7 @@ ErrorStatus UB_Touch_Init(void)
 // Touch_Data.yp     : [0...319] 
 //--------------------------------------------------------------
 
-u8 temp; 
+u8 temp, temp2; 
 
 ErrorStatus UB_Touch_Read(void)
 {
@@ -68,7 +69,9 @@ ErrorStatus UB_Touch_Read(void)
   
   //i2c_wert=UB_I2C3_ReadByte(STMPE811_I2C_ADDR, IOE_REG_TP_CTRL);
   
-  HAL_I2C_Mem_Read(&hi2c2,(uint16_t)STMPE811_I2C_ADDR,(uint16_t)IOE_REG_TP_CTRL,I2C_MEMADD_SIZE_8BIT,&temp,1,100);
+
+    HAL_I2C_Mem_Read(&hi2c2,(uint16_t)STMPE811_I2C_ADDR,(uint16_t)IOE_REG_TP_CTRL,I2C_MEMADD_SIZE_8BIT,&temp,1,100);
+
   i2c_wert = (int16_t) temp;
   
   if(i2c_wert<0) return(ERROR);
@@ -80,7 +83,7 @@ ErrorStatus UB_Touch_Read(void)
     Touch_Data.status = TOUCH_PRESSED;
   }
 
-  if(Touch_Data.status==TOUCH_PRESSED) {
+ // if(Touch_Data.status==TOUCH_PRESSED) {
     x = P_Touch_Read_X();
     y = P_Touch_Read_Y();
     xDiff = x > _x? (x - _x): (_x - x);
@@ -90,7 +93,7 @@ ErrorStatus UB_Touch_Read(void)
       _x = x;
       _y = y;
     }
-  }
+ // }
   
   Touch_Data.xp = _x;
   Touch_Data.yp = _y;
@@ -157,14 +160,20 @@ uint8_t P_Touch_FnctCmd(uint8_t Fct, FunctionalState NewState)
 //--------------------------------------------------------------
 // interne Funktion
 //--------------------------------------------------------------
+void P_Touch_FreeIRQ(void){
+  const u8 RegValue = 0x01; 
+   HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_INT_STA, I2C_MEMADD_SIZE_8BIT, (u8*)&RegValue, 1, 200);
+}
+
 void P_Touch_Config(void)
 {
- static u8 regArray[10]={0x49,0x01,0x9A,0x01,0x01,0x00,0x01,0x01,0x03,0xFF};	
+ static u8 regArray[12]={0x50,0x01,0x9A,0x01,0x01,0x00,0x01,0x01,0x03,0xFF,1,1};
   P_Touch_FnctCmd(IOE_TP_FCT, ENABLE);
   
  // UB_I2C3_WriteByte(STMPE811_I2C_ADDR, IOE_REG_ADC_CTRL1, 0x49);
     HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_ADC_CTRL1, I2C_MEMADD_SIZE_8BIT, &regArray[0], 1, 200);
-	
+	HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_INT_CTRL, I2C_MEMADD_SIZE_8BIT, &regArray[10], 1, 200);
+        HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_INT_EN, I2C_MEMADD_SIZE_8BIT, &regArray[11], 1, 200);
   //UB_I2C3_Delay(STMPE811_DELAY);
     DelayOnFastQ(20);
 	
@@ -172,7 +181,7 @@ void P_Touch_Config(void)
   //UB_I2C3_WriteByte(STMPE811_I2C_ADDR, IOE_REG_ADC_CTRL2, 0x01);
     HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_ADC_CTRL2, I2C_MEMADD_SIZE_8BIT, &regArray[1], 1, 200);
 	
-    P_Touch_IOAFConfig((uint8_t)TOUCH_IO_ALL, DISABLE);
+  //  P_Touch_IOAFConfig((uint8_t)TOUCH_IO_ALL, DISABLE);
   
   //  UB_I2C3_WriteByte(STMPE811_I2C_ADDR, IOE_REG_TP_CFG, 0x9A);
     HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_TP_CFG, I2C_MEMADD_SIZE_8BIT, &regArray[2], 1, 200);
@@ -262,23 +271,23 @@ static uint16_t P_Touch_Read_X(void)
 
   x = P_Touch_Read_16b(IOE_REG_TP_DATA_X);
 
-  if(x <= 3000) {
-    x = 3870 - x;
-  }
-  else {
-    x = 3800 - x;
-  }
+//  if(x <= 3000) {
+//    x = 3870 - x;
+//  }
+//  else {
+//    x = 3800 - x;
+//  }
 
-  xr = x / 15;
+ // xr = x / 15;
 
-  if(xr <= 0) {
-    xr = 0;
-  }
-  else if (xr >= 240) {
-    xr = 239;
-  }
+ // if(xr <= 0) {
+ //   xr = 0;
+ /// }
+ // else if (xr >= 240) {
+ //   xr = 239;
+ // }
 
-  return (uint16_t)(xr);
+  return (uint16_t)(x);
 }
 
 
@@ -290,7 +299,7 @@ static uint16_t P_Touch_Read_Y(void)
   int32_t y, yr;
 
   y = P_Touch_Read_16b(IOE_REG_TP_DATA_Y);
-  y -= 360;
+  y -= 300;
   yr = y / 11;
 
   if(yr <= 0) {

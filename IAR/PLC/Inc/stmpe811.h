@@ -3,13 +3,14 @@
 //--------------------------------------------------------------
 
 //--------------------------------------------------------------
+#ifndef __STMPE811_H
+#define __STMPE811_H
+
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
 
 
-#ifndef __STMPE811_H
-#define __STMPE811_H
 
 
 //--------------------------------------------------------------
@@ -35,7 +36,7 @@ typedef struct {
   uint16_t xp;
   uint16_t yp;
 }Touch_Data_t;
-Touch_Data_t Touch_Data;
+
 
 
 
@@ -131,10 +132,11 @@ Touch_Data_t Touch_Data;
 #define TOUCH_XU                   IO_Pin_4
 #define TOUCH_IO_ALL               (uint32_t)(IO_Pin_1 | IO_Pin_2 | IO_Pin_3 | IO_Pin_4)
 
+extern Touch_Data_t Touch_Data;
 
 ErrorStatus UB_Touch_Init(void);
 ErrorStatus UB_Touch_Read(void);
-
+void P_Touch_FreeIRQ(void);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1098,6 +1098,9 @@
         <name>$PROJ_DIR$\..\Src\image888.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\interrupts.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\lcd.c</name>
       </file>
       <file>
@@ -1129,6 +1132,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\timer13.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\timer14.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\tw8819.c</name>

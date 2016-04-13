@@ -37,6 +37,7 @@
 
 /* USER CODE BEGIN 0 */
 #include "timer13.h"
+#include "timer14.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -103,6 +104,7 @@ void EXTI0_IRQHandler(void)
 
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
+  
   /* USER CODE BEGIN EXTI0_IRQn 1 */
 
   /* USER CODE END EXTI0_IRQn 1 */
@@ -179,6 +181,20 @@ void I2C2_EV_IRQHandler(void)
 }
 
 /**
+* @brief This function handles I2C2 error interrupt.
+*/
+void I2C2_ER_IRQHandler(void)
+{
+  /* USER CODE BEGIN I2C2_ER_IRQn 0 */
+
+  /* USER CODE END I2C2_ER_IRQn 0 */
+  HAL_I2C_ER_IRQHandler(&hi2c2);
+  /* USER CODE BEGIN I2C2_ER_IRQn 1 */
+
+  /* USER CODE END I2C2_ER_IRQn 1 */
+}
+
+/**
 * @brief This function handles TIM8 update interrupt and TIM13 global interrupt.
 */
 void TIM8_UP_TIM13_IRQHandler(void)
@@ -202,7 +218,7 @@ void TIM8_TRG_COM_TIM14_IRQHandler(void)
   /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 0 */
   HAL_TIM_IRQHandler(&htim14);
   /* USER CODE BEGIN TIM8_TRG_COM_TIM14_IRQn 1 */
-
+  TIM14_IRQHandler();
   /* USER CODE END TIM8_TRG_COM_TIM14_IRQn 1 */
 }
 

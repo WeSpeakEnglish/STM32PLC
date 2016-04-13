@@ -83,6 +83,10 @@ void GUI_Release(){  // create GUI
           case CIRCLE_TYPE:
             LCD_DrawCircle(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2]);
                    break;
+          case FILLED_CIRCLE_TYPE:
+            LCD_DrawFullCircle(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2]);
+                   break;
+                   
        }
       } 
     }
@@ -96,7 +100,7 @@ return 0;
 }
 
 u8 GUI_Hide_Obj(GUI_Object* hideObj){
- hideObj->color = (hideObj->color)&0x00FFFFFF;  // hide object
+ hideObj->z_index = -1;//(hideObj->color)&0x00FFFFFF;  // hide object
 return 0;
 }
 

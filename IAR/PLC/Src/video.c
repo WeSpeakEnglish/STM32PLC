@@ -14,6 +14,7 @@ const u32 ProjectionLayerAddress[2]={SDRAM_BANK_ADDR + LAYER_1_OFFSET, SDRAM_BAN
 
 u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
 {
+
    if ( y1 == y2 )
    {
   hdma2d.Instance = DMA2D;
