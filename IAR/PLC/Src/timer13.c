@@ -4,11 +4,12 @@
 #include "userinterface.h"
 #include "core.h"
 #include "gui.h"
+#include "lcd.h"
 
 // 
 void Timer13_Init(void){
 
-TIM13->PSC = 400;
+TIM13->PSC = 499;
 TIM13->ARR = 1759; //one second
 TIM13->DIER |= TIM_DIER_UIE; //разрешаем прерывание от таймера
 TIM13->CR1 |= TIM_CR1_CEN; // Начать отсчёт!
@@ -29,15 +30,9 @@ switch (Counter % 8){
   case 4: break;
   case 5: break;
   case 6: break;
-  case 7: M_push(Run_GUI_1); M_push(Show_GUI); break;
+  case 7: F_push(Run_GUI_1); F_push(Show_GUI); break;
   
 }  
-/////////////
- RoutineMedium();
-
-/////////////
-
-//TIM13->CR1 |= TIM_CR1_CEN; // Начать отсчёт!
 Counter++;
 return;
 }

@@ -13,7 +13,7 @@
 #define         TEXT_TYPE                    5
 #define         CIRCLE_TYPE                  6  
 #define         FILLED_CIRCLE_TYPE           7
-
+#define         FILLED_RECT_TYPE             8
 
 ////////////////////////
 

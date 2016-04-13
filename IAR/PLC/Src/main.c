@@ -90,26 +90,17 @@ void MX_USB_HOST_Process(void);
 
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
-  uint32_t i, a;
-  uint8_t y,mm;
   /* USER CODE END 1 */
-
   /* Enable I-Cache-------------------------------------------------------------*/
   SCB_EnableICache();
-
   /* Enable D-Cache-------------------------------------------------------------*/
   SCB_EnableDCache();
-
   /* MCU Configuration----------------------------------------------------------*/
-
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
   /* Configure the system clock */
   SystemClock_Config();
-
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
@@ -135,13 +126,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
 //  MPU_Config(); 
   SDRAM_Initialization_Sequence(&hsdram1);
-  
-   
-  pMediumQueueIni(); // fill the medium queue by Zero functions
-  pFastQueueIni(); // fill the fast queue by Zero functions
-  pSlowQueueIni(); // fill the slow queue by Zero functions
+  pMediumQueueIni();            // fill the medium queue by Zero functions
+  pFastQueueIni();              // fill the fast queue by Zero functions
+  pSlowQueueIni();              // fill the slow queue by Zero functions
   NAND_readId();
-  Timer14_Init_Deal(1000, 0); //just init timer
+  Timer14_Init_Deal(1000, 0);   //just init timer
   UB_Touch_Init();
   SDRAM_free();
   LCD_Layers_Init();
@@ -149,17 +138,9 @@ int main(void)
   LCD_Init();
   
   LCD_SetLight(7);
+  Load_GUI_1();
 
-Load_GUI_1();
 
-//for(i=0; i< 1000; i++){
-    
-    
-
-//  Run_GUI_1();
- // Show_GUI();
- 
- //}
   Timer13_Init();
 
   
@@ -170,9 +151,10 @@ Load_GUI_1();
   while(1){
   /* USER CODE END WHILE */
     MX_USB_HOST_Process();
-   // M_pull();
+
   /* USER CODE BEGIN 3 */
-    RoutineMedium(); // get and run deals from medium queue 
+   // RoutineMedium(); // get and run deals from medium queue 
+    RoutineFast();
   }
 
   /* USER CODE END 3 */

@@ -964,14 +964,18 @@ void LCD_FillRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
   /* Get the rectangle start address */
   if(hLtdcHandler.LayerCfg[ActiveLayer].PixelFormat == LTDC_PIXEL_FORMAT_RGB565)
   { /* RGB565 format */
-    x_address = (hLtdcHandler.LayerCfg[ActiveLayer].FBStartAdress) + 2*(LCD_GetXSize()*Ypos + Xpos);
+    x_address = (ProjectionLayerAddress[LayerOfView]) + 2*(LCD_GetXSize()*Ypos + Xpos);
   }
   else
   { /* ARGB8888 format */
-    x_address = (hLtdcHandler.LayerCfg[ActiveLayer].FBStartAdress) + 4*(LCD_GetXSize()*Ypos + Xpos);
+    x_address = (ProjectionLayerAddress[LayerOfView]) + 4*(LCD_GetXSize()*Ypos + Xpos);
   }
   /* Fill the rectangle */
-  LL_FillBuffer(ActiveLayer, (uint32_t *)x_address, Width, Height, (LCD_GetXSize() - Width), DrawProp[ActiveLayer].TextColor);
+  ///Semaphore = 2;
+ // while(PLC_DMA2D_Status.Ready != 1);
+//   RCC->PLLSAICFGR =0x44003300;
+  LL_FillBuffer(0, (uint32_t *)x_address, Width, Height, (DisplayWIDTH - Width), DrawProp[ActiveLayer].TextColor);
+ // while(PLC_DMA2D_Status.Ready != 1);
 }
 
 /**
@@ -1020,7 +1024,7 @@ void LCD_FillCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
   }
   
   LCD_SetTextColor(DrawProp[ActiveLayer].TextColor);
-  LCD_DrawCircle(Xpos, Ypos, Radius);
+ // LCD_DrawCircle(Xpos, Ypos, Radius);
 }
 
 /**
@@ -1295,10 +1299,10 @@ static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint3
   {
     if(HAL_DMA2D_ConfigLayer(&hDma2dHandler, LayerIndex) == HAL_OK) 
     {
-      if (HAL_DMA2D_Start(&hDma2dHandler, ColorIndex, (uint32_t)pDst, xSize, ySize) == HAL_OK)
+      if (HAL_DMA2D_Start_IT(&hDma2dHandler, ColorIndex, (uint32_t)pDst, xSize, ySize) == HAL_OK)
       {
         /* Polling For DMA transfer */  
-        HAL_DMA2D_PollForTransfer(&hDma2dHandler, 10);
+//        HAL_DMA2D_PollForTransfer(&hDma2dHandler, 10);
       }
     }
   } 
@@ -1393,8 +1397,6 @@ void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2){
   while(y1 < y2)
     *(__IO uint32_t*)(ProjectionLayerAddress[LayerOfView] + 4 * (y1++) * DisplayWIDTH + 4*x1) = DrawProp[ActiveLayer].TextColor;
   *(__IO uint32_t*)(ProjectionLayerAddress[LayerOfView] + 4 * y2 * DisplayWIDTH + 4*x1) = DrawProp[ActiveLayer].TextColor;
-  //*(__IO uint32_t*)(ProjectionLayerAddress[LayerOfView] + 4 * (Ypos * DisplayWIDTH + Xpos)) = ARGB_Code;  //Fast, just write
+
 }
 
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

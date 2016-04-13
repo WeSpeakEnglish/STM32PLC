@@ -49,9 +49,10 @@ void RoutineMedium(void){ // timer drived
 void RoutineFast(void){ // timer drived 
   static u8 branch=0; // way of switch
   switch (branch%8){ // max from 0 to 7
-   case 0:         // any deal
+   case 0:
+           F_pull()();        // take function from queue       
         break;
-  default: F_pull()();        // take function from queue   
+  default:   
         break;
   
   }

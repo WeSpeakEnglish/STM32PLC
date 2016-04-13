@@ -86,6 +86,9 @@ void GUI_Release(){  // create GUI
           case FILLED_CIRCLE_TYPE:
             LCD_DrawFullCircle(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2]);
                    break;
+          case FILLED_RECT_TYPE:
+             LCD_FillRect(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2], GUI_Objects[i].params[3]);     
+                   break;
         }
       } 
     }
@@ -111,8 +114,9 @@ return 0;
 void Show_GUI(void){
   
  RCC->PLLSAICFGR =0x44003300;
- GUI_Release();
-
+ 
+  GUI_Release();
+  
  if(!LayerOfView){
      HAL_LTDC_SetAddress(&hltdc, SDRAM_BANK_ADDR + LAYER_1_OFFSET, 0); // set the present layer address
      _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET); // fill the other layer
@@ -123,6 +127,7 @@ void Show_GUI(void){
  }
  while(!PLC_DMA2D_Status.Ready) 
                          RoutineMedium();
+
  LayerOfView++;
  LayerOfView %= 2;
 

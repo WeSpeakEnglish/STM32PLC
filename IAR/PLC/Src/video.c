@@ -118,6 +118,7 @@ void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress){
 }
 
 void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
+  
   PLC_DMA2D_Status.Ready = 1;
   RCC->PLLSAICFGR = 0x44003FC0;
 }
