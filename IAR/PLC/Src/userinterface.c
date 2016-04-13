@@ -11,8 +11,8 @@ GUI_Free();
 
 GUI_SetObject(LINE_TYPE, 0xFFFF0000, 2, 4, 100,100,1200,1200);
 GUI_SetObject(LINE_TYPE, 0x33FF0000, 2, 4, 100,100,500,800);
-GUI_SetObject(CIRCLE_TYPE, 0xFFFFFF00, 1, 3, 300, 300, 10);
-GUI_SetObject(CIRCLE_TYPE, 0xFFFF00FF, 1, 3, 200+1, 200, 10);
+GUI_SetObject(CIRCLE_TYPE, 0xFFFFFF00, 2, 3, 300, 300, 10);
+GUI_SetObject(CIRCLE_TYPE, 0xFFFF00FF, 2, 3, 200+1, 200, 10);
 Circle1 = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFFFFFF99, 2, 3, 300-10, 300, 10-5);
 GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF00, 1, 3, 300-10, 300, 10);
 }
@@ -33,7 +33,7 @@ void Run_GUI_1(void){
    }
 
    Circle1->params[0] = 300-iLoad;
-   Circle1->params[1] = 300;
+ //  Circle1->params[1] = 300;
    Circle1->params[2] = iLoad-5;
 
 }
@@ -51,6 +51,8 @@ void ChangeCircle1(u8 Consistance){
     case TOUCH_PRESSED:
        Circle1->color = 0xFFFFFF00;
        Circle1->z_index = 1;
+       if (Touch_Data.yp > 150) Touch_Data.yp = 150;
+       Circle1->params[1] = 300- Touch_Data.yp;
       break;
     case TOUCH_RELEASED: 
        Circle1->color = 0xFFFFFF99; 

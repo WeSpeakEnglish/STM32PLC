@@ -76,7 +76,7 @@ s8 F_first =0; // number of the first element of fast-speed queue
 void emptyS(){;} // dummy function for safe initialization of queue Slow
 void emptyM(){;} // dummy function for safe initialization of queue Medium
 void emptyF(){;} // dummy function for safe initialization of queue Fast
-void emptyD(){;} // dummy function for safe initialization of delay on ANY function function
+void emptyD(){;} // dummy function for safe initialization of delay on ANY function 
 
 /// INI ELEMENTs IN THE QUEUES
 void pSlowQueueIni(void){
@@ -120,11 +120,11 @@ s8 F_push(void (*pointerQ)(void) ){
 }
 /// GET ELEMENTs FROM THE QUEUES
 void (*S_pull(void))(void){
- void (*pullVar)(void);
+ void (*pullVarS)(void);
  if (S_last == S_first)return emptyS;
- pullVar = pSlowQueue[S_first++];
+ pullVarS = pSlowQueue[S_first++];
  S_first%=Q_SIZE_SLOW;
-return pullVar;
+return pullVarS;
 }
 
 void (*M_pull(void))(void){

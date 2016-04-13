@@ -86,8 +86,7 @@ void GUI_Release(){  // create GUI
           case FILLED_CIRCLE_TYPE:
             LCD_DrawFullCircle(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2]);
                    break;
-                   
-       }
+        }
       } 
     }
    }
@@ -124,7 +123,6 @@ void Show_GUI(void){
  }
  while(!PLC_DMA2D_Status.Ready) 
                          RoutineMedium();
- 
  LayerOfView++;
  LayerOfView %= 2;
 

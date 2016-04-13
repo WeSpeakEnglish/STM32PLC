@@ -36,9 +36,9 @@ void DelayOnMediumQ(u8 WaitQMedium); // push several tasks from the Medium Queue
 void DelayOnSlowQ(u8 WaitQSlow); // push several tasks from the Slow Queue
 u8 DelayUsOnProcessRoutine(void (*pointerF)(void),u32 TimeDel, u8 Ini); //DO OUR void function(void) while expecting TimeDel microsec or another timer periods
 //max size of queues is 127 elements (signed char) 
-#define Q_SIZE_SLOW 128  // the size of slow queue
-#define Q_SIZE_MEDIUM 128 // the size of medium queue
-#define Q_SIZE_FAST 128   // the size of fast queue
+#define Q_SIZE_SLOW 64  // the size of slow queue
+#define Q_SIZE_MEDIUM 64 // the size of medium queue
+#define Q_SIZE_FAST 64   // the size of fast queue
 
 
 void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram); // 

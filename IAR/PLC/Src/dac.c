@@ -58,10 +58,10 @@ void MX_DAC_Init(void)
   sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
   sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
   HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1);
-
+  HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_8B_R, 150);
+  HAL_DAC_Start(&hdac,DAC_CHANNEL_1);
     /**DAC channel OUT2 config 
     */
-  HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_2);
 
 }
 

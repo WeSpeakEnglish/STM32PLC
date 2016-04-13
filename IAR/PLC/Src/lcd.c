@@ -771,33 +771,15 @@ void LCD_DrawCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
 
 void LCD_DrawFullCircle(uint16_t Xpos, uint16_t Ypos, uint16_t radius)
 {
-//	uint16_t textColor, backColor;
-	
 	int16_t f = 1 - radius;
 	int16_t ddF_x = 1;
 	int16_t ddF_y = -2 * radius;
 	int16_t x = 0;
 	int16_t y = radius;
 
-	//LCD_GetColors(&textColor, &backColor);
-	//LCD_SetTextColor(backColor);
-        
-	//LCD_DrawLine(Xpos + x, Ypos - y, 2*y, LCD_DIR_VERTICAL);
         LCD_DrawLine( Xpos + x, Ypos - y, Xpos + x, Ypos + y);//, DrawProp[ActiveLayer].TextColor);
-//	LCD_DrawLine(Xpos - x, Ypos - y, 2*y, LCD_DIR_VERTICAL);
-//	LCD_DrawLine(Xpos + y, Ypos - x, 2*x, LCD_DIR_VERTICAL);
-//	LCD_DrawLine(Xpos - y, Ypos - x, 2*x, LCD_DIR_VERTICAL);
-
-//	LCD_PutPixel(Xpos, Ypos + radius);
-//	LCD_PutPixel(Xpos, Ypos - radius);
-//	LCD_PutPixel(Xpos + radius, Ypos);
-//	LCD_PutPixel(Xpos - radius, Ypos);
-
 	while(x < y)
 	{
-		// ddF_x == 2 * x + 1;
-		// ddF_y == -2 * y;
-		// f == x*x + y*y - radius*radius + 2*x - y + 1;
 		if(f >= 0)
 		{
 			y--;
@@ -807,24 +789,10 @@ void LCD_DrawFullCircle(uint16_t Xpos, uint16_t Ypos, uint16_t radius)
 		x++;
 		ddF_x += 2;
 		f += ddF_x;
-                //while(!PLC_DMA2D_Status.Ready)M_pull();
-                 //LCD_DrawLine( Xpos + x, Ypos - y, Xpos + x, Ypos + y);//, DrawProp[ActiveLayer].TextColor);
                    DrawFastLineVertical(Xpos + x, Ypos - y, Ypos + y);
-             //    _HW_DrawLine( 200, 200, 200, 300, 0xFF0000FF);
-	//	_HW_DrawLine( (s16)(Xpos + x), (s16)(Ypos - y), (s16)(Xpos + x), (s16) (Ypos + y), 0xFF000000);
-                //LCD_DrawLine(Xpos + x, Ypos - y, 2*y, LCD_DIR_VERTICAL);
-            //     while(!PLC_DMA2D_Status.Ready)M_pull();
-               // LCD_DrawLine( Xpos - x, Ypos - y, Xpos - x, Ypos + y);//, DrawProp[ActiveLayer].TextColor);  
                    DrawFastLineVertical(Xpos - x, Ypos - y, Ypos + y);
-		//LCD_DrawLine(Xpos - x, Ypos - y, 2*y, LCD_DIR_VERTICAL);
- //               while(!PLC_DMA2D_Status.Ready)M_pull();
                    DrawFastLineVertical(Xpos + y, Ypos - x, Ypos + x);
-                //LCD_DrawLine( Xpos + y, Ypos - x, Xpos + y, Ypos + x);//, DrawProp[ActiveLayer].TextColor);    
-		//LCD_DrawLine(Xpos + y, Ypos - x, 2*x, LCD_DIR_VERTICAL);
- //               while(!PLC_DMA2D_Status.Ready)M_pull();
                    DrawFastLineVertical(Xpos - y, Ypos - x, Ypos + x);   
-              //  LCD_DrawLine( Xpos - y, Ypos - x, Xpos - y, Ypos + x);//, DrawProp[ActiveLayer].TextColor);    
-		//LCD_DrawLine(Xpos - y, Ypos - x, 2*x, LCD_DIR_VERTICAL);
 	}
 
 //	LCD_DrawCircle(Xpos, Ypos, radius);
@@ -1373,17 +1341,6 @@ static void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uin
   } 
 }
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-  
-/**
-  * @}
-  */
 void LCD_InitParams(uint32_t LayerIndexGet, uint32_t BackColor, uint32_t TextColor, sFONT* pFont){
   LayerIndex = LayerIndexGet;
   DrawProp[LayerIndex].BackColor = BackColor; 
@@ -1394,52 +1351,36 @@ void LCD_InitParams(uint32_t LayerIndexGet, uint32_t BackColor, uint32_t TextCol
 void LCD_SetColorPixel(uint32_t Color){
 DrawProp[LayerIndex].TextColor = Color;
 }
-/**
-  * @}
-  */        
+      
 uint8_t LCD_Init(void){
-
- 
-// LCD_SetXSize(50);
-// LCD_SetYSize(50);
-// LCD_LayerDefaultInit(1, LAYER_3_OFFSET + SDRAM_BANK_ADDR);
  LCD_SetLayerVisible(1, DISABLE);  // if I comment THIS line the 0 layer will be displayed fine 
  LCD_SetXSize(800);
  LCD_SetYSize(480);
  LCD_LayerDefaultInit(0, LAYER_1_OFFSET + SDRAM_BANK_ADDR);
  LCD_SelectLayer(0);
  LCD_InitParams(0, 0, 0xFFFF0000, &GOST_B_22x24);
-
- 
-// LCD_DrawLine(100, 100, 300, 300);
-// LCD_DisplayStringAt(100, 100, "Привет", LEFT_MODE);
-// LCD_InitParams(0, 0xFFFFFFFF, 0x2200FF00, &GOST_B_22x24);
-// LCD_DrawCircle(200, 234, 40);
-// LCD_DrawCircle(200, 234, 39);
 return 0;
 }
 
 void LCD_SetLight(uint16_t Volume){ 
 
   switch(Volume){
-    case 10: Volume = 500; break;
-    case 9 : Volume = 600; break;
-    case 8 : Volume = 700; break;
-    case 7 : Volume = 800; break;
-    case 6 : Volume = 900; break;
-    case 5 : Volume = 1000; break;
-    case 4 : Volume = 1100; break;
-    case 3 : Volume = 1200; break; 
-    case 2 : Volume = 1300; break;
-    case 1 : Volume = 1400; break;
-    case 0 : DAC->DHR12R1 = 4096; break;
-  
-  }  
-  
+    case 10: 
+      Volume = 10; break;
+    case 9 : Volume = 20; break;
+    case 8 : Volume = 30; break;
+    case 7 : Volume = 40; break;
+    case 6 : Volume = 50; break;
+    case 5 : Volume = 60; break;
+    case 4 : Volume = 70; break;
+    case 3 : Volume = 80; break; 
+    case 2 : Volume = 100; break;
+    case 1 : Volume = 150; break;
+    case 0 : Volume = 200; break;
  
-
-// HAL_DAC_Stop(&hdac, DAC_CHANNEL_1);
-
+  }  
+   HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_8B_R, Volume);
+ 
 }
 
 void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2){

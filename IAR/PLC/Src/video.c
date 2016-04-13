@@ -32,7 +32,7 @@ u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
                         1) /* height of buffer in lines */ 
      != HAL_OK)
     {
-    M_pull(); 
+    M_pull()(); 
      }  
     }
    }
@@ -54,7 +54,7 @@ u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
                         y2-y1+1) /* height of buffer in lines */ 
      != HAL_OK)
   {
-    M_pull(); 
+    M_pull()(); 
   } 
  }
  
@@ -92,7 +92,7 @@ void _HW_Fill_Finite_Color(u32 StartAddress, u32 color){
                         DisplayHEIGHT) /* height of buffer in lines */ 
      != HAL_OK)
     {
-    M_pull(); 
+    M_pull()(); 
      }  
     }
 }  
@@ -111,7 +111,7 @@ void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress){
                         DisplayHEIGHT) /* height of buffer in lines */ 
      != HAL_OK)
     {
-    M_pull(); 
+    M_pull()(); 
      }  
     }
  

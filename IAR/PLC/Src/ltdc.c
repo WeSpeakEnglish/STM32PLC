@@ -192,7 +192,7 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef* hltdc)
     HAL_NVIC_SetPriority(LTDC_ER_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(LTDC_ER_IRQn);
   /* USER CODE BEGIN LTDC_MspInit 1 */
-
+ // __HAL_LTDC_ENABLE_IT(hltdc, LTDC_IT_LI);
   /* USER CODE END LTDC_MspInit 1 */
   }
 }

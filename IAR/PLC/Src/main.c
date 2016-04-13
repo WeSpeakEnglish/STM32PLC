@@ -119,7 +119,6 @@ int main(void)
   MX_DMA2D_Init();
   MX_FMC_Init();
   MX_I2C2_Init();
-  MX_LTDC_Init();
   MX_SDMMC1_SD_Init();
   MX_SPI2_Init();
   MX_TIM6_Init();
@@ -136,46 +135,32 @@ int main(void)
   /* USER CODE BEGIN 2 */
 //  MPU_Config(); 
   SDRAM_Initialization_Sequence(&hsdram1);
- DAC->CR |= DAC_CR_EN1;
+  
    
   pMediumQueueIni(); // fill the medium queue by Zero functions
-  pFastQueueIni(); // fill the medium queue by Zero functions
-  
+  pFastQueueIni(); // fill the fast queue by Zero functions
+  pSlowQueueIni(); // fill the slow queue by Zero functions
   NAND_readId();
   Timer14_Init_Deal(1000, 0); //just init timer
-
-
-    UB_Touch_Init();
-    
-   // for(i = 0; i < 1000; i++ ){
-    
-  //  }
-  //P_Touch_Config();
- // P_Touch_ReadID();
-
-Timer13_Init();
-
+  UB_Touch_Init();
   SDRAM_free();
   LCD_Layers_Init();
   MX_LTDC_Init();
   LCD_Init();
   
-
-  
-for(i=0; i< 10; i++)
- LCD_SetLight(i); 
+  LCD_SetLight(7);
 
 Load_GUI_1();
 
-for(i=0; i< 10000; i++){
+//for(i=0; i< 1000; i++){
     
     
 
-  Run_GUI_1();
-  Show_GUI();
+//  Run_GUI_1();
+ // Show_GUI();
  
- }
-  
+ //}
+  Timer13_Init();
 
   
   /* USER CODE END 2 */
@@ -185,7 +170,7 @@ for(i=0; i< 10000; i++){
   while(1){
   /* USER CODE END WHILE */
     MX_USB_HOST_Process();
-
+   // M_pull();
   /* USER CODE BEGIN 3 */
     RoutineMedium(); // get and run deals from medium queue 
   }

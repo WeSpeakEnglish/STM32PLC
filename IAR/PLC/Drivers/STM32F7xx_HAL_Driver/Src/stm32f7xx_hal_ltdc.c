@@ -318,7 +318,7 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
     if(__HAL_LTDC_GET_IT_SOURCE(hltdc, LTDC_IT_TE) != RESET)
     {
       /* Disable the transfer Error interrupt */
-      __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_TE);
+    //  __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_TE);
 
       /* Clear the transfer error flag */
       __HAL_LTDC_CLEAR_FLAG(hltdc, LTDC_FLAG_TE);
@@ -342,7 +342,7 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
     if(__HAL_LTDC_GET_IT_SOURCE(hltdc, LTDC_IT_FU) != RESET)
     {
       /* Disable the FIFO underrun interrupt */
-      __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_FU);
+    //  __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_FU);
 
       /* Clear the FIFO underrun flag */
       __HAL_LTDC_CLEAR_FLAG(hltdc, LTDC_FLAG_FU);
@@ -366,7 +366,7 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
     if(__HAL_LTDC_GET_IT_SOURCE(hltdc, LTDC_IT_LI) != RESET)
     {
       /* Disable the Line interrupt */
-      __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_LI);
+//      __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_LI);
 
       /* Clear the Line interrupt flag */  
       __HAL_LTDC_CLEAR_FLAG(hltdc, LTDC_FLAG_LI);
