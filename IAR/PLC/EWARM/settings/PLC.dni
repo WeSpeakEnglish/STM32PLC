@@ -13,7 +13,7 @@ CStepIntDis=_ 0
 stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=-1990153120
+Checksum=1720572133
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -57,6 +57,10 @@ ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 
+[struct_types]
+Fmt0=struct LCD_FillRect::<Unnamed 74>-X	4	0
+Fmt1=struct LCD_FillRect::<Unnamed 74>-Y	4	0
+Fmt2=union LCD_FillRect::<Unnamed 75>-Ind	4	0
 [array_types]
 Fmt0=u32[8388608]	4	0
 [watch_formats]
@@ -64,6 +68,7 @@ Fmt0={W}1:' '	4	0
 Fmt1={W}1:RGB_Code	4	0
 Fmt2={W}1:TextColor	4	0
 Fmt3={W}1:stmpe_id	4	0
+Fmt4={W}1:x_address	4	0
 [Trace2]
 Enabled=0
 ShowSource=0
@@ -104,6 +109,11 @@ ShowTimeLog=1
 SumEnabled=0
 ShowTimeSum=1
 SumSortOrder=0
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\spi.c}.64.3" 0 0 1 "" 0 "" 0
+Count=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -111,6 +121,12 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Aliases]
+A0=_ "E:\CODE\PLC\Drivers\CMSIS\Include\core_cm7.h" ""
+A1=_ "E:\CODE\PLC\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_tim_ex.c" ""
+A2=_ "E:\CODE\PLC\Src\main.c" ""
+Count=3
+SuppressDialog=0
 [DriverProfiling]
 Enabled=0
 Mode=3
@@ -121,14 +137,3 @@ Exclusions=
 Enabled=0
 [CallStackStripe]
 ShowTiming=1
-[Disassemble mode]
-mode=0
-[Breakpoints2]
-Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\spi.c}.64.3" 0 0 1 "" 0 "" 0
-Count=1
-[Aliases]
-A0=_ "E:\CODE\PLC\Drivers\CMSIS\Include\core_cm7.h" ""
-A1=_ "E:\CODE\PLC\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_tim_ex.c" ""
-A2=_ "E:\CODE\PLC\Src\main.c" ""
-Count=3
-SuppressDialog=0

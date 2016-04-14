@@ -75,6 +75,7 @@ void GUI_Release(){  // create GUI
           case VERTICAL_LINE_TYPE:
                    break;    
           case HORIZONTAL_LINE_TYPE:
+             DrawFastLineHorizontal(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2]);   
                    break;  
           case POLYGON_TYPE:
                    break;

@@ -1,80 +1,10 @@
-/**
-  ******************************************************************************
-  * @file    stm32746g_discovery_lcd.c
-  * @author  MCD Application Team
-  * @version V1.0.0
-  * @date    25-June-2015
-  * @brief   This file includes the driver for Liquid Crystal Display (LCD) module
-  *          mounted on STM32746G-Discovery board.
-  @verbatim
-  1. How To use this driver:
-  --------------------------
-     - This driver is used to drive directly an LCD TFT using the LTDC controller.
-     - This driver uses timing and setting for RK043FN48H LCD.
-  
-  2. Driver description:
-  ---------------------
-    + Initialization steps:
-       o Initialize the LCD using the LCD_Init() function.
-       o Apply the Layer configuration using the LCD_LayerDefaultInit() function.    
-       o Select the LCD layer to be used using the LCD_SelectLayer() function.
-       o Enable the LCD display using the LCD_DisplayOn() function.
-  
-    + Options
-       o Configure and enable the color keying functionality using the 
-         LCD_SetColorKeying() function.
-       o Modify in the fly the transparency and/or the frame buffer address
-         using the following functions:
-         - LCD_SetTransparency()
-         - LCD_SetLayerAddress() 
-    
-    + Display on LCD
-       o Clear the hole LCD using LCD_Clear() function or only one specified string
-         line using the LCD_ClearStringLine() function.
-       o Display a character on the specified line and column using the LCD_DisplayChar()
-         function or a complete string line using the LCD_DisplayStringAtLine() function.
-       o Display a string line on the specified position (x,y in pixel) and align mode
-         using the LCD_DisplayStringAtLine() function.          
-       o Draw and fill a basic shapes (dot, line, rectangle, circle, ellipse, .. bitmap) 
-         on LCD using the available set of functions.       
-  @endverbatim
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
-  ******************************************************************************
-  */ 
-
-/* Includes ------------------------------------------------------------------*/
 #include "lcd.h"
 #include "dma2d.h"
 #include "ltdc.h"
 #include "video.h"
 #include "dac.h"
 #include "core.h"
+#include "variables.h"
 #include "../../../Utilities/Fonts/fonts.h"
 #include "../../../Utilities/Fonts/font24.c"
 #include "../../../Utilities/Fonts/font20.c"
@@ -946,45 +876,7 @@ void LCD_DrawBitmap(uint32_t Xpos, uint32_t Ypos, uint8_t *pbmp)
   } 
 }
 
-/**
-  * @brief  Draws a full rectangle.
-  * @param  Xpos: X position
-  * @param  Ypos: Y position
-  * @param  Width: Rectangle width  
-  * @param  Height: Rectangle height
-  * @retval None
-  */
-void LCD_FillRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
-{
-  uint32_t  x_address = 0;
-  
-  /* Set the text color */
-  LCD_SetTextColor(DrawProp[ActiveLayer].TextColor);
-  
-  /* Get the rectangle start address */
-  if(hLtdcHandler.LayerCfg[ActiveLayer].PixelFormat == LTDC_PIXEL_FORMAT_RGB565)
-  { /* RGB565 format */
-    x_address = (ProjectionLayerAddress[LayerOfView]) + 2*(LCD_GetXSize()*Ypos + Xpos);
-  }
-  else
-  { /* ARGB8888 format */
-    x_address = (ProjectionLayerAddress[LayerOfView]) + 4*(LCD_GetXSize()*Ypos + Xpos);
-  }
-  /* Fill the rectangle */
-  ///Semaphore = 2;
- // while(PLC_DMA2D_Status.Ready != 1);
-//   RCC->PLLSAICFGR =0x44003300;
-  LL_FillBuffer(0, (uint32_t *)x_address, Width, Height, (DisplayWIDTH - Width), DrawProp[ActiveLayer].TextColor);
- // while(PLC_DMA2D_Status.Ready != 1);
-}
 
-/**
-  * @brief  Draws a full circle.
-  * @param  Xpos: X position
-  * @param  Ypos: Y position
-  * @param  Radius: Circle radius
-  * @retval None
-  */
 void LCD_FillCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
 {
   int32_t  decision;     /* Decision Variable */ 
@@ -1293,7 +1185,8 @@ static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint3
   hDma2dHandler.Init.OutputOffset = OffLine;      
   
   hDma2dHandler.Instance = DMA2D;
-  
+   hdma2d.XferCpltCallback = Transfer_DMA2D_Completed;
+   
   /* DMA2D Initialization */
   if(HAL_DMA2D_Init(&hDma2dHandler) == HAL_OK) 
   {
@@ -1302,7 +1195,7 @@ static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint3
       if (HAL_DMA2D_Start_IT(&hDma2dHandler, ColorIndex, (uint32_t)pDst, xSize, ySize) == HAL_OK)
       {
         /* Polling For DMA transfer */  
-//        HAL_DMA2D_PollForTransfer(&hDma2dHandler, 10);
+       HAL_DMA2D_PollForTransfer(&hDma2dHandler, 10);
       }
     }
   } 
@@ -1388,15 +1281,53 @@ void LCD_SetLight(uint16_t Volume){
 }
 
 void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2){
+ static u32 temp;
+ static u32 color;
+ static u32 address;
+ 
+ address = ProjectionLayerAddress[LayerOfView];
+ color = DrawProp[ActiveLayer].TextColor;
+ if (y1  > y2){
+  temp = y1;
+  y1 = y2;
+  y2 = temp;
+ }
+ temp = 4*x1;
+  while(y1 <= y2)
+    *(__IO uint32_t*)(address + 4 * (y1++) * DisplayWIDTH + temp) = color;
+}
+
+void DrawFastLineHorizontal(uint16_t y1, uint16_t x1, uint16_t x2){
+ static u32 temp;
+ static u32 color;
+ static u32 address;
+ 
+ address = ProjectionLayerAddress[LayerOfView];
+ color = DrawProp[ActiveLayer].TextColor;
+  
+ if (x1  > x2){
+  temp = x1;
+  x1 = x2;
+  x2 = temp;
+ }
+ temp = 4 * y1 * DisplayWIDTH;
+  while(x1 <= x2)
+    *(__IO uint32_t*)(address + temp + 4*(x1++)) = color;
+}
+
+void LCD_FillRect(u32 x1, u32 y1, u32 x2, u32 y2){
+
  uint16_t temp;
  if (y1  > y2){
   temp = y1;
   y1 = y2;
   y2 = temp;
  }
-  while(y1 < y2)
-    *(__IO uint32_t*)(ProjectionLayerAddress[LayerOfView] + 4 * (y1++) * DisplayWIDTH + 4*x1) = DrawProp[ActiveLayer].TextColor;
-  *(__IO uint32_t*)(ProjectionLayerAddress[LayerOfView] + 4 * y2 * DisplayWIDTH + 4*x1) = DrawProp[ActiveLayer].TextColor;
+
+
+ while(y1 <= y2)
+    DrawFastLineHorizontal(y1++, x1, x2);
+
+
 
 }
-

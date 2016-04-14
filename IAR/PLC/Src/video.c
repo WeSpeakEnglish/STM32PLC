@@ -80,11 +80,13 @@ void _HW_Fill_Finite_Color(u32 StartAddress, u32 color){
  // hdma2d.Instance = DMA2D;
   hdma2d.Init.Mode = DMA2D_R2M;
   hdma2d.Init.ColorMode = DMA2D_ARGB8888;
+   hdma2d.Init.OutputOffset       = 0;
   hdma2d.XferCpltCallback = Transfer_DMA2D_Completed;
   HAL_DMA2D_Init(&hdma2d);
   
  if(PLC_DMA2D_Status.Ready != 0){
   PLC_DMA2D_Status.Ready = 0;
+ if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
   if(HAL_DMA2D_Start_IT(&hdma2d, 
                         color, /* Color value in Register to Memory DMA2D mode */
                         StartAddress,  /* DMA2D output buffer */
@@ -99,11 +101,13 @@ void _HW_Fill_Finite_Color(u32 StartAddress, u32 color){
 
 void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress){
   
- hdma2d.Init.Mode = DMA2D_M2M;
- hdma2d.Init.ColorMode = DMA2D_ARGB8888;
+ hdma2d.Init.Mode               = DMA2D_M2M;
+ hdma2d.Init.ColorMode          = DMA2D_ARGB8888;
+ hdma2d.Init.OutputOffset       = 0;
  hdma2d.XferCpltCallback = Transfer_DMA2D_Completed;
   if(PLC_DMA2D_Status.Ready != 0){
   PLC_DMA2D_Status.Ready = 0;
+ if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
   if(HAL_DMA2D_Start_IT(&hdma2d, 
                         SourceAddress, /* Color value in Register to Memory DMA2D mode */
                         DstAddress,  /* DMA2D output buffer */
@@ -116,6 +120,29 @@ void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress){
     }
  
 }
+
+void _HW_Fill_Region(u32 DstAddress, uint32_t xSize, uint32_t ySize, uint32_t OffLine, u32 color) 
+{
+  /* Register to memory mode with ARGB8888 as color Mode */ 
+   hdma2d.Init.Mode         = DMA2D_R2M;
+   hdma2d.Init.ColorMode    = DMA2D_ARGB8888;
+   hdma2d.Init.OutputOffset = OffLine;      
+   hdma2d.XferCpltCallback = Transfer_DMA2D_Completed;
+   
+  /* DMA2D Initialization */
+
+ if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
+  if(PLC_DMA2D_Status.Ready != 0){
+  PLC_DMA2D_Status.Ready = 0;
+      if (HAL_DMA2D_Start_IT(&hdma2d, color, DstAddress, xSize, ySize) == HAL_OK)
+      {
+    
+    M_pull()(); 
+       
+   }
+  }
+}
+
 
 void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
   
