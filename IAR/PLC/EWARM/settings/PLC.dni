@@ -13,7 +13,7 @@ CStepIntDis=_ 0
 stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 [DebugChecksum]
-Checksum=1720572133
+Checksum=1758283132
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -57,10 +57,6 @@ ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 
-[struct_types]
-Fmt0=struct LCD_FillRect::<Unnamed 74>-X	4	0
-Fmt1=struct LCD_FillRect::<Unnamed 74>-Y	4	0
-Fmt2=union LCD_FillRect::<Unnamed 75>-Ind	4	0
 [array_types]
 Fmt0=u32[8388608]	4	0
 [watch_formats]
@@ -118,9 +114,6 @@ Count=1
 LoggingEnabled=_ 0
 LogFile=_ ""
 Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
 [Aliases]
 A0=_ "E:\CODE\PLC\Drivers\CMSIS\Include\core_cm7.h" ""
 A1=_ "E:\CODE\PLC\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_tim_ex.c" ""
@@ -137,3 +130,6 @@ Exclusions=
 Enabled=0
 [CallStackStripe]
 ShowTiming=1
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""

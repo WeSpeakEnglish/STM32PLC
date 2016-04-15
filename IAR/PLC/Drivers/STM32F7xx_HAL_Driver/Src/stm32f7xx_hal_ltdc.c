@@ -98,7 +98,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f7xx_hal.h"
-
+#include "dma2d.h"
 /** @addtogroup STM32F7xx_HAL_Driver
   * @{
   */
@@ -343,7 +343,7 @@ void HAL_LTDC_IRQHandler(LTDC_HandleTypeDef *hltdc)
     {
       /* Disable the FIFO underrun interrupt */
     //  __HAL_LTDC_DISABLE_IT(hltdc, LTDC_IT_FU);
-
+ //     DMA2D->CR |= DMA2D_CR_SUSP;
       /* Clear the FIFO underrun flag */
       __HAL_LTDC_CLEAR_FLAG(hltdc, LTDC_FLAG_FU);
 

@@ -21,8 +21,9 @@ extern const u32 ProjectionLayerAddress[2]; // Were we fill out our objects?
  void _HW_Fill_Finite_Color(u32 StartAddress, u32 color);
  void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress);
  void LCD_Layers_Init(void);
-void _HW_Fill_Region(u32 DstAddress, uint32_t xSize, uint32_t ySize, uint32_t OffLine, u32 color);
-
+ void _HW_Fill_Region(u32 DstAddress, uint32_t xSize, uint32_t ySize, uint32_t OffLine, u32 color);
+ void _HW_Fill_Image(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t  ySize); 
+ void _HW_Fill_ImageToRAM(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t  ySize); 
 #ifdef __cplusplus
  }
 #endif

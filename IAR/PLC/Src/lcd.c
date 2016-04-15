@@ -1327,7 +1327,26 @@ void LCD_FillRect(u32 x1, u32 y1, u32 x2, u32 y2){
 
  while(y1 <= y2)
     DrawFastLineHorizontal(y1++, x1, x2);
+}
 
+void LCD_Fill_Image(u32 ImageAddress, u32 x, u32 y, u32 xSize, u32 ySize){
+  static u32 address;
+ 
+ address = ProjectionLayerAddress[LayerOfView] + 4 * y * DisplayWIDTH + 4 * x;
+ FillImageSoft(ImageAddress, address, xSize, ySize);
 
+}
 
+void FillImageSoft(u32 ImageAddress, u32 address, u32 xSize, u32 ySize){
+u32 S_Y, data, i , j;
+u32* pImageAddress = (u32*)ImageAddress;
+ 
+for(j = 0; j < ySize; j++){
+   S_Y = 4 * j * DisplayWIDTH;
+  for(i = 0; i < xSize; i++){
+       data = *pImageAddress++;
+       if(data & 0xFF000000)
+       *(__IO uint32_t*)(address + i * 4 + S_Y) = data;
+   }
+ }
 }

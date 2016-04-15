@@ -139,7 +139,8 @@ int main(void)
   
   LCD_SetLight(7);
   Load_GUI_1();
-
+// Load images
+  _HW_Fill_ImageToRAM((u32)image32,SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 100, 100); 
 
   Timer13_Init();
 

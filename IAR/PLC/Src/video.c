@@ -6,6 +6,7 @@
 #include "core.h"
 #include "ltdc.h"
 #include "lcd.h"
+#include "image888.h"
 
 volatile DMA2D_Status PLC_DMA2D_Status = {1};
 volatile u8 LayerOfView = 0;
@@ -143,7 +144,51 @@ void _HW_Fill_Region(u32 DstAddress, uint32_t xSize, uint32_t ySize, uint32_t Of
   }
 }
 
+void _HW_Fill_Image(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t ySize) 
+{
+  /* Register to memory mode with ARGB8888 as color Mode */ 
+  
+while((DMA2D->CR & DMA2D_CR_START)) 
+                         RoutineMedium();  
 
+   hdma2d.Init.Mode         = DMA2D_M2M;
+   hdma2d.Init.ColorMode    = DMA2D_ARGB8888;
+   hdma2d.Init.OutputOffset = DisplayWIDTH - xSize;      
+   hdma2d.XferCpltCallback = Transfer_DMA2D_Completed;
+   
+  /* DMA2D Initialization */
+
+ if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
+  if(PLC_DMA2D_Status.Ready != 0){
+  PLC_DMA2D_Status.Ready = 0;
+      if (HAL_DMA2D_Start_IT(&hdma2d, SrcAddress, DstAddress, xSize, ySize) == HAL_OK)
+      {
+   while((DMA2D->CR) & DMA2D_CR_START) 
+                         RoutineMedium(); 
+   }
+  }
+}
+
+void _HW_Fill_ImageToRAM(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t  ySize){
+ while((DMA2D->CR & DMA2D_CR_START)) 
+                         RoutineMedium();  
+
+   hdma2d.Init.Mode             = DMA2D_M2M;
+   hdma2d.Init.ColorMode        = DMA2D_ARGB8888;
+   hdma2d.Init.OutputOffset     = 0;      
+   hdma2d.XferCpltCallback      = Transfer_DMA2D_Completed;
+   
+ if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
+  if(PLC_DMA2D_Status.Ready != 0){
+  PLC_DMA2D_Status.Ready = 0;
+      if (HAL_DMA2D_Start_IT(&hdma2d, SrcAddress, DstAddress, xSize, ySize) == HAL_OK)
+      {
+   while((DMA2D->CR) & DMA2D_CR_START) 
+                         RoutineMedium(); 
+   }
+  }
+
+}
 void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
   
   PLC_DMA2D_Status.Ready = 1;
