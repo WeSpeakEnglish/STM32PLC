@@ -189,11 +189,6 @@ void _HW_Fill_ImageToRAM(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_
   }
 
 }
-void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
-  
-  PLC_DMA2D_Status.Ready = 1;
-  RCC->PLLSAICFGR = 0x44003FC0;
-}
 
 void LCD_Layers_Init(void){
   _HW_Fill_Finite_Color(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, 0xFFFFFFFF);
@@ -206,4 +201,8 @@ void LCD_Layers_Init(void){
    while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
 }
 
-
+void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
+  
+  PLC_DMA2D_Status.Ready = 1;
+  RCC->PLLSAICFGR = 0x44003FC0;
+}

@@ -66,7 +66,7 @@ static uint32_t LayerIndex = 0;
   * @{
   */ 
 static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c);
-static void FillTriangle(uint16_t x1, uint16_t x2, uint16_t x3, uint16_t y1, uint16_t y2, uint16_t y3);
+
 static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint32_t ySize, uint32_t OffLine, uint32_t ColorIndex);
 static void LL_ConvertLineToARGB8888(void * pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
 
@@ -617,7 +617,7 @@ void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
   
   for (curpixel = 0; curpixel <= num_pixels; curpixel++)
   {
-   // LCD_DrawPixel(x, y, DrawProp[ActiveLayer].TextColor);   /* Draw the current pixel */
+    //LCD_DrawPixel(x, y, DrawProp[ActiveLayer].TextColor);   /* Draw the current pixel */
     Fast_LCD_DrawPixel(x, y, DrawProp[ActiveLayer].TextColor); /* Draw the current pixel fast*/
     
     num += num_add;                            /* Increase the numerator by the top of the fraction */
@@ -975,14 +975,14 @@ void LCD_FillPolygon(pPoint Points, uint16_t PointCount)
     X2 = Points->X;
     Y2 = Points->Y;    
     
-    FillTriangle(X, X2, X_center, Y, Y2, Y_center);
-    FillTriangle(X, X_center, X2, Y, Y_center, Y2);
-    FillTriangle(X_center, X2, X, Y_center, Y2, Y);   
+    LCD_FillTriangle(X, X2, X_center, Y, Y2, Y_center);
+    LCD_FillTriangle(X, X_center, X2, Y, Y_center, Y2);
+    LCD_FillTriangle(X_center, X2, X, Y_center, Y2, Y);   
   }
   
-  FillTriangle(X_first, X2, X_center, Y_first, Y2, Y_center);
-  FillTriangle(X_first, X_center, X2, Y_first, Y_center, Y2);
-  FillTriangle(X_center, X2, X_first, Y_center, Y2, Y_first);   
+  LCD_FillTriangle(X_first, X2, X_center, Y_first, Y2, Y_center);
+  LCD_FillTriangle(X_first, X_center, X2, Y_first, Y_center, Y2);
+  LCD_FillTriangle(X_center, X2, X_first, Y_center, Y2, Y_first);   
 }
 
 /**
@@ -1092,84 +1092,77 @@ static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c)
   * @param  y3: Point 3 Y position
   * @retval None
   */
-static void FillTriangle(uint16_t x1, uint16_t x2, uint16_t x3, uint16_t y1, uint16_t y2, uint16_t y3)
+/*
+void LCD_FillTriangle(uint16_t x1, uint16_t x2, uint16_t x3, uint16_t y1, uint16_t y2, uint16_t y3)
 { 
   int16_t deltax = 0, deltay = 0, x = 0, y = 0, xinc1 = 0, xinc2 = 0, 
   yinc1 = 0, yinc2 = 0, den = 0, num = 0, num_add = 0, num_pixels = 0,
   curpixel = 0;
   
-  deltax = ABS(x2 - x1);        /* The difference between the x's */
-  deltay = ABS(y2 - y1);        /* The difference between the y's */
-  x = x1;                       /* Start x off at the first pixel */
-  y = y1;                       /* Start y off at the first pixel */
+  deltax = ABS(x2 - x1);        // The difference between the x's
+  deltay = ABS(y2 - y1);        //The difference between the y's 
+  x = x1;                       //Start x off at the first pixel 
+  y = y1;                       // Start y off at the first pixel
   
-  if (x2 >= x1)                 /* The x-values are increasing */
+  if (x2 >= x1)                 // The x-values are increasing 
   {
     xinc1 = 1;
     xinc2 = 1;
   }
-  else                          /* The x-values are decreasing */
+  else                          // The x-values are decreasing
   {
     xinc1 = -1;
     xinc2 = -1;
   }
   
-  if (y2 >= y1)                 /* The y-values are increasing */
+  if (y2 >= y1)                 // The y-values are increasing
   {
     yinc1 = 1;
     yinc2 = 1;
   }
-  else                          /* The y-values are decreasing */
+  else                          // The y-values are decreasing 
   {
     yinc1 = -1;
     yinc2 = -1;
   }
   
-  if (deltax >= deltay)         /* There is at least one x-value for every y-value */
+  if (deltax >= deltay)         // There is at least one x-value for every y-value 
   {
-    xinc1 = 0;                  /* Don't change the x when numerator >= denominator */
-    yinc2 = 0;                  /* Don't change the y for every iteration */
+    xinc1 = 0;                  // Don't change the x when numerator >= denominator 
+    yinc2 = 0;                  // Don't change the y for every iteration 
     den = deltax;
-    num = deltax / 2;
+    num = deltax >> 1;
     num_add = deltay;
-    num_pixels = deltax;         /* There are more x-values than y-values */
+    num_pixels = deltax;         // There are more x-values than y-values 
   }
-  else                          /* There is at least one y-value for every x-value */
+  else                          // There is at least one y-value for every x-value 
   {
-    xinc2 = 0;                  /* Don't change the x for every iteration */
-    yinc1 = 0;                  /* Don't change the y when numerator >= denominator */
+    xinc2 = 0;                  // Don't change the x for every iteration 
+    yinc1 = 0;                  // Don't change the y when numerator >= denominator 
     den = deltay;
-    num = deltay / 2;
+    num = deltay >> 1;
     num_add = deltax;
-    num_pixels = deltay;         /* There are more y-values than x-values */
+    num_pixels = deltay;         // There are more y-values than x-values 
   }
   
   for (curpixel = 0; curpixel <= num_pixels; curpixel++)
   {
     LCD_DrawLine(x, y, x3, y3);
-    
-    num += num_add;              /* Increase the numerator by the top of the fraction */
-    if (num >= den)             /* Check if numerator >= denominator */
+  
+    num += num_add;              // Increase the numerator by the top of the fraction 
+    if (num >= den)             // Check if numerator >= denominator 
     {
-      num -= den;               /* Calculate the new numerator value */
-      x += xinc1;               /* Change the x as appropriate */
-      y += yinc1;               /* Change the y as appropriate */
+      num -= den;               // Calculate the new numerator value 
+      x += xinc1;               // Change the x as appropriate 
+      y += yinc1;               // Change the y as appropriate 
     }
-    x += xinc2;                 /* Change the x as appropriate */
-    y += yinc2;                 /* Change the y as appropriate */
+    x += xinc2;                 // Change the x as appropriate 
+    y += yinc2;                 // Change the y as appropriate 
   } 
 }
 
-/**
-  * @brief  Fills a buffer.
-  * @param  LayerIndex: Layer index
-  * @param  pDst: Pointer to destination buffer
-  * @param  xSize: Buffer width
-  * @param  ySize: Buffer height
-  * @param  OffLine: Offset
-  * @param  ColorIndex: Color index
-  * @retval None
   */
+
 static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint32_t ySize, uint32_t OffLine, uint32_t ColorIndex) 
 {
   /* Register to memory mode with ARGB8888 as color Mode */ 
@@ -1341,12 +1334,77 @@ void FillImageSoft(u32 ImageAddress, u32 address, u32 xSize, u32 ySize){
 u32 S_Y, data, i , j;
 u32* pImageAddress = (u32*)ImageAddress;
  
-for(j = 0; j < ySize; j++){
+ for(j = 0; j < ySize; j++){
    S_Y = 4 * j * DisplayWIDTH;
   for(i = 0; i < xSize; i++){
        data = *pImageAddress++;
-       if(data & 0xFF000000)
+       if(data & 0xFF000000) // is it not transparent?
        *(__IO uint32_t*)(address + i * 4 + S_Y) = data;
    }
  }
+}
+ /// -- try to draw triangle
+void LCD_FillTriangle(uint16_t x1, uint16_t x2, uint16_t x3, uint16_t y1, uint16_t y2, uint16_t y3){
+ 
+struct point{
+ u16 x;
+ u16 y; 
+};
+
+struct point A, B, C;
+static u8 i, indexA, indexB, indexC;
+static u16 sy, tmp;
+
+indexA = 1; //let A is first point
+if((y2 < y1) && (y2 < y3)) indexA = 2;
+if((y3 < y2) && (y3 < y1)) indexA = 3;
+
+switch (indexA){
+	case 1: A.y = y1; A.x = x1;
+			break;
+	case 2: A.y = y2; A.x = x2;
+			break;
+	case 3: A.y = y3; A.x = x3;
+			break;
+}
+
+indexC = 1; //let C is first point
+if((y2 > y1) && (y2 > y3)) indexC = 2;
+if((y3 > y2) && (y3 > y1)) indexC = 3;
+
+switch (indexC){
+	case 1: C.y = y1; C.x = x1;
+			break;
+	case 2: C.y = y2; C.x = x2;
+			break;
+	case 3: C.y = y3; C.x = x3;
+			break;
+}
+
+for (i = 1; i < 4; i++)	
+	if((i != indexA) && (i != indexC)) indexB = i;
+
+switch (indexB){
+	case 1: B.y = y1; B.x = x1;
+			break;
+	case 2: B.y = y2; B.x = x2;
+			break;
+	case 3: B.y = y3; B.x = x3;
+			break;
+}
+
+for (sy = A.y; sy <= C.y; sy++) {
+  x1 = A.x + (sy - A.y) * (C.x - A.x) / (C.y - A.y);
+  if (sy < B.y)
+    x2 = A.x + (sy - A.y) * (B.x - A.x) / (B.y - A.y);
+  else {
+    if (C.y == B.y)
+      x2 = B.x;
+    else
+      x2 = B.x + (sy - B.y) * (C.x - B.x) / (C.y - B.y);
+  }
+  if (x1 > x2) { tmp = x1; x1 = x2; x2 = tmp; }
+   DrawFastLineHorizontal(sy, x1, x2);
+}
+
 }

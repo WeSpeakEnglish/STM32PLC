@@ -15,6 +15,7 @@
 #define         FILLED_CIRCLE_TYPE           7
 #define         FILLED_RECT_TYPE             8
 #define         IMAGE_FAST_FILL              9
+#define         FILLED_TRIANGLE              10
 ////////////////////////
 
 #include "variables.h"
@@ -32,12 +33,8 @@ typedef struct{
 
 
 
-
-
 void GUI_Free(void);
-
 GUI_Object* GUI_SetObject(u32 typeObj, u32 colorObj, u32 z_Index, u32 NumbOfParms,...);
-
 void GUI_Release(); // release interface
 u8 GUI_Del_Obj(GUI_Object* deleteObj); // delete Object
 u8 GUI_Hide_Obj(GUI_Object* hideObj); // hide Object

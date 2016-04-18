@@ -171,6 +171,7 @@ void     LCD_FillRect(u32 x1, u32 y1, u32 x2, u32 y2);
 void     LCD_FillCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius);
 void     LCD_FillPolygon(pPoint Points, uint16_t PointCount);
 void     LCD_FillEllipse(int Xpos, int Ypos, int XRadius, int YRadius);
+void     LCD_FillTriangle(uint16_t x1, uint16_t x2, uint16_t x3, uint16_t y1, uint16_t y2, uint16_t y3);
 
 void     LCD_DisplayOff(void);
 void     LCD_DisplayOn(void);

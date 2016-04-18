@@ -93,6 +93,9 @@ void GUI_Release(){  // create GUI
           case IMAGE_FAST_FILL:
              LCD_Fill_Image(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2], GUI_Objects[i].params[3], GUI_Objects[i].params[4]);
                    break;
+          case FILLED_TRIANGLE:   
+             LCD_FillTriangle(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2], GUI_Objects[i].params[3], GUI_Objects[i].params[4], GUI_Objects[i].params[5]);
+                   break;
         }
       } 
     }
