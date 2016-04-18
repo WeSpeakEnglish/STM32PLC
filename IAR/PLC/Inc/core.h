@@ -6,7 +6,15 @@
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
-
+   
+   
+//max size of queues is 127 elements (signed char) 
+#define Q_SIZE_SLOW 64  // the size of slow queue
+#define Q_SIZE_MEDIUM 64 // the size of medium queue
+#define Q_SIZE_FAST 64   // the size of fast queue
+   
+   
+   
 //here is our variables
 extern volatile s8 Semaphore; // that semaphore for queues and routines control if you need :)
 extern volatile u32 TicksGlobalUS; //US MUST be ticking in timer in the timer interrupt handle, it needs just ++ operation
@@ -28,19 +36,10 @@ s8 F_push(void (*pointerQ)(void));
 void (*F_pull(void))(void);
 ///////////////////////////
 //waiting functions
-void WaitOnFastQ(void); // just push a task from the Fast Queue 
-void WaitOnMediumQ(void); // take the next task from the Medium Queue
-void WaitOnSlowQ(void); // take the next task from the Slow Queue
 void DelayOnFastQ(u8 WaitQFast); // push several tasks from the Fast Queue
 void DelayOnMediumQ(u8 WaitQMedium); // push several tasks from the Medium Queue
 void DelayOnSlowQ(u8 WaitQSlow); // push several tasks from the Slow Queue
 u8 DelayUsOnProcessRoutine(void (*pointerF)(void),u32 TimeDel, u8 Ini); //DO OUR void function(void) while expecting TimeDel microsec or another timer periods
-//max size of queues is 127 elements (signed char) 
-#define Q_SIZE_SLOW 64  // the size of slow queue
-#define Q_SIZE_MEDIUM 64 // the size of medium queue
-#define Q_SIZE_FAST 64   // the size of fast queue
-
-
 void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram); // 
 void MPU_Config (void);
    

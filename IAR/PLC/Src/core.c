@@ -3,8 +3,11 @@
 #include "stm32f7xx_hal.h"
 
 
-volatile s8 Semaphore =0; // that semaphore for queues and routines control if you need :)
-volatile u32 TicksGlobalUS =0; //US ticking timer // in the timer interrupt handle needs just ++ operation
+volatile s8 Semaphore = 0; // that semaphore for queues and routines control if you need :)
+volatile u32 TicksGlobalUS = 0; //US ticking timer // in the timer interrupt handle needs just ++ operation
+volatile u8 mutexF = 0;
+volatile u8 mutexM = 0;
+volatile u8 mutexS = 0;
 
 
 // there are three different queues and routines for corresponding timers 
@@ -101,59 +104,84 @@ void pFastQueueIni(void){
 /// ADD ELEMENTs TO THE QUEUES
 s8 S_push(void (*pointerQ)(void) ){
  if ((S_last+1)%Q_SIZE_SLOW == S_first)	return 1;
- pSlowQueue[S_last++] = pointerQ;
- S_last%=Q_SIZE_SLOW;
+   if(mutexS == 0){
+    mutexS = 1;  // enter to critical section
+    pSlowQueue[S_last++] = pointerQ;
+    S_last%=Q_SIZE_SLOW;
+    mutexS = 0; 
+   }
+   else return 1;
  return 0;
 }
 
 s8 M_push(void (*pointerQ)(void) ){
- if ((M_last+1)%Q_SIZE_MEDIUM == M_first)return 1;
- pMediumQueue[M_last++] = pointerQ;
- M_last%=Q_SIZE_MEDIUM;
+
+ if ((M_last+1)%Q_SIZE_MEDIUM == M_first) return 1;
+ 
+ if(mutexM == 0){
+    mutexM = 1;  // enter to critical section
+    pMediumQueue[M_last++] = pointerQ;
+    M_last%=Q_SIZE_MEDIUM;
+    mutexM = 0; 
+   }
+   else return 1;
  return 0;
 }
 
 s8 F_push(void (*pointerQ)(void) ){
- if ((F_last+1)%Q_SIZE_FAST == F_first)return 1;
- pFastQueue[F_last++] = pointerQ;
- F_last%=Q_SIZE_FAST;
+  if ((F_last+1)%Q_SIZE_FAST == F_first)return 1;
+  if(mutexF == 0){
+    mutexF = 1;  // enter to critical section
+    pFastQueue[F_last++] = pointerQ;
+    F_last%=Q_SIZE_FAST;
+    mutexF = 0; 
+   }
+  else return 1;
  return 0;
 }
 /// GET ELEMENTs FROM THE QUEUES
 void (*S_pull(void))(void){
  void (*pullVarS)(void);
+
  if (S_last == S_first)return emptyS;
- pullVarS = pSlowQueue[S_first++];
- S_first%=Q_SIZE_SLOW;
+  if(mutexS == 0){
+    mutexS = 1;  // enter to critical section
+    pullVarS = pSlowQueue[S_first++];
+    S_first%=Q_SIZE_SLOW;
+    mutexS = 0;  // enter to critical section 
+  }
+    else return emptyS;
 return pullVarS;
 }
 
 void (*M_pull(void))(void){
  void (*pullVar)(void);
  if (M_last == M_first)return emptyM;
- pullVar = pMediumQueue[M_first++];
- M_first%=Q_SIZE_MEDIUM;
+   if(mutexM == 0){
+    mutexM = 1;  // enter to critical section
+    pullVar = pMediumQueue[M_first++];
+    M_first%=Q_SIZE_MEDIUM;
+    mutexM = 0;  // enter to critical section 
+  }
+    else return emptyM;
 return pullVar;
 }
 
 void (*F_pull(void))(void){
  void (*pullVar)(void);
  if (F_last == F_first)return emptyF;
- pullVar = pFastQueue[F_first++];
- F_first%=Q_SIZE_FAST;
+    if(mutexF == 0){
+    mutexF = 1;  // enter to critical section
+    pullVar = pFastQueue[F_first++];
+    F_first%=Q_SIZE_FAST;
+    mutexF = 0;  // enter to critical section 
+  }
+  else return emptyF;
+  
 return pullVar;
 }
-// vait some condition but no more that, for exapmle: while (var1!=0 && WaitOnFastQ())
-void WaitOnFastQ(void){
-         F_pull()(); 
-};
-void WaitOnMediumQ(void){
-         M_pull()(); 
-};
-void WaitOnSlowQ(void){
-         S_pull()(); 
-};
-// vait some condition but no more that, for exapmle: while (var1!=0 && WaitOnFastQ())
+
+// wait some condition but no more that, for exapmle: while (var1!=0 && WaitOnFastQ())
 void DelayOnFastQ(u8 WaitQFast){// set this variable and stay waiting on the fast queue
   while(WaitQFast){
          F_pull()(); 
@@ -269,7 +297,7 @@ HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
 
 tmpmrd = (uint32_t)SDRAM_MODEREG_BURST_LENGTH_8          |        //Step 7: Program the external memory mode register
                      SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |
-                     SDRAM_MODEREG_CAS_LATENCY_3           |
+                     SDRAM_MODEREG_CAS_LATENCY_2           |
                      SDRAM_MODEREG_OPERATING_MODE_STANDARD |
                      SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;
 Cmd.CommandMode= FMC_SDRAM_CMD_LOAD_MODE;
