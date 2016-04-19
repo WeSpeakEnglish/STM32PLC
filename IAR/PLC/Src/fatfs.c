@@ -47,7 +47,7 @@ char USBH_Path[4];  /* USBH logical drive path */
 void MX_FATFS_Init(void) 
 {
   /*## FatFS: Link the SDRAMDISK driver ###########################*/
-  retSDRAMDISK = FATFS_LinkDriver(&SDRAMDISK_Driver, SDRAMDISK_Path);
+//  retSDRAMDISK = FATFS_LinkDriver(&SDRAMDISK_Driver, SDRAMDISK_Path);
   /*## FatFS: Link the SD driver ###########################*/
   retSD = FATFS_LinkDriver(&SD_Driver, SD_Path);
   /*## FatFS: Link the USBH driver ###########################*/

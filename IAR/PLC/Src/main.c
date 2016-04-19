@@ -59,7 +59,8 @@
 #include "memory.h"
 #include "timer13.h"
 #include "timer14.h"
-#include "stmpe811.h"    
+#include "stmpe811.h" 
+#include "ff.h"
 
     
 /* USER CODE END Includes */
@@ -90,6 +91,16 @@ void MX_USB_HOST_Process(void);
 
 int main(void)
 {
+FATFS fs; //объявление объекта FATFS
+FIL OurFile; // this is our file here
+uint8_t res; //переменная для возвращаемых значений
+
+  DWORD serial;
+  TCHAR buffer[20]={'\0'};
+  uint8_t  buff[]={"Привет, файлец!"}; //буфер для чтения файла
+  UINT br; //счетчик прочитанных байт
+  
+
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
   /* Enable I-Cache-------------------------------------------------------------*/
@@ -126,25 +137,60 @@ int main(void)
   /* USER CODE BEGIN 2 */
  // MPU_Config(); 
   SDRAM_Initialization_Sequence(&hsdram1);
+  
   pMediumQueueIni();            // fill the medium queue by Zero functions
   pFastQueueIni();              // fill the fast queue by Zero functions
   pSlowQueueIni();              // fill the slow queue by Zero functions
+  
   NAND_readId();
+  
   Timer14_Init_Deal(1000, 0);   //just init timer
+  Timer13_Init();
+  
   UB_Touch_Init();
+  
   SDRAM_free();
+  // Load images
+  _HW_Fill_ImageToRAM((u32)image32,SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 100, 100);   
+    
   LCD_Layers_Init();
+  
   MX_LTDC_Init();
   LCD_Init();
-  
   LCD_SetLight(7);
   Load_GUI_1();
-// Load images
-  _HW_Fill_ImageToRAM((u32)image32,SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 100, 100); 
-
-  Timer13_Init();
-
   
+  res = BSP_SD_Init();
+  res = disk_initialize(0);
+  res = f_mount(&fs,"0:",1);
+if (res == FR_OK){
+   //диск смонтирован, продолжаем работу
+   //устанавливаем указатель на первый сектор
+  res = f_open(&OurFile,"0:kitekat.txt",FA_WRITE | FA_CREATE_ALWAYS);
+ 
+//устанавливаем указатель на первый сектор
+     f_lseek(&OurFile,0);
+
+   //здесь, допустим, заполняем буфер
+
+ 
+   //а здесь записываем его на карту
+   f_write(&OurFile,buff, sizeof(buff), &br);
+
+   f_close(&OurFile);
+   //демонтируем диск, передав функции нулевой указатель 
+   f_mount(NULL, "0:", 0);
+}
+else{
+   //не удалось смонтировать диск
+  
+}
+//  Result =f_mountdrv(0);
+//  FileSystemResult = f_getlabel ( 
+//	"",	/* Path name of the logical drive number */
+//	buffer,		/* Pointer to a buffer to return the volume label */
+//	&serial			/* Pointer to a variable to return the volume serial number */
+//);
   /* USER CODE END 2 */
 
   /* Infinite loop */
