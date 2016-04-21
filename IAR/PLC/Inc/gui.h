@@ -16,6 +16,7 @@
 #define         FILLED_RECT_TYPE             8
 #define         IMAGE_FAST_FILL              9
 #define         FILLED_TRIANGLE              10
+#define         TEXT_STRING                  11
 ////////////////////////
 
 #include "variables.h"

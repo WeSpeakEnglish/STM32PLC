@@ -12,8 +12,9 @@ ByteLimit=50
 CStepIntDis=_ 0
 stlinkserialNo=9069AF3F
 stlinkfoundProbes=
+LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=-1842542400
+Checksum=846414210
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -61,10 +62,11 @@ ITMlogFile=$PROJ_DIR$\ITM.log
 Fmt0=u32[8388608]	4	0
 [watch_formats]
 Fmt0={W}1:' '	4	0
-Fmt1={W}1:RGB_Code	4	0
-Fmt2={W}1:TextColor	4	0
-Fmt3={W}1:stmpe_id	4	0
-Fmt4={W}1:x_address	4	0
+Fmt1={W}1:PositionOfFile	4	0
+Fmt2={W}1:RGB_Code	4	0
+Fmt3={W}1:TextColor	4	0
+Fmt4={W}1:stmpe_id	4	0
+Fmt5={W}1:x_address	4	0
 [Trace2]
 Enabled=0
 ShowSource=0

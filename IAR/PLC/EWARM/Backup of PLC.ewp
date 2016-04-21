@@ -77,7 +77,7 @@
         </option>
         <option>
           <name>OGLastSavedByProductVersion</name>
-          <state>7.60.1.11206</state>
+          <state>7.50.3.10745</state>
         </option>
         <option>
           <name>GeneralEnableMisra</name>
@@ -127,7 +127,7 @@
         </option>
         <option>
           <name>GBECoreSlave</name>
-          <version>24</version>
+          <version>22</version>
           <state>41</state>
         </option>
         <option>
@@ -144,7 +144,7 @@
         </option>
         <option>
           <name>CoreVariant</name>
-          <version>24</version>
+          <version>22</version>
           <state>41</state>
         </option>
         <option>
@@ -167,7 +167,7 @@
         </option>
         <option>
           <name>GFPUCoreSlave2</name>
-          <version>24</version>
+          <version>22</version>
           <state>41</state>
         </option>
       </data>

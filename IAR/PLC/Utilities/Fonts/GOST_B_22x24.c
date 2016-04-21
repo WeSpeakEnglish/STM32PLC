@@ -5840,7 +5840,7 @@ const unsigned char GOST_type_B22x24_Table[] =
 	0x00, 0x00, 0x00, //                       
 	0x00, 0x00, 0x00, //                       
 	0x00, 0x00, 0x00, //                       
-	0x00, 0x00, 0x00, //                       
+	0x00, 0x00, 0x00 //                       
 };
 
 

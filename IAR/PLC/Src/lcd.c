@@ -68,7 +68,7 @@ static uint32_t LayerIndex = 0;
 static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c);
 
 static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint32_t ySize, uint32_t OffLine, uint32_t ColorIndex);
-static void LL_ConvertLineToARGB8888(void * pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
+//static void LL_ConvertLineToARGB8888(void * pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
 
 
 
@@ -1071,11 +1071,13 @@ static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c)
     {
       if(line & (1 << (width- j + offset- 1))) 
       {
-        LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].TextColor);
+        //LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].TextColor);
+        Fast_LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].TextColor);
       }
       else
       {
-        LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].BackColor);
+        Fast_LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].BackColor);
+      //  LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].BackColor);
       } 
     }
     Ypos++;
@@ -1202,7 +1204,7 @@ static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint3
   * @param  ColorMode: Input color mode   
   * @retval None
   */
-static void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode)
+void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode)
 {    
   /* Configure the DMA2D Mode, Color Mode and output offset */
   hDma2dHandler.Init.Mode         = DMA2D_M2M_PFC;
@@ -1223,6 +1225,35 @@ static void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uin
     if(HAL_DMA2D_ConfigLayer(&hDma2dHandler, 1) == HAL_OK) 
     {
       if (HAL_DMA2D_Start(&hDma2dHandler, (uint32_t)pSrc, (uint32_t)pDst, xSize, 1) == HAL_OK)
+      {
+        /* Polling For DMA transfer */  
+        HAL_DMA2D_PollForTransfer(&hDma2dHandler, 10);
+      }
+    }
+  } 
+}
+
+void LL_ConvertImageToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ySize, uint32_t ColorMode)
+{    
+  /* Configure the DMA2D Mode, Color Mode and output offset */
+  hDma2dHandler.Init.Mode         = DMA2D_M2M_PFC;
+  hDma2dHandler.Init.ColorMode    = DMA2D_ARGB8888;
+  hDma2dHandler.Init.OutputOffset = 0;     
+  
+  /* Foreground Configuration */
+  hDma2dHandler.LayerCfg[1].AlphaMode = DMA2D_NO_MODIF_ALPHA;
+  hDma2dHandler.LayerCfg[1].InputAlpha = 0xFF;
+  hDma2dHandler.LayerCfg[1].InputColorMode = ColorMode;
+  hDma2dHandler.LayerCfg[1].InputOffset = 0;
+  
+  hDma2dHandler.Instance = DMA2D; 
+  
+  /* DMA2D Initialization */
+  if(HAL_DMA2D_Init(&hDma2dHandler) == HAL_OK) 
+  {
+    if(HAL_DMA2D_ConfigLayer(&hDma2dHandler, 1) == HAL_OK) 
+    {
+      if (HAL_DMA2D_Start(&hDma2dHandler, (uint32_t)pSrc, (uint32_t)pDst, xSize, ySize) == HAL_OK)
       {
         /* Polling For DMA transfer */  
         HAL_DMA2D_PollForTransfer(&hDma2dHandler, 10);
@@ -1408,3 +1439,4 @@ for (sy = A.y; sy <= C.y; sy++) {
 }
 
 }
+

@@ -114,7 +114,8 @@ typedef enum
 #define LAYER_2_OFFSET          0x00177000  // 800x480x4 layer 1536000 offset
 #define LAYER_3_OFFSET          0x002EE000  // 800x480x4 layer 1536000 offset
 #define LAYER_BACK_OFFSET       0x00465000  // BACKGROUND
-#define IMAGE_1_OFFSET          0x005DC000  // image 1       
+#define IMAGE_1_OFFSET          0x005DC000  // big image 1   
+#define IMAGE_2_OFFSET          IMAGE_1_OFFSET + LAYERS_SIZE //big image 2
 #define DisplayHEIGHT   480 // pixels
 #define DisplayWIDTH    800 // pixels
 #define PixelWIDTH      4   // bytes
@@ -186,4 +187,5 @@ void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2);
 void DrawFastLineHorizontal(uint16_t y1, uint16_t x1, uint16_t x2);
 void LCD_Fill_Image(u32 ImageAddress, u32 x, u32 y, u32 xSize, u32 ySize);
 void FillImageSoft(u32 ImageAddress, u32 address, u32 xSize, u32 ySize);
+void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
 #endif /* __LCD_H */

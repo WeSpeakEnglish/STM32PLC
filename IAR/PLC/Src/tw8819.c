@@ -233,7 +233,8 @@ void Switch_Camera(u8 type)
 		
                 
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to STM	
-                WaitOnFastQ(); // one task from queue instead of waiting	
+                //WaitOnFastQ(); // one task from queue instead of waiting	
+                DelayOnFastQ(10);
                 LCD_Video_GPIO_Init();		
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, ENABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, ENABLE);
@@ -246,7 +247,7 @@ void Switch_Camera(u8 type)
 		WriteTW88( REG102, &val );
 //		ChangeCVBS();
 		LCD_Video_GPIO_Deinit();
-                WaitOnFastQ(); //one task from queue instead of waiting
+                DelayOnFastQ(10); //one task from queue instead of waiting
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);		
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);		//Switch to TW8819		
@@ -259,7 +260,7 @@ void Switch_Camera(u8 type)
 		WriteTW88( REG102, &val );		
 //		ChangeCVBS();
 		LCD_Video_GPIO_Deinit();
-                WaitOnFastQ();// one task from queue instead of waiting
+                DelayOnFastQ(10);// one task from queue instead of waiting
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);		
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);		//Switch to TW8819	
@@ -272,7 +273,7 @@ void Switch_Camera(u8 type)
 		WriteTW88( REG102, &val );	
 //		ChangeCVBS();		
 		LCD_Video_GPIO_Deinit();
-                WaitOnFastQ();
+                DelayOnFastQ(10);
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);	
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);		//Switch to TW8819		
@@ -285,7 +286,7 @@ void Switch_Camera(u8 type)
 		WriteTW88( REG102, &val );	
 //		ChangeCVBS();		
 		LCD_Video_GPIO_Deinit();
-                WaitOnFastQ();
+                DelayOnFastQ(10);
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);		//Switch to TW8819		
@@ -332,7 +333,7 @@ u8 CheckDecoderVDLOSS( u8 n )
 		if (( mode & 0x80 ) == 0 ) 
 			return ( 0 );
 		//delay_nus(1000); 
-                WaitOnFastQ();
+                DelayOnFastQ(10);
                 
 	}
 	return ( 1 );
@@ -349,7 +350,7 @@ u8 CheckDecoderSTD( u8 n )
 		ReadTW88(REG11C,&mode);
 		if (( mode & 0x80 ) == 0 ) return ( mode );
 		//delay_nus(10000);
-               WaitOnFastQ(); 
+               DelayOnFastQ(10); 
 	}
 	return ( 0x80 );
 }
@@ -624,7 +625,7 @@ u8 ChangeCVBS( void )
 //	WriteTW88( 0x1d, &mode);	
 
 	//delay_nus(10000);	
-        WaitOnFastQ();
+        DelayOnFastQ(10);
 
 	ReadTW88(0xFF,&val);
 	ReadTW88(0x01,&val);
