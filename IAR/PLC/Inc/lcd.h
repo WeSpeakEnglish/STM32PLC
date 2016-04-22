@@ -106,7 +106,7 @@ typedef enum
 /** 
   * @brief LCD default font 
   */ 
-#define LCD_DEFAULT_FONT        Font24     
+#define LCD_DEFAULT_FONT        GOST_B_23_var     
 ////////////////////////////////////////////////////
 #define SDRAM_BANK_ADDR         0xC0000000
 #define LAYERS_SIZE         0x00177000
@@ -155,8 +155,8 @@ uint32_t LCD_ReadPixel(uint16_t Xpos, uint16_t Ypos);
 void     LCD_DrawPixel(uint16_t Xpos, uint16_t Ypos, uint32_t pixel);
 void     LCD_Clear(uint32_t Color);
 void     LCD_ClearStringLine(uint32_t Line);
-void     LCD_DisplayStringAtLine(uint16_t Line, uint8_t *ptr);
-void     LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode);
+void     LCD_DisplayStringAtLine(uint16_t Line, uint8_t *ptr, uint8_t Kerning);
+void     LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode, uint8_t kerning);
 void     LCD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii);
 
 void     LCD_DrawHLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length);

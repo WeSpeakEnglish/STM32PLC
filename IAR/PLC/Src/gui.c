@@ -80,7 +80,7 @@ void GUI_Release(){  // create GUI
           case POLYGON_TYPE:
                    break;
           case TEXT_STRING:
-            LCD_DisplayStringAt(GUI_Objects[i].params[0], GUI_Objects[i].params[1],(uint8_t*)GUI_Objects[i].params[2], GUI_Objects[i].params[3]);
+            LCD_DisplayStringAt(GUI_Objects[i].params[0], GUI_Objects[i].params[1], (uint8_t*)GUI_Objects[i].params[2], GUI_Objects[i].params[3], (u8)GUI_Objects[i].params[4]);
                    break; 
           case CIRCLE_TYPE:
             LCD_DrawCircle(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2]);

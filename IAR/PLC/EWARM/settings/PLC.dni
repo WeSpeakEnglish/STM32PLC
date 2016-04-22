@@ -14,7 +14,7 @@ stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=846414210
+Checksum=574639039
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -58,6 +58,8 @@ ITMportsTermIO=0
 ITMportsLogFile=0
 ITMlogFile=$PROJ_DIR$\ITM.log
 
+[struct_types]
+Fmt0=GUI_Object-color	4	0
 [array_types]
 Fmt0=u32[8388608]	4	0
 [watch_formats]
