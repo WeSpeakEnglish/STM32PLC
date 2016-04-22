@@ -16,7 +16,7 @@ typedef struct _tFont
 {    
   const uint8_t *table;
   const struct FONT_CHAR_INFO *tableInfo;
-  uint16_t Width;
+//  uint16_t Width;
   uint16_t Height;
   
 } sFONT;

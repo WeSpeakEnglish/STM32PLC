@@ -7,6 +7,8 @@
 GUI_Object* Circle1 =0x00000000;
 GUI_Object* Image1; 
 GUI_Object* Text1;
+GUI_Object* Text2; 
+GUI_Object* Text3;
 
 void Load_GUI_1(void){
 
@@ -23,6 +25,10 @@ void Load_GUI_1(void){
  // GUI_SetObject(FILLED_TRIANGLE, 0xFF00AA00, 1, 6, 50, 100, 650, 20, 300, 150);
   Image1 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 2, 5, SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 0, 0, 800, 480);  
   Text1 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 200, "Привет", LEFT_MODE, 1);   // with 1 pix kerning
+  LCD_SetBackColor(0x0000FFFF);
+  Text2 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 230, "Привет", CENTER_MODE, 1);   // with 1 pix kerning and center
+  LCD_SetBackColor(0x00FFFFFF);
+  Text3 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 260, "Привет", RIGHT_MODE, 1);   // with 1 pix kerning
  // Image2 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 2, 5, SDRAM_BANK_ADDR + IMAGE_2_OFFSET, 0, 0, 800, 480);
 }
 

@@ -5841,6 +5841,6 @@ const struct FONT_CHAR_INFO gOSTtypeB_16ptDescriptors[] =
 sFONT GOST_B_23_var = {
   gOSTtypeB_16ptBitmaps,
   gOSTtypeB_16ptDescriptors,
-  0, //variable width
+//  0, //variable width
   23, /* Height */
 };

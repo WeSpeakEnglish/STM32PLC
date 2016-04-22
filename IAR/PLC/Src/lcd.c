@@ -440,13 +440,15 @@ void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_Align
   while (*ptr++) size ++ ;
   
   /* Characters number per line */
-  xsize = (LCD_GetXSize()/DrawProp[ActiveLayer].pFont->Width);
+  if(Mode)
+  for(i = 0; i < size; i++)
+  xsize += DrawProp[ActiveLayer].pFont->tableInfo[(Text[i]-' ')].Wide;
   
   switch (Mode)
   {
   case CENTER_MODE:
     {
-      ref_column = Xpos + ((xsize - size)* DrawProp[ActiveLayer].pFont->Width) / 2;
+      ref_column = Xpos - xsize/2;
       break;
     }
   case LEFT_MODE:
@@ -456,7 +458,7 @@ void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_Align
     }
   case RIGHT_MODE:
     {
-      ref_column = - Xpos + ((xsize - size)*DrawProp[ActiveLayer].pFont->Width);
+      ref_column = Xpos - xsize;
       break;
     }    
   default:
@@ -473,7 +475,7 @@ void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_Align
   }
 
   /* Send the string character by character on LCD */
-  while ((*Text != 0) & (((LCD_GetXSize() - (i*DrawProp[ActiveLayer].pFont->Width)) & 0xFFFF) >= DrawProp[ActiveLayer].pFont->Width))
+  while (*Text != 0)
   {
     /* Display one character on LCD */    /* Decrement the column position by 16 */
     
@@ -1067,7 +1069,7 @@ static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint8_t Sig
       }
       else
       {
-        Fast_LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].BackColor);
+       if(DrawProp[ActiveLayer].BackColor & 0xFF000000) Fast_LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].BackColor);
       //  LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].BackColor);
       } 
     }
