@@ -67,7 +67,7 @@
 #define SD_NOT_PRESENT           ((uint8_t)0x00)
 
 #define SD_DATATIMEOUT           ((uint32_t)100000000)
-
+//#define SD_DATATIMEOUT           ((uint32_t)50000000)
 /* USER CODE BEGIN 0 */
 
 /* DMA definitions for SD DMA transfer */

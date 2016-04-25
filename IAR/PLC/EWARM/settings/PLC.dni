@@ -14,7 +14,7 @@ stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=-1315780734
+Checksum=1727652117
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -60,6 +60,13 @@ ITMlogFile=$PROJ_DIR$\ITM.log
 
 [struct_types]
 Fmt0=GUI_Object-color	4	0
+Fmt1=date_time_t-day	3	0
+Fmt2=date_time_t-hours	3	0
+Fmt3=date_time_t-minutes	3	0
+Fmt4=date_time_t-month	3	0
+Fmt5=date_time_t-seconds	3	0
+Fmt6=date_time_t-weekday	3	0
+Fmt7=date_time_t-year	3	0
 [array_types]
 Fmt0=u32[8388608]	4	0
 [watch_formats]
@@ -121,6 +128,9 @@ Count=4
 LoggingEnabled=_ 0
 LogFile=_ ""
 Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [Aliases]
 A0=_ "E:\CODE\PLC\Drivers\CMSIS\Include\core_cm7.h" ""
 A1=_ "E:\CODE\PLC\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_tim_ex.c" ""
@@ -137,6 +147,3 @@ Exclusions=
 Enabled=0
 [CallStackStripe]
 ShowTiming=1
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""

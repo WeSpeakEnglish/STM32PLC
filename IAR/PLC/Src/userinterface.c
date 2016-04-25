@@ -26,27 +26,20 @@ void Load_GUI_1(void){
   Image1 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 2, 5, SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 0, 0, 800, 480);  
   Text1 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 200, "Привет", LEFT_MODE, 1);   // with 1 pix kerning
   LCD_SetBackColor(0x0000FFFF);
-  Text2 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 230, "Привет", CENTER_MODE, 1);   // with 1 pix kerning and center
+  Text2 = GUI_SetObject(TEXT_STRING ,0xFF00FFFF, 2, 5, 100, 230, "Привет", CENTER_MODE, 1);   // with 1 pix kerning and center
   LCD_SetBackColor(0x00FFFFFF);
-  Text3 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 260, "Привет", RIGHT_MODE, 1);   // with 1 pix kerning
+  Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 2, 5, 100, 260, "HiHi", RIGHT_MODE, 1);   // with 1 pix kerning
  // Image2 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 2, 5, SDRAM_BANK_ADDR + IMAGE_2_OFFSET, 0, 0, 800, 480);
 }
 
 void Run_GUI_1(void){
-  static u32 iLoad = 0;
-  static u8 condition_UpDown = 0;
-  
-  
-  if(condition_UpDown == 0)iLoad++;
-  else iLoad--;
-  
-  if((iLoad == 150) && (condition_UpDown == 0) ){
-   condition_UpDown = 1;
-   }
-  if((iLoad == 10) && (condition_UpDown == 1) ){
-   condition_UpDown = 0;
-   }
 
+  u8 buff[12];
+  date_time_t dt;
+  PCF8563_read_datetime(&dt);
+ // buff[0] = dt. 
+  TwoDigitsToChars(buff);
+  
  //  Image1->params[1] = 300-iLoad;
  //  Circle1->params[1] = 300;
  //  Circle1->params[2] = iLoad-5;

@@ -1229,6 +1229,9 @@
         <name>$PROJ_DIR$\..\Src\memory.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\rtc.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\sdmmc.c</name>
       </file>
       <file>

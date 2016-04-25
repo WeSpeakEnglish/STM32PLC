@@ -1,6 +1,7 @@
 /* USER CODE BEGIN Includes */
 #include "initial.h"
 #include "files.h"
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -67,18 +68,7 @@ int main(void)
   InitPeriph();
   
   //WriteNewTextFileSD(buff,  "0:hi.txt", sizeof(buff));
-  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET);
-  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET); 
-  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET);
-  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET); 
-  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET);
-  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET); 
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

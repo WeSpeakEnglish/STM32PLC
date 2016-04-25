@@ -26,6 +26,7 @@ extern const u32 ProjectionLayerAddress[2]; // Were we fill out our objects?
  void _HW_Fill_Image(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t  ySize); 
  void _HW_Fill_ImageToRAM(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t  ySize); 
  void LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage);
+ void TwoDigitsToChars(u8 * Src);
 #ifdef __cplusplus
  }
 #endif

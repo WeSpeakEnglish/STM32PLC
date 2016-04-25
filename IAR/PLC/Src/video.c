@@ -6,6 +6,7 @@
 #include "ltdc.h"
 #include "image888.h"
 #include "ff.h"
+#include "rtc.h"
 
 volatile DMA2D_Status PLC_DMA2D_Status = {1};
 volatile u8 LayerOfView = 0;
@@ -286,4 +287,10 @@ void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
   
   PLC_DMA2D_Status.Ready = 1;
 //  RCC->PLLSAICFGR = 0x44003FC0;
+}
+
+void TwoDigitsToChars(u8 * Src){
+  *Src++ += 0x30; 
+  *Src = 0x30;
+  return;
 }
