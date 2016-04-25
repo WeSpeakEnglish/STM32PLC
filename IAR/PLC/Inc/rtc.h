@@ -23,17 +23,13 @@ u8 weekday;    // 0 = Sunday, 1 = Monday, etc.
 
 
 void PCF8563_Init(void);
-//void PCF8563_write_byte(u8 address, u8 data);
-//u8 PCF8563_read_byte(u8 address);
 void PCF8563_set_datetime(date_time_t *dt);
 void PCF8563_read_datetime(date_time_t *dt);
 void Set_Alarm(u8 AMode,PCF8563_Alarm *AT);
 void config_CLKOUT(u8 mode);
 void config_PCF8563_Timer(u8 mode);
 void config_PCF8563_Interrupt(u8 mode, u8 ti_tp);
-
-
-
-
+void GetDateToStr(u8 * StrDstDate, date_time_t * dt);
+void GetTimeToStr(u8 * StrDstTime, date_time_t * dt);
 
 #endif

@@ -381,5 +381,29 @@ mode = mode | ti_tp;
 PCF8563_write_byte(PCF8563_CTRL_STATUS_REG2, mode);
 } 
 
+void GetDateToStr(u8 * StrDstDate, date_time_t * dt){ // getting date
+  *StrDstDate++ = dt->day/10 + 0x30;
+  *StrDstDate++ = dt->day%10 + 0x30;
+  *StrDstDate++ = '.';
+  *StrDstDate++ = dt->month/10 + 0x30;
+  *StrDstDate++ = dt->month%10 + 0x30;
+  *StrDstDate++ = '.';
+  *StrDstDate++ = '2';
+  *StrDstDate++ = '0';
+  *StrDstDate++ = dt->year/10 + 0x30;
+  *StrDstDate++ = dt->year%10 + 0x30;
+  *StrDstDate ='\0';
+}
 
+void GetTimeToStr(u8 * StrDstTime, date_time_t * dt){ // getting date
+  *StrDstTime++ = dt->hours/10 + 0x30;
+  *StrDstTime++ = dt->hours%10 + 0x30;
+  *StrDstTime++ = ':';
+  *StrDstTime++ = dt->minutes/10 + 0x30;
+  *StrDstTime++ = dt->minutes%10 + 0x30;
+  *StrDstTime++ = ':';
+  *StrDstTime++ = dt->seconds/10 + 0x30;
+  *StrDstTime++ = dt->seconds%10 + 0x30;
+  *StrDstTime ='\0';
+}
 

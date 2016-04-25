@@ -30,7 +30,7 @@ switch (Counter % 8){
   case 4: break;
   case 5: break;
   case 6: break;
-  case 7: F_push(Run_GUI_1); F_push(Show_GUI); break;
+  case 7: break;
   
 }  
 Counter++;

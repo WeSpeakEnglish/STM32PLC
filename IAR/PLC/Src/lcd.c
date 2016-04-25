@@ -442,13 +442,15 @@ void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_Align
   /* Characters number per line */
   if(Mode)
   for(i = 0; i < size; i++)
-  xsize += DrawProp[ActiveLayer].pFont->tableInfo[(Text[i]-' ')].Wide;
+  xsize += DrawProp[ActiveLayer].pFont->tableInfo[(Text[i]-' ')].Wide + Kerning;
+  xsize -= Kerning;
   
   switch (Mode)
   {
   case CENTER_MODE:
     {
       ref_column = Xpos - xsize/2;
+      Ypos -= (DrawProp[ActiveLayer].pFont->Height)/2;
       break;
     }
   case LEFT_MODE:

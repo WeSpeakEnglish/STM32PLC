@@ -3,12 +3,17 @@
 #include "lcd.h"
 #include "stmpe811.h"
 #include "image888.h"
+#include "rtc.h"
 
 GUI_Object* Circle1 =0x00000000;
 GUI_Object* Image1; 
 GUI_Object* Text1;
 GUI_Object* Text2; 
 GUI_Object* Text3;
+u8 StrDate[]="25.04.2016";
+u8 StrTime[]="20:00";
+date_time_t DataTime;
+
 
 void Load_GUI_1(void){
 
@@ -23,12 +28,15 @@ void Load_GUI_1(void){
 //  GUI_SetObject(FILLED_RECT_TYPE, 0xFFCC0000, 1, 4, 100, 100, 200, 200);
  // GUI_SetObject(HORIZONTAL_LINE_TYPE,0xFF00FF00, 1, 3, 100, 200, 300);
  // GUI_SetObject(FILLED_TRIANGLE, 0xFF00AA00, 1, 6, 50, 100, 650, 20, 300, 150);
-  Image1 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 2, 5, SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 0, 0, 800, 480);  
-  Text1 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 200, "Привет", LEFT_MODE, 1);   // with 1 pix kerning
+  Image1 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 0, 0, 800, 480);  
+//  Text1 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 200, StrData, LEFT_MODE, 1);   // with 1 pix kerning
+ 
+  GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
+  GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
   LCD_SetBackColor(0x0000FFFF);
-  Text2 = GUI_SetObject(TEXT_STRING ,0xFF00FFFF, 2, 5, 100, 230, "Привет", CENTER_MODE, 1);   // with 1 pix kerning and center
-  LCD_SetBackColor(0x00FFFFFF);
-  Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 2, 5, 100, 260, "HiHi", RIGHT_MODE, 1);   // with 1 pix kerning
+  Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 40, 10, StrTime, LEFT_MODE, 1);   // with 1 pix kerning and center
+//  LCD_SetBackColor(0x00FFFFFF);
+  Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 700, 10, StrDate, LEFT_MODE, 1);   // with 1 pix kerning
  // Image2 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 2, 5, SDRAM_BANK_ADDR + IMAGE_2_OFFSET, 0, 0, 800, 480);
 }
 
@@ -39,7 +47,9 @@ void Run_GUI_1(void){
   PCF8563_read_datetime(&dt);
  // buff[0] = dt. 
   TwoDigitsToChars(buff);
-  
+  PCF8563_read_datetime(&DataTime);
+  GetDateToStr(StrDate, &dt);
+  GetTimeToStr(StrTime, &dt);
  //  Image1->params[1] = 300-iLoad;
  //  Circle1->params[1] = 300;
  //  Circle1->params[2] = iLoad-5;
