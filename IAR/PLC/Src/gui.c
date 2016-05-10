@@ -134,8 +134,7 @@ void Show_GUI(void){
     _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET); // fill the other layer
  }
 // 
-while((DMA2D->CR & DMA2D_CR_START)) 
-                         RoutineMedium();
+while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
 
  LayerOfView++;
  LayerOfView %= 2;

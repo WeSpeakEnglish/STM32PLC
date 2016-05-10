@@ -31,9 +31,9 @@ u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
                         ProjectionLayerAddress[LayerOfView] + 4 * ((u32)y1 * DisplayWIDTH + (u32)x1),  /* DMA2D output buffer */
                         x2-x1+1, /* width of buffer in pixels */
                         1) /* height of buffer in lines */ 
-     != HAL_OK)
+     == HAL_OK)
     {
-    M_pull()(); 
+    while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
      }  
     }
    }
@@ -45,7 +45,7 @@ u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
   hdma2d.Init.ColorMode = DMA2D_ARGB8888;
   hdma2d.Init.OutputOffset = DisplayWIDTH-1;
   hdma2d.XferCpltCallback = Transfer_DMA2D_Completed;
-  HAL_DMA2D_Init(&hdma2d);
+  if(HAL_DMA2D_Init(&hdma2d) == HAL_OK){ 
   if(PLC_DMA2D_Status.Ready != 0){ 
     PLC_DMA2D_Status.Ready = 0;
    if(HAL_DMA2D_Start_IT(&hdma2d, 
@@ -53,12 +53,12 @@ u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
                         ProjectionLayerAddress[LayerOfView] + 4 * ((u32)y1 * DisplayWIDTH + (u32)x1),  /* DMA2D output buffer */
                         1 , /* width of buffer in pixels */
                         y2-y1+1) /* height of buffer in lines */ 
-     != HAL_OK)
-  {
-    M_pull()(); 
-  } 
- }
- 
+     == HAL_OK)
+   {
+    while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
+   } 
+   }
+  }
  }
  else
    {
@@ -84,19 +84,21 @@ void _HW_Fill_Finite_Color(u32 StartAddress, u32 color){
   hdma2d.XferCpltCallback = Transfer_DMA2D_Completed;
   HAL_DMA2D_Init(&hdma2d);
   
- if(PLC_DMA2D_Status.Ready != 0){
-  PLC_DMA2D_Status.Ready = 0;
- if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
-  if(HAL_DMA2D_Start_IT(&hdma2d, 
+
+  if(HAL_DMA2D_Init(&hdma2d) == HAL_OK){  
+   if(PLC_DMA2D_Status.Ready != 0){
+   PLC_DMA2D_Status.Ready = 0;
+   if(HAL_DMA2D_Start_IT(&hdma2d, 
                         color, /* Color value in Register to Memory DMA2D mode */
                         StartAddress,  /* DMA2D output buffer */
                         DisplayWIDTH, /* width of buffer in pixels */
                         DisplayHEIGHT) /* height of buffer in lines */ 
-     != HAL_OK)
+     == HAL_OK)
     {
-    M_pull()(); 
+      while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
      }  
-    }
+  }
+  }
 }  
 
 void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress){
@@ -105,20 +107,21 @@ void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress){
  hdma2d.Init.ColorMode          = DMA2D_ARGB8888;
  hdma2d.Init.OutputOffset       = 0;
  hdma2d.XferCpltCallback = Transfer_DMA2D_Completed;
-  if(PLC_DMA2D_Status.Ready != 0){
-  PLC_DMA2D_Status.Ready = 0;
- if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
-  if(HAL_DMA2D_Start_IT(&hdma2d, 
+
+  if(HAL_DMA2D_Init(&hdma2d) == HAL_OK){  
+   if(PLC_DMA2D_Status.Ready != 0){
+   PLC_DMA2D_Status.Ready = 0;
+   if(HAL_DMA2D_Start_IT(&hdma2d, 
                         SourceAddress, /* Color value in Register to Memory DMA2D mode */
                         DstAddress,  /* DMA2D output buffer */
                         DisplayWIDTH, /* width of buffer in pixels */
                         DisplayHEIGHT) /* height of buffer in lines */ 
-     != HAL_OK)
+     == HAL_OK)
     {
-    M_pull()(); 
+     while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
      }  
     }
- 
+  }
 }
 
 void _HW_Fill_Region(u32 DstAddress, uint32_t xSize, uint32_t ySize, uint32_t OffLine, u32 color) 
@@ -131,25 +134,23 @@ void _HW_Fill_Region(u32 DstAddress, uint32_t xSize, uint32_t ySize, uint32_t Of
    
   /* DMA2D Initialization */
 
- if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
+   if(HAL_DMA2D_Init(&hdma2d) == HAL_OK){ 
   if(PLC_DMA2D_Status.Ready != 0){
   PLC_DMA2D_Status.Ready = 0;
       if (HAL_DMA2D_Start_IT(&hdma2d, color, DstAddress, xSize, ySize) == HAL_OK)
       {
     
-    M_pull()(); 
+    while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
        
    }
   }
+ }
 }
 
 void _HW_Fill_Image(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t ySize) 
 {
   /* Register to memory mode with ARGB8888 as color Mode */ 
   
-while((DMA2D->CR & DMA2D_CR_START)) 
-                         RoutineMedium();  
-
    hdma2d.Init.Mode         = DMA2D_M2M;
    hdma2d.Init.ColorMode    = DMA2D_ARGB8888;
    hdma2d.Init.OutputOffset = DisplayWIDTH - xSize;      
@@ -162,16 +163,12 @@ while((DMA2D->CR & DMA2D_CR_START))
   PLC_DMA2D_Status.Ready = 0;
       if (HAL_DMA2D_Start_IT(&hdma2d, SrcAddress, DstAddress, xSize, ySize) == HAL_OK)
       {
-   while((DMA2D->CR) & DMA2D_CR_START) 
-                         RoutineMedium(); 
+    while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
    }
   }
 }
 
 void _HW_Fill_ImageToRAM(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t  ySize){
- while((DMA2D->CR & DMA2D_CR_START)) 
-                         RoutineMedium();  
-
    hdma2d.Init.Mode             = DMA2D_M2M;
    hdma2d.Init.ColorMode        = DMA2D_ARGB8888;
    hdma2d.Init.OutputOffset     = 0;      
@@ -182,8 +179,7 @@ void _HW_Fill_ImageToRAM(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_
   PLC_DMA2D_Status.Ready = 0;
       if (HAL_DMA2D_Start_IT(&hdma2d, SrcAddress, DstAddress, xSize, ySize) == HAL_OK)
       {
-   while((DMA2D->CR) & DMA2D_CR_START) 
-                         RoutineMedium(); 
+   while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
    }
   }
 
@@ -286,11 +282,11 @@ if (res == FR_OK){
 void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
   
   PLC_DMA2D_Status.Ready = 1;
-//  RCC->PLLSAICFGR = 0x44003FC0;
+  RCC->PLLSAICFGR = 0x44003FC0;
 }
 
 void TwoDigitsToChars(u8 * Src){
-  *Src++ += 0x30; 
-  *Src = 0x30;
+  Src[0] += 0x30; 
+  Src[1] += 0x30;
   return;
 }

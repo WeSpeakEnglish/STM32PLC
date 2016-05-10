@@ -10,8 +10,8 @@ GUI_Object* Image1;
 GUI_Object* Text1;
 GUI_Object* Text2; 
 GUI_Object* Text3;
-u8 StrDate[]="25.04.2016";
-u8 StrTime[]="20:00";
+u8 StrDate[11]="25.04.2016";
+u8 StrTime[9]="20:00:00";
 date_time_t DataTime;
 
 

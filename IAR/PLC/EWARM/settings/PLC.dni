@@ -14,7 +14,7 @@ stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=533191908
+Checksum=916354008
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -110,20 +110,21 @@ SumEnabled=0
 ShowTimeSum=1
 SumSortOrder=0
 [InterruptLog]
-LogEnabled=0
+LogEnabled=1
 GraphEnabled=0
 ShowTimeLog=1
 SumEnabled=0
 ShowTimeSum=1
 SumSortOrder=0
 [Disassemble mode]
-mode=0
+mode=1
 [Breakpoints2]
 Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\spi.c}.64.3" 0 0 1 "" 0 "" 0
-Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.348.7" 0 0 1 "" 0 "" 0
-Bp2=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.324.7" 0 0 1 "" 0 "" 0
-Bp3=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.372.7" 0 0 1 "" 0 "" 0
-Count=4
+Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.348.7" 0 0 1 "" 0 "" 0
+Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.324.7" 0 0 1 "" 0 "" 0
+Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.372.7" 0 0 1 "" 0 "" 0
+Bp4=_ 1 "EMUL_DATA" "0x20000350" 2 1 1 1 4294967295
+Count=5
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""

@@ -396,14 +396,14 @@ void GetDateToStr(u8 * StrDstDate, date_time_t * dt){ // getting date
 }
 
 void GetTimeToStr(u8 * StrDstTime, date_time_t * dt){ // getting date
-  *StrDstTime++ = dt->hours/10 + 0x30;
-  *StrDstTime++ = dt->hours%10 + 0x30;
-  *StrDstTime++ = ':';
-  *StrDstTime++ = dt->minutes/10 + 0x30;
-  *StrDstTime++ = dt->minutes%10 + 0x30;
-  *StrDstTime++ = ':';
-  *StrDstTime++ = dt->seconds/10 + 0x30;
-  *StrDstTime++ = dt->seconds%10 + 0x30;
-  *StrDstTime ='\0';
+  StrDstTime[0] = dt->hours/10 + 0x30;
+  StrDstTime[1] = dt->hours%10 + 0x30;
+  StrDstTime[2] = ':';
+  StrDstTime[3] = dt->minutes/10 + 0x30;
+  StrDstTime[4] = dt->minutes%10 + 0x30;
+  StrDstTime[5] = ':';
+  StrDstTime[6] = dt->seconds/10 + 0x30;
+  StrDstTime[7] = dt->seconds%10 + 0x30;
+  StrDstTime[8] ='\0';
 }
 
