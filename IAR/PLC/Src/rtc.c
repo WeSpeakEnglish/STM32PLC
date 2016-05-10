@@ -382,17 +382,17 @@ PCF8563_write_byte(PCF8563_CTRL_STATUS_REG2, mode);
 } 
 
 void GetDateToStr(u8 * StrDstDate, date_time_t * dt){ // getting date
-  *StrDstDate++ = dt->day/10 + 0x30;
-  *StrDstDate++ = dt->day%10 + 0x30;
-  *StrDstDate++ = '.';
-  *StrDstDate++ = dt->month/10 + 0x30;
-  *StrDstDate++ = dt->month%10 + 0x30;
-  *StrDstDate++ = '.';
-  *StrDstDate++ = '2';
-  *StrDstDate++ = '0';
-  *StrDstDate++ = dt->year/10 + 0x30;
-  *StrDstDate++ = dt->year%10 + 0x30;
-  *StrDstDate ='\0';
+  StrDstDate[0] = dt->day/10 + 0x30;
+  StrDstDate[1] = dt->day%10 + 0x30;
+  StrDstDate[2] = '.';
+  StrDstDate[3] = dt->month/10 + 0x30;
+  StrDstDate[4] = dt->month%10 + 0x30;
+  StrDstDate[5] = '.';
+  StrDstDate[6] = '2';
+  StrDstDate[7] = '0';
+  StrDstDate[8] = dt->year/10 + 0x30;
+  StrDstDate[9] = dt->year%10 + 0x30;
+  StrDstDate[10] ='\0';
 }
 
 void GetTimeToStr(u8 * StrDstTime, date_time_t * dt){ // getting date

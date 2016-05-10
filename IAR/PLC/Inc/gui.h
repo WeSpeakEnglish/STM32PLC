@@ -17,6 +17,8 @@
 #define         IMAGE_FAST_FILL              9
 #define         FILLED_TRIANGLE              10
 #define         TEXT_STRING                  11
+#define         FILLED_POLY                  12
+#define         POLY_TYPE                    13
 ////////////////////////
 
 #include "variables.h"

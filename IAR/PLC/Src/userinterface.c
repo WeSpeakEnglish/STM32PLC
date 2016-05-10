@@ -10,12 +10,15 @@ GUI_Object* Image1;
 GUI_Object* Text1;
 GUI_Object* Text2; 
 GUI_Object* Text3;
+GUI_Object* Poly1;
 u8 StrDate[11]="25.04.2016";
 u8 StrTime[9]="20:00:00";
 date_time_t DataTime;
 
 
+
 void Load_GUI_1(void){
+  static Point Poly1_points[4]={{250,250},{260,130},{270,250},{260,240}};
 
   GUI_Free();
 
@@ -37,6 +40,8 @@ void Load_GUI_1(void){
   Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 40, 10, StrTime, LEFT_MODE, 1);   // with 1 pix kerning and center
 //  LCD_SetBackColor(0x00FFFFFF);
   Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 700, 10, StrDate, LEFT_MODE, 1);   // with 1 pix kerning
+  
+  Poly1 = GUI_SetObject(FILLED_POLY,0xFFFF0000, 1, 2, (u32)Poly1_points, 4);
  // Image2 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 2, 5, SDRAM_BANK_ADDR + IMAGE_2_OFFSET, 0, 0, 800, 480);
 }
 

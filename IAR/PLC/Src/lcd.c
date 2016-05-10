@@ -6,125 +6,39 @@
 #include "core.h"
 #include "variables.h"
 #include "../../../Utilities/Fonts/GOST_B_23_var.c"
-/** @addtogroup BSP
-  * @{
-  */
 
-/** @addtogroup STM32746G_DISCOVERY
-  * @{
-  */
-    
-/** @addtogroup STM32746G_DISCOVERY_LCD
-  * @{
-  */ 
-
-/** @defgroup STM32746G_DISCOVERY_LCD_Private_TypesDefinitions STM32746G_DISCOVERY_LCD Private Types Definitions
-  * @{
-  */ 
-/**
-  * @}
-  */ 
-
-/** @defgroup STM32746G_DISCOVERY_LCD_Private_Defines STM32746G_DISCOVERY LCD Private Defines
-  * @{
-  */
 #define POLY_X(Z)              ((int32_t)((Points + Z)->X))
 #define POLY_Y(Z)              ((int32_t)((Points + Z)->Y))      
-/**
-  * @}
-  */ 
 
-/** @defgroup STM32746G_DISCOVERY_LCD_Private_Macros STM32746G_DISCOVERY_LCD Private Macros
-  * @{
-  */
 #define ABS(X)  ((X) > 0 ? (X) : -(X))      
-/**
-  * @}
-  */ 
     
-/** @defgroup STM32746G_DISCOVERY_LCD_Private_Variables STM32746G_DISCOVERY_LCD Private Variables
-  * @{
-  */ 
-
 /* Default LCD configuration with LCD Layer 1 */
 static uint32_t            ActiveLayer = 0;
 static LCD_DrawPropTypeDef DrawProp[MAX_LAYER_NUMBER];
 static uint32_t LayerIndex = 0;
-/**
-  * @}
-  */ 
-
-/** @defgroup STM32746G_DISCOVERY_LCD_Private_FunctionPrototypes STM32746G_DISCOVERY_LCD Private Function Prototypes
-  * @{
-  */ 
 static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint8_t SignWide);
-
 static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint32_t ySize, uint32_t OffLine, uint32_t ColorIndex);
-//static void LL_ConvertLineToARGB8888(void * pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
-
-
-
-
-/**
-  * @}
-  */ 
-
-/** @defgroup STM32746G_DISCOVERY_LCD_Exported_Functions STM32746G_DISCOVERY_LCD Exported Functions
-  * @{
-  */
-
-/**
-  * @brief  Initializes the LCD.
-  * @retval LCD state
-  */
-
-
-/**
-  * @brief  DeInitializes the LCD.
-  * @retval LCD state
-  */
-
 
 uint32_t LCD_GetXSize(void)
 {
   return hltdc.LayerCfg[ActiveLayer].ImageWidth;
 }
 
-/**
-  * @brief  Gets the LCD Y size.
-  * @retval Used LCD Y size
-  */
 uint32_t LCD_GetYSize(void)
 {
   return hltdc.LayerCfg[ActiveLayer].ImageHeight;
 }
 
-/**
-  * @brief  Set the LCD X size.
-  * @param  imageWidthPixels : image width in pixels unit
-  * @retval None
-  */
 void LCD_SetXSize(uint32_t imageWidthPixels)
 {
   hltdc.LayerCfg[ActiveLayer].ImageWidth = imageWidthPixels;
 }
 
-/**
-  * @brief  Set the LCD Y size.
-  * @param  imageHeightPixels : image height in lines unit
-  * @retval None
-  */
 void LCD_SetYSize(uint32_t imageHeightPixels)
 {
   hltdc.LayerCfg[ActiveLayer].ImageHeight = imageHeightPixels;
 }
 
-/**
-  * @brief  Initializes the LCD layer in ARGB8888 format (32 bits per pixel).
-  * @param  LayerIndex: Layer foreground or background
-  * @param  FB_Address: Layer frame buffer
-  * @retval None
-  */
 void LCD_LayerDefaultInit(uint16_t LayerIndex, uint32_t FB_Address)
 {     
   LCD_LayerCfgTypeDef  layer_cfg;
@@ -153,12 +67,6 @@ void LCD_LayerDefaultInit(uint16_t LayerIndex, uint32_t FB_Address)
   DrawProp[LayerIndex].TextColor = LCD_COLOR_BLACK; 
 }
 
-/**
-  * @brief  Initializes the LCD layer in RGB565 format (16 bits per pixel).
-  * @param  LayerIndex: Layer foreground or background
-  * @param  FB_Address: Layer frame buffer
-  * @retval None
-  */
 void LCD_LayerRgb565Init(uint16_t LayerIndex, uint32_t FB_Address)
 {     
   LCD_LayerCfgTypeDef  layer_cfg;
@@ -187,25 +95,11 @@ void LCD_LayerRgb565Init(uint16_t LayerIndex, uint32_t FB_Address)
   DrawProp[LayerIndex].TextColor = LCD_COLOR_BLACK; 
 }
 
-/**
-  * @brief  Selects the LCD Layer.
-  * @param  LayerIndex: Layer foreground or background
-  * @retval None
-  */
 void LCD_SelectLayer(uint32_t LayerIndex)
 {
   ActiveLayer = LayerIndex;
 } 
 
-/**
-  * @brief  Sets an LCD Layer visible
-  * @param  LayerIndex: Visible Layer
-  * @param  State: New state of the specified layer
-  *          This parameter can be one of the following values:
-  *            @arg  ENABLE
-  *            @arg  DISABLE 
-  * @retval None
-  */
 void LCD_SetLayerVisible(uint32_t LayerIndex, FunctionalState State)
 {
   if(State == ENABLE)
@@ -219,38 +113,16 @@ void LCD_SetLayerVisible(uint32_t LayerIndex, FunctionalState State)
   __HAL_LTDC_RELOAD_CONFIG(&hltdc);
 } 
 
-/**
-  * @brief  Configures the transparency.
-  * @param  LayerIndex: Layer foreground or background.
-  * @param  Transparency: Transparency
-  *           This parameter must be a number between Min_Data = 0x00 and Max_Data = 0xFF 
-  * @retval None
-  */
 void LCD_SetTransparency(uint32_t LayerIndex, uint8_t Transparency)
 {    
   HAL_LTDC_SetAlpha(&hltdc, Transparency, LayerIndex);
 }
 
-/**
-  * @brief  Sets an LCD layer frame buffer address.
-  * @param  LayerIndex: Layer foreground or background
-  * @param  Address: New LCD frame buffer value      
-  * @retval None
-  */
 void LCD_SetLayerAddress(uint32_t LayerIndex, uint32_t Address)
 {
   HAL_LTDC_SetAddress(&hltdc, Address, LayerIndex);
 }
 
-/**
-  * @brief  Sets display window.
-  * @param  LayerIndex: Layer index
-  * @param  Xpos: LCD X position
-  * @param  Ypos: LCD Y position
-  * @param  Width: LCD window width
-  * @param  Height: LCD window height  
-  * @retval None
-  */
 void LCD_SetLayerWindow(uint16_t LayerIndex, uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
 {
   /* Reconfigure the layer size */
@@ -260,12 +132,6 @@ void LCD_SetLayerWindow(uint16_t LayerIndex, uint16_t Xpos, uint16_t Ypos, uint1
   HAL_LTDC_SetWindowPosition(&hltdc, Xpos, Ypos, LayerIndex); 
 }
 
-/**
-  * @brief  Configures and sets the color keying.
-  * @param  LayerIndex: Layer foreground or background
-  * @param  RGBValue: Color reference
-  * @retval None
-  */
 void LCD_SetColorKeying(uint32_t LayerIndex, uint32_t RGBValue)
 {  
   /* Configure and Enable the color Keying for LCD Layer */
@@ -273,80 +139,42 @@ void LCD_SetColorKeying(uint32_t LayerIndex, uint32_t RGBValue)
   HAL_LTDC_EnableColorKeying(&hltdc, LayerIndex);
 }
 
-/**
-  * @brief  Disables the color keying.
-  * @param  LayerIndex: Layer foreground or background
-  * @retval None
-  */
 void LCD_ResetColorKeying(uint32_t LayerIndex)
 {   
   /* Disable the color Keying for LCD Layer */
   HAL_LTDC_DisableColorKeying(&hltdc, LayerIndex);
 }
 
-/**
-  * @brief  Sets the LCD text color.
-  * @param  Color: Text color code ARGB(8-8-8-8)
-  * @retval None
-  */
 void LCD_SetTextColor(uint32_t Color)
 {
   DrawProp[ActiveLayer].TextColor = Color;
 }
 
-/**
-  * @brief  Gets the LCD text color.
-  * @retval Used text color.
-  */
 uint32_t LCD_GetTextColor(void)
 {
   return DrawProp[ActiveLayer].TextColor;
 }
 
-/**
-  * @brief  Sets the LCD background color.
-  * @param  Color: Layer background color code ARGB(8-8-8-8)
-  * @retval None
-  */
 void LCD_SetBackColor(uint32_t Color)
 {
   DrawProp[ActiveLayer].BackColor = Color;
 }
 
-/**
-  * @brief  Gets the LCD background color.
-  * @retval Used background colour
-  */
 uint32_t LCD_GetBackColor(void)
 {
   return DrawProp[ActiveLayer].BackColor;
 }
 
-/**
-  * @brief  Sets the LCD text font.
-  * @param  fonts: Layer font to be used
-  * @retval None
-  */
 void LCD_SetFont(sFONT *fonts)
 {
   DrawProp[ActiveLayer].pFont = fonts;
 }
 
-/**
-  * @brief  Gets the LCD text font.
-  * @retval Used layer font
-  */
 sFONT *LCD_GetFont(void)
 {
   return DrawProp[ActiveLayer].pFont;
 }
 
-/**
-  * @brief  Reads an LCD pixel.
-  * @param  Xpos: X position 
-  * @param  Ypos: Y position 
-  * @retval RGB pixel color
-  */
 uint32_t LCD_ReadPixel(uint16_t Xpos, uint16_t Ypos)
 {
   uint32_t ret = 0;
@@ -377,22 +205,12 @@ uint32_t LCD_ReadPixel(uint16_t Xpos, uint16_t Ypos)
   return ret;
 }
 
-/**
-  * @brief  Clears the hole LCD.
-  * @param  Color: Color of the background
-  * @retval None
-  */
 void LCD_Clear(uint32_t Color)
 { 
   /* Clear the LCD */ 
   LL_FillBuffer(ActiveLayer, (uint32_t *)(hltdc.LayerCfg[ActiveLayer].FBStartAdress), LCD_GetXSize(), LCD_GetYSize(), 0, Color);
 }
 
-/**
-  * @brief  Clears the selected line.
-  * @param  Line: Line to be cleared
-  * @retval None
-  */
 void LCD_ClearStringLine(uint32_t Line)
 {
   uint32_t color_backup = DrawProp[ActiveLayer].TextColor;
@@ -405,31 +223,11 @@ void LCD_ClearStringLine(uint32_t Line)
   LCD_SetTextColor(DrawProp[ActiveLayer].TextColor);  
 }
 
-/**
-  * @brief  Displays one character.
-  * @param  Xpos: Start column address
-  * @param  Ypos: Line where to display the character shape.
-  * @param  Ascii: Character ascii code
-  *           This parameter must be a number between Min_Data = 0x20 and Max_Data = 0x7E 
-  * @retval None
-  */
 void LCD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii)
 {
   DrawChar(Xpos, Ypos, &DrawProp[ActiveLayer].pFont->table[DrawProp[ActiveLayer].pFont->tableInfo[(Ascii-' ')].Offset],DrawProp[ActiveLayer].pFont->tableInfo[(Ascii-' ')].Wide);
 }
 
-/**
-  * @brief  Displays characters on the LCD.
-  * @param  Xpos: X position (in pixel)
-  * @param  Ypos: Y position (in pixel)   
-  * @param  Text: Pointer to string to display on LCD
-  * @param  Mode: Display mode
-  *          This parameter can be one of the following values:
-  *            @arg  CENTER_MODE
-  *            @arg  RIGHT_MODE
-  *            @arg  LEFT_MODE   
-  * @retval None
-  */
 void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode, u8 Kerning )
 {
   uint16_t ref_column = 1, i = 0;
@@ -489,24 +287,11 @@ void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_Align
   }  
 }
 
-/**
-  * @brief  Displays a maximum of 60 characters on the LCD.
-  * @param  Line: Line where to display the character shape
-  * @param  ptr: Pointer to string to display on LCD
-  * @retval None
-  */
 void LCD_DisplayStringAtLine(uint16_t Line, uint8_t *ptr, u8 kerning)
 {  
   LCD_DisplayStringAt(0, LINE(Line), ptr, LEFT_MODE, kerning);
 }
 
-/**
-  * @brief  Draws an horizontal line.
-  * @param  Xpos: X position
-  * @param  Ypos: Y position
-  * @param  Length: Line length
-  * @retval None
-  */
 void LCD_DrawHLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
 {
   uint32_t  Xaddress = 0;
@@ -525,13 +310,6 @@ void LCD_DrawHLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
   LL_FillBuffer(ActiveLayer, (uint32_t *)Xaddress, Length, 1, 0, DrawProp[ActiveLayer].TextColor);
 }
 
-/**
-  * @brief  Draws a vertical line.
-  * @param  Xpos: X position
-  * @param  Ypos: Y position
-  * @param  Length: Line length
-  * @retval None
-  */
 void LCD_DrawVLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
 {
   uint32_t  Xaddress = 0;
@@ -550,14 +328,6 @@ void LCD_DrawVLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
   LL_FillBuffer(ActiveLayer, (uint32_t *)Xaddress, 1, Length, (LCD_GetXSize() - 1), DrawProp[ActiveLayer].TextColor);
 }
 
-/**
-  * @brief  Draws an uni-line (between two points).
-  * @param  x1: Point 1 X position
-  * @param  y1: Point 1 Y position
-  * @param  x2: Point 2 X position
-  * @param  y2: Point 2 Y position
-  * @retval None
-  */
 void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 {
   int16_t deltax = 0, deltay = 0, x = 0, y = 0, xinc1 = 0, xinc2 = 0, 
@@ -627,14 +397,6 @@ void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
   }
 }
 
-/**
-  * @brief  Draws a rectangle.
-  * @param  Xpos: X position
-  * @param  Ypos: Y position
-  * @param  Width: Rectangle width  
-  * @param  Height: Rectangle height
-  * @retval None
-  */
 void LCD_DrawRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
 {
   /* Draw horizontal lines */
@@ -646,13 +408,6 @@ void LCD_DrawRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
   LCD_DrawVLine((Xpos + Width), Ypos, Height);
 }
 
-/**
-  * @brief  Draws a circle.
-  * @param  Xpos: X position
-  * @param  Ypos: Y position
-  * @param  Radius: Circle radius
-  * @retval None
-  */
 void LCD_DrawCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
 {
   int32_t   decision;    /* Decision Variable */ 
@@ -666,19 +421,12 @@ void LCD_DrawCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
   while (current_x <= current_y)
   {
     Fast_LCD_DrawPixel((Xpos + current_x), (Ypos - current_y), DrawProp[ActiveLayer].TextColor);
-    
     Fast_LCD_DrawPixel((Xpos - current_x), (Ypos - current_y), DrawProp[ActiveLayer].TextColor);
-    
     Fast_LCD_DrawPixel((Xpos + current_y), (Ypos - current_x), DrawProp[ActiveLayer].TextColor);
-    
     Fast_LCD_DrawPixel((Xpos - current_y), (Ypos - current_x), DrawProp[ActiveLayer].TextColor);
-    
     Fast_LCD_DrawPixel((Xpos + current_x), (Ypos + current_y), DrawProp[ActiveLayer].TextColor);
-    
     Fast_LCD_DrawPixel((Xpos - current_x), (Ypos + current_y), DrawProp[ActiveLayer].TextColor);
-    
     Fast_LCD_DrawPixel((Xpos + current_y), (Ypos + current_x), DrawProp[ActiveLayer].TextColor);
-    
     Fast_LCD_DrawPixel((Xpos - current_y), (Ypos + current_x), DrawProp[ActiveLayer].TextColor);
     
     if (decision < 0)

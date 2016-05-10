@@ -14,7 +14,7 @@ stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=916354008
+Checksum=963511961
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -123,7 +123,7 @@ Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\spi.c}.64.3" 0 0 1 "" 0 "" 0
 Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.348.7" 0 0 1 "" 0 "" 0
 Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.324.7" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.372.7" 0 0 1 "" 0 "" 0
-Bp4=_ 1 "EMUL_DATA" "0x20000350" 2 1 1 1 4294967295
+Bp4=_ 0 "EMUL_DATA" "0x20000350" 2 1 1 1 4294967295
 Count=5
 [Log file]
 LoggingEnabled=_ 0

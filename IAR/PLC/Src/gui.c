@@ -97,6 +97,12 @@ void GUI_Release(){  // create GUI
           case FILLED_TRIANGLE:   
              LCD_FillTriangle(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2], GUI_Objects[i].params[3], GUI_Objects[i].params[4], GUI_Objects[i].params[5]);
                    break;
+          case FILLED_POLY: 
+             LCD_FillPolygon((pPoint)GUI_Objects[i].params[0], (uint16_t)GUI_Objects[i].params[1]);
+                   break;
+          case POLY_TYPE: 
+             LCD_DrawPolygon((pPoint)GUI_Objects[i].params[0], (uint16_t)GUI_Objects[i].params[1]);
+                   break;         
         }
       } 
     }
