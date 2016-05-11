@@ -1178,6 +1178,9 @@
         <name>$PROJ_DIR$\..\Src\bsp_driver_sdram.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\calculations.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\can.c</name>
       </file>
       <file>

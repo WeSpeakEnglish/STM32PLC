@@ -180,6 +180,7 @@ typedef enum
   #include "stm32f7xx_hal_conf.h"
 #endif /* USE_HAL_DRIVER */
 
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

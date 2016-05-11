@@ -136,7 +136,7 @@
         </option>
         <option>
           <name>OGUseCmsisDspLib</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GRuntimeLibThreads</name>
@@ -186,7 +186,10 @@
         <option>
           <name>CCDefines</name>
           <state>USE_HAL_DRIVER</state>
+          <state>__FPU_PRESENT</state>
+          <state>ARM_MATH_CM7</state>
           <state>STM32F746xx</state>
+          <state>ARM_MATH_ROUNDING</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -988,6 +991,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\bsp_driver_sdram.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\calculations.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\can.c</name>

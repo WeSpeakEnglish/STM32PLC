@@ -4,8 +4,9 @@
 #include "stmpe811.h"
 #include "image888.h"
 #include "rtc.h"
+#include "calculations.h"
 
-GUI_Object* Circle1 =0x00000000;
+GUI_Object* Circles[4];
 GUI_Object* Image1; 
 GUI_Object* Text1;
 GUI_Object* Text2; 
@@ -18,7 +19,10 @@ date_time_t DataTime;
 
 
 void Load_GUI_1(void){
-  static Point Poly1_points[4]={{250,250},{260,130},{270,250},{260,240}};
+ 
+static Point Poly1_points[4]={{250,250},{260,130},{270,250},{260,240}};
+static Point CircleCenterTest = {260,250};
+
 
   GUI_Free();
 
@@ -42,16 +46,23 @@ void Load_GUI_1(void){
   Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 700, 10, StrDate, LEFT_MODE, 1);   // with 1 pix kerning
   
   Poly1 = GUI_SetObject(FILLED_POLY,0xFFFF0000, 1, 2, (u32)Poly1_points, 4);
+  Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, CircleCenterTest.X, CircleCenterTest.Y, 2);
+
+//   GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF00, 1, 3, CircleCenterTestMove.X, CircleCenterTestMove.Y, 2);
+
+//  for(i = 0; i < 360; i+=20){
+    //CircleCenterTestMove = RotatePoint(CircleCenterTestMove2, CircleCenterTest, (float32_t)i);
+   // GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF00+i, 1, 3, CircleCenterTestMove.X, CircleCenterTestMove.Y, 2);
+
+//  }
+
  // Image2 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 2, 5, SDRAM_BANK_ADDR + IMAGE_2_OFFSET, 0, 0, 800, 480);
 }
 
 void Run_GUI_1(void){
-
-  u8 buff[12];
+  static Point CircleCenterTest = {260,250};
   date_time_t dt;
   PCF8563_read_datetime(&dt);
- // buff[0] = dt. 
-  TwoDigitsToChars(buff);
   PCF8563_read_datetime(&DataTime);
   GetDateToStr(StrDate, &dt);
   GetTimeToStr(StrTime, &dt);
@@ -59,6 +70,11 @@ void Run_GUI_1(void){
  //  Circle1->params[1] = 300;
  //  Circle1->params[2] = iLoad-5;
 
+ RotatePoly((pPoint)(Poly1->params[0]), &CircleCenterTest, (uint16_t)(Poly1->params[1]), 6.f);
+ // for(i = 0; i < 4; i++){
+ //  Poly1_points[1] = RotatePoint(Poly1_points[1], CircleCenterTest, 0.01f);
+//   Circles[i] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, Poly1_points[i].X, Poly1_points[i].Y, 2);
+ 
 }
 
 void Load_GUI_2(void){

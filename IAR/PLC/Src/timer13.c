@@ -9,7 +9,7 @@
 // 
 void Timer13_Init(void){
 
-TIM13->PSC = 100;
+TIM13->PSC = 200;
 TIM13->ARR = 1759; //one second
 TIM13->DIER |= TIM_DIER_UIE; //разрешаем прерывание от таймера
 TIM13->CR1 |= TIM_CR1_CEN; // Начать отсчёт!

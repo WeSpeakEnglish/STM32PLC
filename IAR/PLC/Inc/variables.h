@@ -12,8 +12,6 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef signed long s32;
 
-extern u16 SineTable256[256];
-
 #ifdef __cplusplus
 }
 #endif
