@@ -22,10 +22,10 @@ u8 StrTime[9]="20:00:00";
 
 void Load_GUI_1(void){
  
-static Point Poly1_points[4]={{250,250},{260,130},{270,250},{260,240}};
-static Point Poly2_points[4]={{240,270},{260,150},{280,270},{260,260}};
-static Point Poly3_points[4]={{240,270},{260,170},{280,270},{260,260}};
-static Point CircleCenterTest = {260,290};
+static Point Poly1_points[4]={{350,150},{360,30},{370,150},{360,140}};
+static Point Poly2_points[4]={{340,170},{360,50},{380,170},{360,160}};
+static Point Poly3_points[4]={{340,170},{360,70},{380,170},{360,160}};
+static Point CircleCenterTest = {360,190};
 
 
   GUI_Free();
