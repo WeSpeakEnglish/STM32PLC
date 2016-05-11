@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include "core.h"
 #include "ltdc.h"
+#include "calculations.h"
 
 static GUI_Object GUI_Objects[MAX_OBJECTS_Q];
 
@@ -102,7 +103,13 @@ void GUI_Release(){  // create GUI
                    break;
           case POLY_TYPE: 
              LCD_DrawPolygon((pPoint)GUI_Objects[i].params[0], (uint16_t)GUI_Objects[i].params[1]);
-                   break;         
+                   break;  
+           case ROTATING_FILLED_POLY_TYPE: 
+             StorePoly((pPoint)(GUI_Objects[i].params[0]),(uint16_t)(GUI_Objects[i].params[1])); 
+             RotatePoly((pPoint)(GUI_Objects[i].params[0]),  (uint16_t)(GUI_Objects[i].params[1]),(pPoint)GUI_Objects[i].params[2], GUI_Objects[i].params[3]);
+             LCD_FillPolygon((pPoint)GUI_Objects[i].params[0], (uint16_t)GUI_Objects[i].params[1]); 
+             RestorePoly((pPoint)(GUI_Objects[i].params[0]),(uint16_t)(GUI_Objects[i].params[1]));
+              break;
         }
       } 
     }

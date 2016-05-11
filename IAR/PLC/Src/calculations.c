@@ -42,6 +42,9 @@ typedef union {
         uint16_t Word;
         } SinData;
 
+static Point StoreArrayOfPoly[MAX_POLY_POINTS];
+static uint8_t RotatedF = 0;
+
 int32_t FastSin(uint16_t x ){
   SinData xData;  
   xData.Word = x;
@@ -68,7 +71,7 @@ int32_t FastCos(uint16_t x){
  return 0;
 }
 
-Point RotatePoint(Point Coord, Point Coord0, float32_t angle){ //angle max is 2pi rad es 360 degrees
+Point RotatePoint(Point Coord, Point Coord0, float32_t angle){ //angle max is 2pi rad 
 static float32_t cosV;
 static float32_t sinV;
 static float32_t Xo;
@@ -77,7 +80,7 @@ static float32_t X;
 static float32_t Y;
 
 
-  angle*= 0.017453292f;
+ // angle*= 0.017453292f;
   cosV = arm_cos_f32(angle);
   sinV = arm_sin_f32(angle);
   
@@ -92,17 +95,32 @@ static float32_t Y;
 return Coord;
 }
 
-void RotatePoly(Point* pToPoints, const pPoint Origin, uint8_t NumbOfPoints, float32_t angle_deg){
+void RotatePoly(Point* pToPoints, uint8_t NumbOfPoints, const pPoint Origin, uint32_t angle_deg){
   int i;
-  Point NewPoint;
-  Point Center={0,0}; 
+  float32_t angle = 1.7453292e-5 * (float32_t)angle_deg;  
   for(i = 0; i < NumbOfPoints; i++){
-  // NewPoint.X = pToPoints[i].X - (Origin->X);
- //  NewPoint.Y = pToPoints[i].Y - (Origin->Y);
-   NewPoint = RotatePoint(pToPoints[i], *Origin, angle_deg);
- //  NewPoint.X += Origin->X;
- //  NewPoint.Y += Origin->Y;
-   pToPoints[i] = NewPoint;
+   pToPoints[i] = RotatePoint(pToPoints[i], *Origin, angle);
+  }
+  RotatedF = 1;
+}
+void StorePoly(const Point* pToPoints, uint8_t NumbOfPoints) //we can store our poly before rotation 
+{
+  uint8_t i;
+  if(NumbOfPoints < MAX_POLY_POINTS){
+  if(!RotatedF){  
+    for(i = 0; i < NumbOfPoints; i++) StoreArrayOfPoly[i] = pToPoints[i];
+    RotatedF = 1;
+   }
   }
 }
 
+void RestorePoly(Point* pToPoints, uint8_t NumbOfPoints) //and restore it after to iliminate degradation 
+{
+  uint8_t i;
+   if(NumbOfPoints < MAX_POLY_POINTS){
+     if(RotatedF){
+       for(i = 0; i < NumbOfPoints; i++) pToPoints[i] = StoreArrayOfPoly[i];
+       RotatedF = 0;
+     }
+  }
+}

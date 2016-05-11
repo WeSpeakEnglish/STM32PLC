@@ -12,16 +12,20 @@ GUI_Object* Text1;
 GUI_Object* Text2; 
 GUI_Object* Text3;
 GUI_Object* Poly1;
+GUI_Object* Poly2;
+GUI_Object* Poly3;
 u8 StrDate[11]="25.04.2016";
 u8 StrTime[9]="20:00:00";
-date_time_t DataTime;
+
 
 
 
 void Load_GUI_1(void){
  
 static Point Poly1_points[4]={{250,250},{260,130},{270,250},{260,240}};
-static Point CircleCenterTest = {260,250};
+static Point Poly2_points[4]={{240,270},{260,150},{280,270},{260,260}};
+static Point Poly3_points[4]={{240,270},{260,170},{280,270},{260,260}};
+static Point CircleCenterTest = {260,290};
 
 
   GUI_Free();
@@ -45,7 +49,9 @@ static Point CircleCenterTest = {260,250};
 //  LCD_SetBackColor(0x00FFFFFF);
   Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 700, 10, StrDate, LEFT_MODE, 1);   // with 1 pix kerning
   
-  Poly1 = GUI_SetObject(FILLED_POLY,0xFFFF0000, 1, 2, (u32)Poly1_points, 4);
+  Poly1 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFFFF0000, 5, 4, (u32)Poly1_points, 4, (u32)&CircleCenterTest, 0);
+  Poly2 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFFCCCC00, 4, 4, (u32)Poly2_points, 4, (u32)&CircleCenterTest, 0);
+  Poly3 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFF66CC00, 3, 4, (u32)Poly3_points, 4, (u32)&CircleCenterTest, 0);
   Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, CircleCenterTest.X, CircleCenterTest.Y, 2);
 
 //   GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF00, 1, 3, CircleCenterTestMove.X, CircleCenterTestMove.Y, 2);
@@ -60,17 +66,24 @@ static Point CircleCenterTest = {260,250};
 }
 
 void Run_GUI_1(void){
-  static Point CircleCenterTest = {260,250};
+
   date_time_t dt;
   PCF8563_read_datetime(&dt);
-  PCF8563_read_datetime(&DataTime);
+//  PCF8563_read_datetime(&DataTime);
+  
+
+  
   GetDateToStr(StrDate, &dt);
   GetTimeToStr(StrTime, &dt);
  //  Image1->params[1] = 300-iLoad;
  //  Circle1->params[1] = 300;
- //  Circle1->params[2] = iLoad-5;
-
- RotatePoly((pPoint)(Poly1->params[0]), &CircleCenterTest, (uint16_t)(Poly1->params[1]), 6.f);
+ //  Circle1->params[2] = iLoad-5; 
+//StorePoly((pPoint)(Poly1->params[0]),(uint16_t)(Poly1->params[1])); 
+// RestorePoly((pPoint)(Poly1->params[0]),(uint16_t)(Poly1->params[1]));
+// RotatePoly((pPoint)(Poly1->params[0]), &CircleCenterTest, (uint16_t)(Poly1->params[1]), 6.f*(float)dt.seconds);
+  Poly1->params[3] = dt.seconds * 6000;
+  Poly2->params[3] = dt.minutes * 6000;
+  Poly3->params[3] = dt.hours*30000 + dt.minutes*100;
  // for(i = 0; i < 4; i++){
  //  Poly1_points[1] = RotatePoint(Poly1_points[1], CircleCenterTest, 0.01f);
 //   Circles[i] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, Poly1_points[i].X, Poly1_points[i].Y, 2);

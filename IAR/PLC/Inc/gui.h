@@ -19,6 +19,7 @@
 #define         TEXT_STRING                  11
 #define         FILLED_POLY                  12
 #define         POLY_TYPE                    13
+#define         ROTATING_FILLED_POLY_TYPE    14
 ////////////////////////
 
 #include "variables.h"

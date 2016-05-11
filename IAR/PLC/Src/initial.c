@@ -32,11 +32,11 @@ SDRAM_Initialization_Sequence(&hsdram1);
   
   SDRAM_free();
   
- // res = BSP_SD_Init();
-//  res = disk_initialize(0);
+  res = BSP_SD_Init();
+  res = disk_initialize(0);
   
-//  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-//  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET);
+ LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
+ LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET);
 //  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
 //  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET); 
  // LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
