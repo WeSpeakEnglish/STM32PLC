@@ -20,7 +20,6 @@
 
 
 
-
 typedef enum {
   TOUCH_PRESSED  = 0,   // Did you press it up?
   TOUCH_RELEASED = 1	// Did you get off the screen

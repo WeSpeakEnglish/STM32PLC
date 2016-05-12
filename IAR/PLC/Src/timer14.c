@@ -34,7 +34,7 @@ switch (DealNumber){
   case 0: break;
   case 1: 
    P_Touch_FreeIRQ(); 
-    Timer14_Init_Deal(100,2);
+   Timer14_Init_Deal(100,2);
     
     break;
   case 2: UB_Touch_Read();

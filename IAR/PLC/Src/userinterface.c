@@ -53,7 +53,7 @@ static Point CircleCenterTest = {360,190};
   Poly2 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFFCCCC00, 4, 4, (u32)Poly2_points, 4, (u32)&CircleCenterTest, 0);
   Poly3 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFF66CC00, 3, 4, (u32)Poly3_points, 4, (u32)&CircleCenterTest, 0);
   Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, CircleCenterTest.X, CircleCenterTest.Y, 2);
-
+  Circles[1] = GUI_SetObject(CIRCLE_TYPE, 0xFF00FFFF, 4, 3, CircleCenterTest.X, CircleCenterTest.Y, 160);
 //   GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF00, 1, 3, CircleCenterTestMove.X, CircleCenterTestMove.Y, 2);
 
 //  for(i = 0; i < 360; i+=20){
@@ -105,12 +105,14 @@ void ChangeCircle1(u8 Consistance){
     //   Circle1->z_index = 1;
     //   if (Touch_Data.yp > 150) Touch_Data.yp = 150;
      //  Circle1->params[1] = 300- Touch_Data.yp;
-      Image1->params[0] =SDRAM_BANK_ADDR + IMAGE_2_OFFSET;
+      Circles[0]->params[0] = Touch_Data.xp;
+      Circles[0]->params[1] = Touch_Data.yp;
+    //  Image1->params[0] =SDRAM_BANK_ADDR + IMAGE_2_OFFSET;
       break;
     case TOUCH_RELEASED: 
      //  Circle1->color = 0xFFFFFF99; 
      //  Circle1->z_index = 4;
-      Image1->params[0] =SDRAM_BANK_ADDR + IMAGE_1_OFFSET;
+ //     Image1->params[0] =SDRAM_BANK_ADDR + IMAGE_1_OFFSET;
       break;
   }
 
