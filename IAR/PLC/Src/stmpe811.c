@@ -196,13 +196,19 @@ uint8_t P_Touch_IOAFConfig(uint8_t IO_Pin, FunctionalState NewState)
    HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_GPIO_AF, I2C_MEMADD_SIZE_8BIT, &temp, 1, 200);
    return(0);
 }
+#define DISPLAY_8IN             1U 
+//#define DISPLAY_9IN           1U 
 
 ///CALIBRATING DATA
-#define X_MAGNIFIER8            854
-#define Y_MAGNIFIER8            551//547
+#ifdef DISPLAY_8IN
+#define X_MAGNIFIER            854
+#define Y_MAGNIFIER            547
+#define X_SUB                  145
+#define Y_SUB                  170
+#endif
+
 #define ORIENTATION_DEFAULT     1U 
-#define DISPLAY_8IN             1U 
-#define DISPLAY_9IN             0U 
+
 //--------------------------------------------------------------
 // interne Funktion
 //--------------------------------------------------------------
@@ -212,14 +218,13 @@ static uint16_t P_Touch_Read_X(void)
   if( Touch_Data.status == TOUCH_PRESSED){
   x = P_Touch_Read_16b(IOE_REG_TP_DATA_X);
 
-  if(DISPLAY_8IN){  
-  x -=160;
+  x -=X_SUB;
 
-  x *=  X_MAGNIFIER8;
+  x *=  X_MAGNIFIER;
   x /= 4096;
   
-  x = DisplayWIDTH - x;
-  }
+ if(ORIENTATION_DEFAULT) x = DisplayWIDTH - x;
+
   
   if( x < 0 ) x = 0;
   }
@@ -235,15 +240,13 @@ static uint16_t P_Touch_Read_Y(void)
   int32_t y;
  if( Touch_Data.status == TOUCH_PRESSED){
   y = P_Touch_Read_16b(IOE_REG_TP_DATA_Y);
- if(DISPLAY_8IN){  
-  y -= 204;
-  
-  y *=  Y_MAGNIFIER8;
+ 
+  y -= Y_SUB;
+  y *=  Y_MAGNIFIER;
   y /= 4096;
  
-  if(ORIENTATION_DEFAULT) y = DisplayHEIGHT - y;
- }
- 
+ if(ORIENTATION_DEFAULT) y = DisplayHEIGHT - y;
+  
  if( y < 0 ) y = 0;
  
 }
