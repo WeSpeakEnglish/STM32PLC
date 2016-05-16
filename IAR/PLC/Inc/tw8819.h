@@ -1137,29 +1137,29 @@
 //#define	WriteTW88(a, b)		I2C_BufferWrite(TW8819_ADDRESS, a, b, 1, 0) // I2C_BufferWrite(uint8_t dev,uint16_t addr, uint8_t *buf, uint16_t len,uint8_t mode16)
 //#define WriteTW88Page(a)	HAL_I2C_Master_Transmit(&hi2c2, TW8819_ADDRESS, a, 2, 1000);//I2C_BufferWrite(TW8819_ADDRESS, 0xff, a, 1, 0) uint8_t I2C_BufferWrite(uint8_t dev,uint16_t addr, uint8_t *buf, uint16_t len,uint8_t mode16)
 
-u16 SetYCbCrContrast(u16 val);
-u16 ReadYCbCrContrast(void);
-u16 SetYCbCrBright(u16 val);
-u16 ReadYCbCrBright(void);
-u16 SetYCbCrSaturation(u16 val);
-u16 ReadYCbCrSaturation(void);
-u16 SetYCbCrHUE(u16 val);
-u16 ReadYCbCrHUE(void);
-u16 SetYCbCrSharp(u16 val);
-u16 ReadYCbCrSharp(void);
+uint16_t SetYCbCrContrast(uint16_t val);
+uint16_t ReadYCbCrContrast(void);
+uint16_t SetYCbCrBright(uint16_t val);
+uint16_t ReadYCbCrBright(void);
+uint16_t SetYCbCrSaturation(uint16_t val);
+uint16_t ReadYCbCrSaturation(void);
+uint16_t SetYCbCrHUE(uint16_t val);
+uint16_t ReadYCbCrHUE(void);
+uint16_t SetYCbCrSharp(uint16_t val);
+uint16_t ReadYCbCrSharp(void);
 
 
 ////////////
-u8 ReadTW88(u8 addr, u8* buf ); 
-u8 WriteTW88(u8 addr, u8* buf);
-u8 WriteTW88Page(u8* buf);
+uint8_t ReadTW88(uint8_t addr, uint8_t* buf ); 
+uint8_t WriteTW88(uint8_t addr, uint8_t* buf);
+uint8_t WriteTW88Page(uint8_t* buf);
 //
 
 
 void BD_Init_TW8819();
 void ReadTW8819ID(void);
-void Switch_Camera(u8 cam);
-u8 ChangeCVBS(void);
+void Switch_Camera(uint8_t cam);
+uint8_t ChangeCVBS(void);
 void LCD_Video_GPIO_Deinit(void);
 void LCD_Video_GPIO_Init(void);
 

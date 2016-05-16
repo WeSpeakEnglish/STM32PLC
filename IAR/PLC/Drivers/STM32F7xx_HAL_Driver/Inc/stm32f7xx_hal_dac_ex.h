@@ -71,7 +71,7 @@
 #define DAC_LFSRUNMASK_BITS5_0             ((uint32_t)DAC_CR_MAMP1_2 | DAC_CR_MAMP1_0) /*!< Unmask DAC channel LFSR bit[5:0] for noise wave generation */
 #define DAC_LFSRUNMASK_BITS6_0             ((uint32_t)DAC_CR_MAMP1_2 | DAC_CR_MAMP1_1) /*!< Unmask DAC channel LFSR bit[6:0] for noise wave generation */
 #define DAC_LFSRUNMASK_BITS7_0             ((uint32_t)DAC_CR_MAMP1_2 | DAC_CR_MAMP1_1 | DAC_CR_MAMP1_0) /*!< Unmask DAC channel LFSR bit[7:0] for noise wave generation */
-#define DAC_LFSRUNMASK_BITS8_0             ((uint32_t)DAC_CR_MAMP1_3) /*!< Unmask DAC channel LFSR bit[8:0] for noise wave generation */
+#define DAC_LFSRUNMASK_BITint8_t_0             ((uint32_t)DAC_CR_MAMP1_3) /*!< Unmask DAC channel LFSR bit[8:0] for noise wave generation */
 #define DAC_LFSRUNMASK_BITS9_0             ((uint32_t)DAC_CR_MAMP1_3 | DAC_CR_MAMP1_0) /*!< Unmask DAC channel LFSR bit[9:0] for noise wave generation */
 #define DAC_LFSRUNMASK_BITS10_0            ((uint32_t)DAC_CR_MAMP1_3 | DAC_CR_MAMP1_1) /*!< Unmask DAC channel LFSR bit[10:0] for noise wave generation */
 #define DAC_LFSRUNMASK_BITS11_0            ((uint32_t)DAC_CR_MAMP1_3 | DAC_CR_MAMP1_1 | DAC_CR_MAMP1_0) /*!< Unmask DAC channel LFSR bit[11:0] for noise wave generation */
@@ -143,7 +143,7 @@ void HAL_DACEx_DMAUnderrunCallbackCh2(DAC_HandleTypeDef* hdac);
                                                       ((VALUE) == DAC_LFSRUNMASK_BITS5_0) || \
                                                       ((VALUE) == DAC_LFSRUNMASK_BITS6_0) || \
                                                       ((VALUE) == DAC_LFSRUNMASK_BITS7_0) || \
-                                                      ((VALUE) == DAC_LFSRUNMASK_BITS8_0) || \
+                                                      ((VALUE) == DAC_LFSRUNMASK_BITint8_t_0) || \
                                                       ((VALUE) == DAC_LFSRUNMASK_BITS9_0) || \
                                                       ((VALUE) == DAC_LFSRUNMASK_BITS10_0) || \
                                                       ((VALUE) == DAC_LFSRUNMASK_BITS11_0) || \

@@ -4,7 +4,7 @@
 #include "variables.h"
 #include "fonts.h"
 // Character bitmaps for GOST type B 16pt
-const u8 gOSTtypeB_16ptBitmaps[] = 
+const uint8_t gOSTtypeB_16ptBitmaps[] = 
 {
 	// @0 ' ' (2 pixels wide)
 	0x00, //   

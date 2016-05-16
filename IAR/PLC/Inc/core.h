@@ -16,30 +16,30 @@
    
    
 //here is our variables
-extern volatile s8 Semaphore; // that semaphore for queues and routines control if you need :)
-extern volatile u32 TicksGlobalUS; //US MUST be ticking in timer in the timer interrupt handle, it needs just ++ operation
+extern volatile int8_t Semaphore; // that semaphore for queues and routines control if you need :)
+extern volatile uint32_t TicksGlobalUS; //US MUST be ticking in timer in the timer interrupt handle, it needs just ++ operation
 ///////////////////////  
 void RoutineFast(void);
 void RoutineMedium(void);
 void RoutineSlow(void);
 /////SLOW QUEUE////////////
 void pSlowQueueIni(void);
-s8 S_push(void (*pointerQ)(void));
+int8_t S_push(void (*pointerQ)(void));
 void (*S_pull(void))(void);
 /////MEDIUM QUEUE////////////
 void pMediumQueueIni(void);
-s8 M_push(void (*pointerQ)(void));
+int8_t M_push(void (*pointerQ)(void));
 void (*M_pull(void))(void);
 ////FAST QUEUE//////////////
 void pFastQueueIni(void);
-s8 F_push(void (*pointerQ)(void));
+int8_t F_push(void (*pointerQ)(void));
 void (*F_pull(void))(void);
 ///////////////////////////
 //waiting functions
-void DelayOnFastQ(u8 WaitQFast); // push several tasks from the Fast Queue
-void DelayOnMediumQ(u8 WaitQMedium); // push several tasks from the Medium Queue
-void DelayOnSlowQ(u8 WaitQSlow); // push several tasks from the Slow Queue
-u8 DelayUsOnProcessRoutine(void (*pointerF)(void),u32 TimeDel, u8 Ini); //DO OUR void function(void) while expecting TimeDel microsec or another timer periods
+void DelayOnFastQ(uint8_t WaitQFast); // push several tasks from the Fast Queue
+void DelayOnMediumQ(uint8_t WaitQMedium); // push several tasks from the Medium Queue
+void DelayOnSlowQ(uint8_t WaitQSlow); // push several tasks from the Slow Queue
+uint8_t DelayUsOnProcessRoutine(void (*pointerF)(void),uint32_t TimeDel, uint8_t Ini); //DO OUR void function(void) while expecting TimeDel microsec or another timer periods
 void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram); // 
 void MPU_Config (void);
    

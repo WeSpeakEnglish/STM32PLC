@@ -3,16 +3,16 @@
 // PCF8563.C
 // Command Set:
 // PCF8563_init(void)
-//PCF8563_write_byte(u8 address, u8 data)
-// PCF8563_read_byte(u8 address)
-// bin2bcd(u8 value)
+//PCF8563_write_byte(uint8_t address, uint8_t data)
+// PCF8563_read_byte(uint8_t address)
+// bin2bcd(uint8_t value)
 // bcd2bin(char bcd_value)
 // PCF8563_set_datetime(date_time_t *dt)
 // PCF8563_read_datetime(date_time_t *dt)
-// Set_Alarm(u8 AMode,PCF8563_Alarm *AT)
-// config_CLKOUT(u8 mode)
-// config_PCF8563_Timer(u8 mode)
-// config_PCF8563_Interrupt(u8 mode,ti_tp)
+// Set_Alarm(uint8_t AMode,PCF8563_Alarm *AT)
+// config_CLKOUT(uint8_t mode)
+// config_PCF8563_Timer(uint8_t mode)
+// config_PCF8563_Interrupt(uint8_t mode,ti_tp)
 
 #define PCF8563_WRITE_ADDRESS 0xA2
 #define PCF8563_READ_ADDRESS  0xA2
@@ -84,13 +84,13 @@ char const weekday_names[7][10] =
 // driver, whenever you want to talk to the chip.
 
 
-u8 LV_sec,C_Mon;
+uint8_t LV_sec,C_Mon;
 //#bit LowVoltage = LV_sec.7
 //#bit Century = C_Mon.7
 
 
 //----------------------------------------------
-void PCF8563_write_byte(u8 address, u8 data)
+void PCF8563_write_byte(uint8_t address, uint8_t data)
 {
 //disable_interrupts(GLOBAL);
    HAL_I2C_Mem_Write(&hi2c2, (uint16_t)PCF8563_WRITE_ADDRESS, (uint16_t)address, I2C_MEMADD_SIZE_8BIT, &data, 1, 200);
@@ -103,9 +103,9 @@ void PCF8563_write_byte(u8 address, u8 data)
 }   
 
 //----------------------------------------------
-u8 PCF8563_read_byte(u8 address)
+uint8_t PCF8563_read_byte(uint8_t address)
 {
-u8 retval;
+uint8_t retval;
 //disable_interrupts(GLOBAL);
 //i2c_start();
  HAL_I2C_Mem_Read(&hi2c2,(uint16_t)PCF8563_WRITE_ADDRESS,(uint16_t)address, I2C_MEMADD_SIZE_8BIT,&retval,1,100);
@@ -133,7 +133,7 @@ PCF8563_write_byte(PCF8563_CTRL_STATUS_REG1,PCF8563_START_COUNTING);
 // to an 8 bit BCD value.
 // The input range must be from 0 to 99.
 
-u8 bin2bcd(u8 value)
+uint8_t bin2bcd(uint8_t value)
 {
 char retval;
 
@@ -188,15 +188,15 @@ void PCF8563_set_datetime(date_time_t *dt)
 
 union{  
   struct{
-    u8 bcd_sec;
-    u8 bcd_min;
-    u8 bcd_hrs;
-    u8 bcd_day;
-    u8 wek;   
-    u8 bcd_mon;
-    u8 bcd_yer;
+    uint8_t bcd_sec;
+    uint8_t bcd_min;
+    uint8_t bcd_hrs;
+    uint8_t bcd_day;
+    uint8_t wek;   
+    uint8_t bcd_mon;
+    uint8_t bcd_yer;
   }Fields;
-  u8 arrWeekDays[7];
+  uint8_t arrWeekDays[7];
 }Time;
 // Convert the input date/time into BCD values
 // that are formatted for the PCF8563 registers.
@@ -249,17 +249,17 @@ void PCF8563_read_datetime(date_time_t *dt)
 {
 union{  
   struct{
-    u8 bcd_sec;
-    u8 bcd_min;
-    u8 bcd_hrs;
-    u8 bcd_day;
-    u8 wek;   
-    u8 bcd_mon;
-    u8 bcd_yer;
+    uint8_t bcd_sec;
+    uint8_t bcd_min;
+    uint8_t bcd_hrs;
+    uint8_t bcd_day;
+    uint8_t wek;   
+    uint8_t bcd_mon;
+    uint8_t bcd_yer;
   }Fields;
-  u8 arrWeekDays[7];
+  uint8_t arrWeekDays[7];
 }Time;
-u8 data = 0;
+uint8_t data = 0;
 
 //  LowVoltage = VL_sec.7
 //  Century    = C_Mon.7
@@ -307,7 +307,7 @@ dt->year    = bcd2bin(Time.Fields.bcd_yer);
 
 }
 //----------------------------------------------
-//void Set_Alarm(u8 AMode)
+//void Set_Alarm(uint8_t AMode)
 //{
 //if (AMode == 0x00)
 //   {
@@ -323,12 +323,12 @@ dt->year    = bcd2bin(Time.Fields.bcd_yer);
  //   enable_interrupts(GLOBAL);
 //   }
 //}
-void Set_Alarm(u8 AMode,PCF8563_Alarm *AT)
+void Set_Alarm(uint8_t AMode,PCF8563_Alarm *AT)
 {
-u8 min = 0x80;
-u8 hrs = 0x80;
-u8 day = 0x80;
-u8 wek = 0x80;
+uint8_t min = 0x80;
+uint8_t hrs = 0x80;
+uint8_t day = 0x80;
+uint8_t wek = 0x80;
  
 switch (AMode){
           case 0x01: min = AT->minutes;
@@ -361,27 +361,27 @@ switch (AMode){
 
 //----------------------------------------------
 
-void config_CLKOUT(u8 mode)
+void config_CLKOUT(uint8_t mode)
 {
 PCF8563_write_byte(PCF8563_CTRL_CLKOUT_REG, mode);
 }
 
 //----------------------------------------------
 
-void config_PCF8563_Timer(u8 mode)
+void config_PCF8563_Timer(uint8_t mode)
 {
 PCF8563_write_byte(PCF8563_CTRL_TIMER_REG, mode);
 }
 
 //----------------------------------------------
 
-void config_PCF8563_Interrupt(u8 mode, u8 ti_tp)
+void config_PCF8563_Interrupt(uint8_t mode, uint8_t ti_tp)
 {
 mode = mode | ti_tp;
 PCF8563_write_byte(PCF8563_CTRL_STATUS_REG2, mode);
 } 
 
-void GetDateToStr(u8 * StrDstDate, date_time_t * dt){ // getting date
+void GetDateToStr(uint8_t * StrDstDate, date_time_t * dt){ // getting date
   StrDstDate[0] = dt->day/10 + 0x30;
   StrDstDate[1] = dt->day%10 + 0x30;
   StrDstDate[2] = '.';
@@ -395,7 +395,7 @@ void GetDateToStr(u8 * StrDstDate, date_time_t * dt){ // getting date
   StrDstDate[10] ='\0';
 }
 
-void GetTimeToStr(u8 * StrDstTime, date_time_t * dt){ // getting date
+void GetTimeToStr(uint8_t * StrDstTime, date_time_t * dt){ // getting date
   StrDstTime[0] = dt->hours/10 + 0x30;
   StrDstTime[1] = dt->hours%10 + 0x30;
   StrDstTime[2] = ':';

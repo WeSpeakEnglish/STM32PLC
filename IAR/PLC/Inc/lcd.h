@@ -168,7 +168,7 @@ void     LCD_DrawPolygon(pPoint Points, uint16_t PointCount);
 void     LCD_DrawEllipse(int Xpos, int Ypos, int XRadius, int YRadius);
 void     LCD_DrawBitmap(uint32_t Xpos, uint32_t Ypos, uint8_t *pbmp);
 
-void     LCD_FillRect(u32 x1, u32 y1, u32 x2, u32 y2);
+void     LCD_FillRect(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2);
 void     LCD_FillCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius);
 void     LCD_FillPolygon(pPoint Points, uint16_t PointCount);
 void     LCD_FillEllipse(int Xpos, int Ypos, int XRadius, int YRadius);
@@ -185,7 +185,7 @@ void Fast_LCD_DrawPixel(uint16_t Xpos, uint16_t Ypos, uint32_t ARGB_Code);
 void LCD_SetLight(uint16_t);
 void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2);
 void DrawFastLineHorizontal(uint16_t y1, uint16_t x1, uint16_t x2);
-void LCD_Fill_Image(u32 ImageAddress, u32 x, u32 y, u32 xSize, u32 ySize);
-void FillImageSoft(u32 ImageAddress, u32 address, u32 xSize, u32 ySize);
+void LCD_Fill_Image(uint32_t ImageAddress, uint32_t x, uint32_t y, uint32_t xSize, uint32_t ySize);
+void FillImageSoft(uint32_t ImageAddress, uint32_t address, uint32_t xSize, uint32_t ySize);
 void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
 #endif /* __LCD_H */

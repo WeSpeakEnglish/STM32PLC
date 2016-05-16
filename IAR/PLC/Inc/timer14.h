@@ -6,7 +6,7 @@
 
 
 
-void Timer14_Init_Deal(u16 ShotTime, u8 DealNumber);
+void Timer14_Init_Deal(uint16_t ShotTime, uint8_t DealNumber);
 void TIM14_IRQHandler(void);
 
 

@@ -23,10 +23,10 @@ return;
 }
 
  
-GUI_Object*  GUI_SetObject(u32 typeObj, u32 colorObj, u32 z_Index, u32 NumbOfParms,...){
+GUI_Object*  GUI_SetObject(uint32_t typeObj, uint32_t colorObj, uint32_t z_Index, uint32_t NumbOfParms,...){
  va_list arg_ptr;
  static int i, j;      //indexes
- u8 takedFlag = 0;     // Take
+ uint8_t takedFlag = 0;     // Take
  static GUI_Object NullObj;
  
  va_start(arg_ptr, NumbOfParms);
@@ -48,7 +48,7 @@ GUI_Object*  GUI_SetObject(u32 typeObj, u32 colorObj, u32 z_Index, u32 NumbOfPar
    GUI_Objects[i].z_index = z_Index;
 
    for(j = 0; j < NumbOfParms; j++){
-      GUI_Objects[i].params[j] = va_arg(arg_ptr, u32);
+      GUI_Objects[i].params[j] = va_arg(arg_ptr, uint32_t);
    }
     va_end(arg_ptr);
    return &GUI_Objects[i]; 
@@ -81,7 +81,7 @@ void GUI_Release(){  // create GUI
           case POLYGON_TYPE:
                    break;
           case TEXT_STRING:
-            LCD_DisplayStringAt(GUI_Objects[i].params[0], GUI_Objects[i].params[1], (uint8_t*)GUI_Objects[i].params[2], GUI_Objects[i].params[3], (u8)GUI_Objects[i].params[4]);
+            LCD_DisplayStringAt(GUI_Objects[i].params[0], GUI_Objects[i].params[1], (uint8_t*)GUI_Objects[i].params[2], GUI_Objects[i].params[3], (uint8_t)GUI_Objects[i].params[4]);
                    break; 
           case CIRCLE_TYPE:
             LCD_DrawCircle(GUI_Objects[i].params[0], GUI_Objects[i].params[1], GUI_Objects[i].params[2]);
@@ -117,17 +117,17 @@ void GUI_Release(){  // create GUI
   }  
  }
 
-u8 GUI_Del_Obj(GUI_Object* deleteObj){
+uint8_t GUI_Del_Obj(GUI_Object* deleteObj){
  deleteObj->existance = 0;  // delete existance
 return 0;
 }
 
-u8 GUI_Hide_Obj(GUI_Object* hideObj){
+uint8_t GUI_Hide_Obj(GUI_Object* hideObj){
  hideObj->z_index = -1;//(hideObj->color)&0x00FFFFFF;  // hide object
 return 0;
 }
 
-u8 GUI_SetVisibility_Obj(GUI_Object* Obj, u32 Value){  // the alpha level of Object
+uint8_t GUI_SetVisibility_Obj(GUI_Object* Obj, uint32_t Value){  // the alpha level of Object
  Obj->color = Value;  // hide object
 return 0;
 }

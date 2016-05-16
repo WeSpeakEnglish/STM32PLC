@@ -16,6 +16,6 @@
 
 
 extern const unsigned int image32[];
-//__no_init extern volatile u32 my_array_in_SDRAM[0x04000000>>2];
+//__no_init extern volatile uint32_t my_array_in_SDRAM[0x04000000>>2];
 
 #endif

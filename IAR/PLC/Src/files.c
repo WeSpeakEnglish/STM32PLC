@@ -1,8 +1,8 @@
 #include "files.h"
 #include "ff.h"
 
-void WriteNewTextFileSD(u8 * buff, char const * NameOfFile, u32 NumberOfBytes){
-u8 res; //variable for return values
+void WriteNewTextFileSD(uint8_t * buff, char const * NameOfFile, uint32_t NumberOfBytes){
+uint8_t res; //variable for return values
 FATFS fs; //fat object FATFS
 FIL OurFile; // this is our file here
 

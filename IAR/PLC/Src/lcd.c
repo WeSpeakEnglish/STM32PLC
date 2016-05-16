@@ -228,7 +228,7 @@ void LCD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii)
   DrawChar(Xpos, Ypos, &DrawProp[ActiveLayer].pFont->table[DrawProp[ActiveLayer].pFont->tableInfo[(Ascii-' ')].Offset],DrawProp[ActiveLayer].pFont->tableInfo[(Ascii-' ')].Wide);
 }
 
-void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode, u8 Kerning )
+void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode, uint8_t Kerning )
 {
   uint16_t ref_column = 1, i = 0;
   uint32_t size = 0, xsize = 0; 
@@ -280,14 +280,14 @@ void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_Align
     /* Display one character on LCD */    /* Decrement the column position by 16 */
     
     LCD_DisplayChar(ref_column, Ypos, *Text);
-    ref_column += DrawProp[ActiveLayer].pFont->tableInfo[(*Text-' ')].Wide + (u16)Kerning; // display with kerning
+    ref_column += DrawProp[ActiveLayer].pFont->tableInfo[(*Text-' ')].Wide + (uint16_t)Kerning; // display with kerning
     /* Point on the next character */
     Text++;
     i++;
   }  
 }
 
-void LCD_DisplayStringAtLine(uint16_t Line, uint8_t *ptr, u8 kerning)
+void LCD_DisplayStringAtLine(uint16_t Line, uint8_t *ptr, uint8_t kerning)
 {  
   LCD_DisplayStringAt(0, LINE(Line), ptr, LEFT_MODE, kerning);
 }
@@ -553,7 +553,7 @@ void LCD_DrawPixel(uint16_t Xpos, uint16_t Ypos, uint32_t RGB_Code)
 
 void Fast_LCD_DrawPixel(uint16_t Xpos, uint16_t Ypos, uint32_t ARGB_Code)
 {
-  static u32 addressDraw; 
+  static uint32_t addressDraw; 
   addressDraw = ProjectionLayerAddress[LayerOfView] + 4 * (Ypos * DisplayWIDTH + Xpos);
   if(addressDraw > ProjectionLayerAddress[LayerOfView]  -1)
    if(addressDraw < ProjectionLayerAddress[LayerOfView] + LAYERS_SIZE)
@@ -785,7 +785,7 @@ static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint8_t Sig
   uint32_t line;
   
   height = DrawProp[ActiveLayer].pFont->Height;
-  width  = (u16)SignWide;
+  width  = (uint16_t)SignWide;
   
   offset =  8 *((width + 7)/8) -  width ;
   
@@ -1048,9 +1048,9 @@ void LCD_SetLight(uint16_t Volume){
 }
 
 void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2){
- static u32 temp;
- static u32 color;
- static u32 address;
+ static uint32_t temp;
+ static uint32_t color;
+ static uint32_t address;
  
  address = ProjectionLayerAddress[LayerOfView];
  color = DrawProp[ActiveLayer].TextColor;
@@ -1065,9 +1065,9 @@ void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2){
 }
 
 void DrawFastLineHorizontal(uint16_t y1, uint16_t x1, uint16_t x2){
- static u32 temp;
- static u32 color;
- static u32 address;
+ static uint32_t temp;
+ static uint32_t color;
+ static uint32_t address;
  
  address = ProjectionLayerAddress[LayerOfView];
  color = DrawProp[ActiveLayer].TextColor;
@@ -1082,7 +1082,7 @@ void DrawFastLineHorizontal(uint16_t y1, uint16_t x1, uint16_t x2){
     *(__IO uint32_t*)(address + temp + 4*(x1++)) = color;
 }
 
-void LCD_FillRect(u32 x1, u32 y1, u32 x2, u32 y2){
+void LCD_FillRect(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2){
 
  uint16_t temp;
  if (y1  > y2){
@@ -1096,17 +1096,17 @@ void LCD_FillRect(u32 x1, u32 y1, u32 x2, u32 y2){
     DrawFastLineHorizontal(y1++, x1, x2);
 }
 
-void LCD_Fill_Image(u32 ImageAddress, u32 x, u32 y, u32 xSize, u32 ySize){
-  static u32 address;
+void LCD_Fill_Image(uint32_t ImageAddress, uint32_t x, uint32_t y, uint32_t xSize, uint32_t ySize){
+  static uint32_t address;
  
  address = ProjectionLayerAddress[LayerOfView] + 4 * y * DisplayWIDTH + 4 * x;
  FillImageSoft(ImageAddress, address, xSize, ySize);
 
 }
 
-void FillImageSoft(u32 ImageAddress, u32 address, u32 xSize, u32 ySize){
-u32 S_Y, data, i , j;
-u32* pImageAddress = (u32*)ImageAddress;
+void FillImageSoft(uint32_t ImageAddress, uint32_t address, uint32_t xSize, uint32_t ySize){
+uint32_t S_Y, data, i , j;
+uint32_t* pImageAddress = (uint32_t*)ImageAddress;
  
  for(j = 0; j < ySize; j++){
    S_Y = 4 * j * DisplayWIDTH;
@@ -1121,13 +1121,13 @@ u32* pImageAddress = (u32*)ImageAddress;
 void LCD_FillTriangle(uint16_t x1, uint16_t x2, uint16_t x3, uint16_t y1, uint16_t y2, uint16_t y3){
  
 struct point{
- u16 x;
- u16 y; 
+ uint16_t x;
+ uint16_t y; 
 };
 
 struct point A, B, C;
-static u8 i, indexA, indexB, indexC;
-static u16 sy, tmp;
+static uint8_t i, indexA, indexB, indexC;
+static uint16_t sy, tmp;
 
 indexA = 1; //let A is first point
 if((y2 < y1) && (y2 < y3)) indexA = 2;

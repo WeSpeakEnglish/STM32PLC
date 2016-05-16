@@ -9,11 +9,11 @@
 #include "rtc.h"
 
 volatile DMA2D_Status PLC_DMA2D_Status = {1};
-volatile u8 LayerOfView = 0;
-const u32 ProjectionLayerAddress[2]={SDRAM_BANK_ADDR + LAYER_1_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET}; // Were we fill out our objects?
+volatile uint8_t LayerOfView = 0;
+const uint32_t ProjectionLayerAddress[2]={SDRAM_BANK_ADDR + LAYER_1_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET}; // Were we fill out our objects?
 
 
-u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
+uint8_t _HW_DrawLine( int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint32_t c)
 {
 
    if ( y1 == y2 )
@@ -28,7 +28,7 @@ u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
   PLC_DMA2D_Status.Ready = 0;
   if(HAL_DMA2D_Start_IT(&hdma2d, 
                         c, /* Color value in Register to Memory DMA2D mode */
-                        ProjectionLayerAddress[LayerOfView] + 4 * ((u32)y1 * DisplayWIDTH + (u32)x1),  /* DMA2D output buffer */
+                        ProjectionLayerAddress[LayerOfView] + 4 * ((uint32_t)y1 * DisplayWIDTH + (uint32_t)x1),  /* DMA2D output buffer */
                         x2-x1+1, /* width of buffer in pixels */
                         1) /* height of buffer in lines */ 
      == HAL_OK)
@@ -50,7 +50,7 @@ u8 _HW_DrawLine( s16 x1, s16 y1, s16 x2, s16 y2, u32 c)
     PLC_DMA2D_Status.Ready = 0;
    if(HAL_DMA2D_Start_IT(&hdma2d, 
                         c, /* Color value in Register to Memory DMA2D mode */
-                        ProjectionLayerAddress[LayerOfView] + 4 * ((u32)y1 * DisplayWIDTH + (u32)x1),  /* DMA2D output buffer */
+                        ProjectionLayerAddress[LayerOfView] + 4 * ((uint32_t)y1 * DisplayWIDTH + (uint32_t)x1),  /* DMA2D output buffer */
                         1 , /* width of buffer in pixels */
                         y2-y1+1) /* height of buffer in lines */ 
      == HAL_OK)
@@ -76,7 +76,7 @@ void Fill_Background(void){
 
 }
 
-void _HW_Fill_Finite_Color(u32 StartAddress, u32 color){
+void _HW_Fill_Finite_Color(uint32_t StartAddress, uint32_t color){
  // hdma2d.Instance = DMA2D;
   hdma2d.Init.Mode = DMA2D_R2M;
   hdma2d.Init.ColorMode = DMA2D_ARGB8888;
@@ -101,7 +101,7 @@ void _HW_Fill_Finite_Color(u32 StartAddress, u32 color){
   }
 }  
 
-void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress){
+void _HW_Fill_Display_From_Mem(uint32_t SourceAddress, uint32_t DstAddress){
   
  hdma2d.Init.Mode               = DMA2D_M2M;
  hdma2d.Init.ColorMode          = DMA2D_ARGB8888;
@@ -124,7 +124,7 @@ void _HW_Fill_Display_From_Mem(u32 SourceAddress, u32 DstAddress){
   }
 }
 
-void _HW_Fill_Region(u32 DstAddress, uint32_t xSize, uint32_t ySize, uint32_t OffLine, u32 color) 
+void _HW_Fill_Region(uint32_t DstAddress, uint32_t xSize, uint32_t ySize, uint32_t OffLine, uint32_t color) 
 {
   /* Register to memory mode with ARGB8888 as color Mode */ 
    hdma2d.Init.Mode         = DMA2D_R2M;
@@ -147,7 +147,7 @@ void _HW_Fill_Region(u32 DstAddress, uint32_t xSize, uint32_t ySize, uint32_t Of
  }
 }
 
-void _HW_Fill_Image(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t ySize) 
+void _HW_Fill_Image(uint32_t SrcAddress, uint32_t DstAddress, uint32_t xSize, uint32_t ySize) 
 {
   /* Register to memory mode with ARGB8888 as color Mode */ 
   
@@ -168,7 +168,7 @@ void _HW_Fill_Image(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t ySi
   }
 }
 
-void _HW_Fill_ImageToRAM(u32 SrcAddress, u32 DstAddress, uint32_t xSize, uint32_t  ySize){
+void _HW_Fill_ImageToRAM(uint32_t SrcAddress, uint32_t DstAddress, uint32_t xSize, uint32_t  ySize){
    hdma2d.Init.Mode             = DMA2D_M2M;
    hdma2d.Init.ColorMode        = DMA2D_ARGB8888;
    hdma2d.Init.OutputOffset     = 0;      
@@ -203,7 +203,7 @@ void LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage)//
  // uint32_t address;
   uint32_t input_color_mode = 0;
   uint8_t pbmp[DisplayWIDTH*4];
-  u8 res; //variable for return values
+  uint8_t res; //variable for return values
   FATFS fs; //fat object FATFS
   FIL OurFile; // this is our file here
   UINT br; //just counter
@@ -285,7 +285,7 @@ void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
   RCC->PLLSAICFGR = 0x44003FC0;
 }
 
-void TwoDigitsToChars(u8 * Src){
+void TwoDigitsToChars(uint8_t * Src){
   Src[0] += 0x30; 
   Src[1] += 0x30;
   return;

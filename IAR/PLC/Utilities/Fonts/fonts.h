@@ -9,8 +9,8 @@
 #include <stdint.h>
 
 struct FONT_CHAR_INFO{
- u8 Wide;
- u16 Offset;
+ uint8_t Wide;
+ uint16_t Offset;
 };
 typedef struct _tFont
 {    

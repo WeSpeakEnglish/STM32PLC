@@ -4,14 +4,8 @@
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
+#include <stdint.h>
    
-typedef signed char s8;
-typedef unsigned char u8;
-typedef signed short s16;
-typedef unsigned short u16;
-typedef unsigned long u32;
-typedef signed long s32;
-
 #ifdef __cplusplus
 }
 #endif

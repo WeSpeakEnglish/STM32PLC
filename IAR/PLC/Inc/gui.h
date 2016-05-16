@@ -27,22 +27,22 @@
 
 typedef struct{
 
-  u32 color;                //Visibility of Objects ALFA
-  s8 z_index;                   //[MAX_OBJECTS_Q];
-  u8 type;                      //[MAX_OBJECTS_Q];
-  u8 existance;                // deleted or not
+  uint32_t color;                //Visibility of Objects ALFA
+  int8_t z_index;                   //[MAX_OBJECTS_Q];
+  uint8_t type;                      //[MAX_OBJECTS_Q];
+  uint8_t existance;                // deleted or not
 
-  u32 params[MAX_PARAMS_Q];     //
+  uint32_t params[MAX_PARAMS_Q];     //
 }GUI_Object;
 
 
 
 void GUI_Free(void);
-GUI_Object* GUI_SetObject(u32 typeObj, u32 colorObj, u32 z_Index, u32 NumbOfParms,...);
+GUI_Object* GUI_SetObject(uint32_t typeObj, uint32_t colorObj, uint32_t z_Index, uint32_t NumbOfParms,...);
 void GUI_Release(); // release interface
-u8 GUI_Del_Obj(GUI_Object* deleteObj); // delete Object
-u8 GUI_Hide_Obj(GUI_Object* hideObj); // hide Object
-u8 GUI_SetVisibility_Obj(GUI_Object* Obj, u32 Value); //set Visibility
+uint8_t GUI_Del_Obj(GUI_Object* deleteObj); // delete Object
+uint8_t GUI_Hide_Obj(GUI_Object* hideObj); // hide Object
+uint8_t GUI_SetVisibility_Obj(GUI_Object* Obj, uint32_t Value); //set Visibility
  void Show_GUI(void);
  
 #endif

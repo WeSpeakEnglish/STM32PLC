@@ -4,9 +4,9 @@
 #include "userinterface.h"
 
 
-u8 DealNumber = 0; //the number of actual deal For pending deal
+uint8_t DealNumber = 0; //the number of actual deal For pending deal
 // 
-void Timer14_Init_Deal(u16 ShotTime, u8 DealNumb){ //0.0001 s per one
+void Timer14_Init_Deal(uint16_t ShotTime, uint8_t DealNumb){ //0.0001 s per one
 
 TIM14->PSC = 8799;
 TIM14->ARR = ShotTime; //one second
@@ -26,7 +26,7 @@ else
 }
 
 void TIM14_IRQHandler(void){
-static u32 Counter = 0;
+static uint32_t Counter = 0;
 TIM14->SR &= ~TIM_SR_UIF; //—брасываем флаг UIF
 TIM14->DIER &= ~TIM_DIER_UIE; //разрешаем прерывание от таймера
 

@@ -2,8 +2,8 @@
 #include "fmc.h"
 
 void SDRAM_free(void){
- u32 i;
-   for(i = 0;i < IS42S16160G_SIZE/2; i++){
+ uint32_t i;
+   for(i = 0;i < IS42int16_t160G_SIZE/2; i++){
      my_array_in_SDRAM[i] = 0x0000;
 //     while(my_array_in_SDRAM[i] != 0x0000)my_array_in_SDRAM[i] = 0x0000;
    }
@@ -11,7 +11,7 @@ void SDRAM_free(void){
 }  
 
 void NAND_free(void){
- u32 i, a; 
+ uint32_t i, a; 
  my_array_in_NAND[0] = 0xFF;
  for(i = 0; i < NAND_512_SIZE; i++){
     a = 0;

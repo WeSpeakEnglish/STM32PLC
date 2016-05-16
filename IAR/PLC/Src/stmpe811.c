@@ -32,7 +32,7 @@ ErrorStatus UB_Touch_Init(void)
   return(SUCCESS);
 }
 
-u8 temp, temp2; 
+uint8_t temp, temp2; 
 
 ErrorStatus UB_Touch_Read(void)
 {
@@ -121,13 +121,13 @@ uint8_t P_Touch_FnctCmd(uint8_t Fct, FunctionalState NewState)
 // interne Funktion
 //--------------------------------------------------------------
 void P_Touch_FreeIRQ(void){
-  const u8 RegValue = 0x01; 
-   HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_INT_STA, I2C_MEMADD_SIZE_8BIT, (u8*)&RegValue, 1, 200);
+  const uint8_t RegValue = 0x01; 
+   HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_INT_STA, I2C_MEMADD_SIZE_8BIT, (uint8_t*)&RegValue, 1, 200);
 }
 
 void P_Touch_Config(void)
 {
- static u8 regArray[12]={0x50,0x01,0x9A,0x01,0x01,0x00,0x01,0x01,0x03,0xFF,1,1};
+ static uint8_t regArray[12]={0x50,0x01,0x9A,0x01,0x01,0x00,0x01,0x01,0x03,0xFF,1,1};
   P_Touch_FnctCmd(IOE_TP_FCT, ENABLE);
   HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_ADC_CTRL1, I2C_MEMADD_SIZE_8BIT, &regArray[0], 1, 200);
   HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_INT_CTRL, I2C_MEMADD_SIZE_8BIT, &regArray[10], 1, 200);
@@ -204,7 +204,7 @@ uint8_t P_Touch_IOAFConfig(uint8_t IO_Pin, FunctionalState NewState)
 #define X_MAGNIFIER            854
 #define Y_MAGNIFIER            547
 #define X_SUB                  145
-#define Y_SUB                  170
+#define Y_SUB                  160
 #endif
 
 #define ORIENTATION_DEFAULT     1U 

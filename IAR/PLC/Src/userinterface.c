@@ -14,8 +14,8 @@ GUI_Object* Text3;
 GUI_Object* Poly1;
 GUI_Object* Poly2;
 GUI_Object* Poly3;
-u8 StrDate[11]="25.04.2016";
-u8 StrTime[9]="20:00:00";
+uint8_t StrDate[11]="25.04.2016";
+uint8_t StrTime[9]="20:00:00";
 
 
 
@@ -49,9 +49,9 @@ static Point CircleCenterTest = {360,190};
 //  LCD_SetBackColor(0x00FFFFFF);
   Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 700, 10, StrDate, LEFT_MODE, 1);   // with 1 pix kerning
   
-  Poly1 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFFFF0000, 5, 4, (u32)Poly1_points, 4, (u32)&CircleCenterTest, 0);
-  Poly2 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFFCCCC00, 4, 4, (u32)Poly2_points, 4, (u32)&CircleCenterTest, 0);
-  Poly3 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFF66CC00, 3, 4, (u32)Poly3_points, 4, (u32)&CircleCenterTest, 0);
+  Poly1 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFFFF0000, 5, 4, (uint32_t)Poly1_points, 4, (uint32_t)&CircleCenterTest, 0);
+  Poly2 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFFCCCC00, 4, 4, (uint32_t)Poly2_points, 4, (uint32_t)&CircleCenterTest, 0);
+  Poly3 = GUI_SetObject(ROTATING_FILLED_POLY_TYPE, 0xFF66CC00, 3, 4, (uint32_t)Poly3_points, 4, (uint32_t)&CircleCenterTest, 0);
   Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, CircleCenterTest.X, CircleCenterTest.Y, 2);
   Circles[1] = GUI_SetObject(CIRCLE_TYPE, 0xFF00FFFF, 4, 3, CircleCenterTest.X, CircleCenterTest.Y, 160);
 //   GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF00, 1, 3, CircleCenterTestMove.X, CircleCenterTestMove.Y, 2);
@@ -97,7 +97,7 @@ GUI_SetObject(LINE_TYPE, 1, 1, 4, 100,100,300,180);
 GUI_SetObject(LINE_TYPE, 1, 1, 4, 100,100,110,110);
 }
 
-void ChangeCircle1(u8 Consistance){
+void ChangeCircle1(uint8_t Consistance){
 
   switch(Consistance){
     case TOUCH_PRESSED:

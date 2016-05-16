@@ -19,7 +19,7 @@ NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn); //Разрешение TIM6_DAC_IRQn прерывания
 }
 
 void TIM13_IRQHandler(void){
-static u32 Counter = 0;
+static uint32_t Counter = 0;
 TIM13->SR &= ~TIM_SR_UIF; //Сбрасываем флаг UIF
 
 switch (Counter % 8){

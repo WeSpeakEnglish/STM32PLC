@@ -3,11 +3,11 @@
 #include "stm32f7xx_hal.h"
 
 
-volatile s8 Semaphore = 0; // that semaphore for queues and routines control if you need :)
-volatile u32 TicksGlobalUS = 0; //US ticking timer // in the timer interrupt handle needs just ++ operation
-volatile u8 mutexF = 0;
-volatile u8 mutexM = 0;
-volatile u8 mutexS = 0;
+volatile int8_t Semaphore = 0; // that semaphore for queues and routines control if you need :)
+volatile uint32_t TicksGlobalUS = 0; //US ticking timer // in the timer interrupt handle needs just ++ operation
+volatile uint8_t mutexF = 0;
+volatile uint8_t mutexM = 0;
+volatile uint8_t mutexS = 0;
 
 
 // there are three different queues and routines for corresponding timers 
@@ -24,7 +24,7 @@ void (*pFastQueue[Q_SIZE_FAST])()={emptyF}; // queue for a Fast-speed timer get 
 
 //IRQ Handlers
 void RoutineSlow(void){ // timer drived 
-  static u8 branch=0; // way of switch
+  static uint8_t branch=0; // way of switch
   switch (branch%8){ // max from 0 to 7
    case 0:         // any deal
         break;
@@ -36,7 +36,7 @@ void RoutineSlow(void){ // timer drived
 }
 
 void RoutineMedium(void){ // timer drived 
-  static u8 branch=0; // way of switch
+  static uint8_t branch=0; // way of switch
   switch (branch%8){ // max from 0 to 7
    case 0:         // any deal
      
@@ -50,7 +50,7 @@ void RoutineMedium(void){ // timer drived
 }
 
 void RoutineFast(void){ // timer drived 
-  static u8 branch=0; // way of switch
+  static uint8_t branch=0; // way of switch
   switch (branch%8){ // max from 0 to 7
    case 0:
            F_pull()();        // take function from queue       
@@ -66,13 +66,13 @@ void RoutineFast(void){ // timer drived
 //////////////////////////////
 
 // the service variable to maintaining right order in the queues
-s8 S_last =0; // number of the last element of slow-speed queue
-s8 M_last =0; // number of the last element of medium-speed queue
-s8 F_last =0; // number of the last element of fast-speed queue
+int8_t S_last =0; // number of the last element of slow-speed queue
+int8_t M_last =0; // number of the last element of medium-speed queue
+int8_t F_last =0; // number of the last element of fast-speed queue
 
-s8 S_first =0; // number of the first element of slow-speed queue
-s8 M_first =0; // number of the first element of medium-speed queue
-s8 F_first =0; // number of the first element of fast-speed queue
+int8_t S_first =0; // number of the first element of slow-speed queue
+int8_t M_first =0; // number of the first element of medium-speed queue
+int8_t F_first =0; // number of the first element of fast-speed queue
 
 
 
@@ -84,25 +84,25 @@ void emptyD(){;} // dummy function for safe initialization of delay on ANY funct
 
 /// INI ELEMENTs IN THE QUEUES
 void pSlowQueueIni(void){
- static u8 i =0;
+ static uint8_t i =0;
   for(i = 0; i < Q_SIZE_SLOW; i++){
 	pSlowQueue[i] = emptyS;
 	}
 }
 void pMediumQueueIni(void){
- static u8 i =0;
+ static uint8_t i =0;
   for(i = 0; i < Q_SIZE_MEDIUM; i++){
 	pMediumQueue[i] = emptyM;
 	}
 }
 void pFastQueueIni(void){
- static u8 i =0;
+ static uint8_t i =0;
   for(i = 0; i < Q_SIZE_FAST; i++){
 	pFastQueue[i] = emptyF;
 	}
 }
 /// ADD ELEMENTs TO THE QUEUES
-s8 S_push(void (*pointerQ)(void) ){
+int8_t S_push(void (*pointerQ)(void) ){
  if ((S_last+1)%Q_SIZE_SLOW == S_first)	return 1;
    if(mutexS == 0){
     mutexS = 1;  // enter to critical section
@@ -114,7 +114,7 @@ s8 S_push(void (*pointerQ)(void) ){
  return 0;
 }
 
-s8 M_push(void (*pointerQ)(void) ){
+int8_t M_push(void (*pointerQ)(void) ){
 
  if ((M_last+1)%Q_SIZE_MEDIUM == M_first) return 1;
  
@@ -128,7 +128,7 @@ s8 M_push(void (*pointerQ)(void) ){
  return 0;
 }
 
-s8 F_push(void (*pointerQ)(void) ){
+int8_t F_push(void (*pointerQ)(void) ){
   if ((F_last+1)%Q_SIZE_FAST == F_first)return 1;
   if(mutexF == 0){
     mutexF = 1;  // enter to critical section
@@ -182,14 +182,14 @@ return pullVar;
 }
 
 // wait some condition but no more that, for exapmle: while (var1!=0 && WaitOnFastQ())
-void DelayOnFastQ(u8 WaitQFast){// set this variable and stay waiting on the fast queue
+void DelayOnFastQ(uint8_t WaitQFast){// set this variable and stay waiting on the fast queue
   while(WaitQFast){
          F_pull()(); 
          WaitQFast--; 
    }
 };
 // push several tasks from the Medium Queue
-void DelayOnMediumQ(u8 WaitQMedium){
+void DelayOnMediumQ(uint8_t WaitQMedium){
     while(WaitQMedium){
          M_pull()(); 
          WaitQMedium--; 
@@ -197,7 +197,7 @@ void DelayOnMediumQ(u8 WaitQMedium){
 }
 // push several tasks from the Slow Queue
 
-void DelayOnSlowQ(u8 WaitQSlow){
+void DelayOnSlowQ(uint8_t WaitQSlow){
     while(WaitQSlow){
          S_pull()(); 
          WaitQSlow--; 
@@ -208,11 +208,11 @@ void DelayOnSlowQ(u8 WaitQSlow){
 //      while(!DelayUsOnMainRoutine(0,0,0)){/*do something by waiting*/}
 //
 //this funnction DOES NOT contain loops (linear)
-u8 DelayUsOnProcessRoutine(void (*pointerF)(void),u32 TimeDel, u8 Ini){ //check the us changing by the Timer not just stay, but DO ANY FUNCTION
- static u32 OldTicksGlobalUS 	=0x00000000;
- static u32 Difference 		=0x00000000;
+uint8_t DelayUsOnProcessRoutine(void (*pointerF)(void),uint32_t TimeDel, uint8_t Ini){ //check the us changing by the Timer not just stay, but DO ANY FUNCTION
+ static uint32_t OldTicksGlobalUS 	=0x00000000;
+ static uint32_t Difference 		=0x00000000;
  static void (*pointerFunction)(void)  = emptyD;
- static u32 TimeDelay = 10; 
+ static uint32_t TimeDelay = 10; 
 
  if(!Ini){ // ONLY FAST RUN
  	if(OldTicksGlobalUS > TicksGlobalUS ){
@@ -289,7 +289,7 @@ HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
 #define SDRAM_MODEREG_BURST_LENGTH_2 ((uint16_t) 0x0001)
 #define SDRAM_MODEREG_BURST_LENGTH_8 ((uint16_t)0x0004)
 #define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL ((uint16_t) 0x0000)
-#define SDRAM_MODEREG_CAS_LATENCY_2              ((u16)0x0020)
+#define SDRAM_MODEREG_CAS_LATENCY_2              ((uint16_t)0x0020)
 #define SDRAM_MODEREG_CAS_LATENCY_3 ((uint16_t) 0x0030)
 #define SDRAM_MODEREG_OPERATING_MODE_STANDARD ((uint16_t) 0x0000)
 #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE ((uint16_t) 0x0200)
