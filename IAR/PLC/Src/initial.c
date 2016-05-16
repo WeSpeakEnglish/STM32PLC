@@ -1,5 +1,6 @@
 #include "initial.h"
 #include "rtc.h"
+#include "leds.h"
 
 void InitPeriph(void){
 uint8_t res; //variable for return values
@@ -55,6 +56,7 @@ SDRAM_Initialization_Sequence(&hsdram1);
   LCD_SetLight(7);
   Load_GUI_1(); 
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+  LED_control(0);
  
 
 }

@@ -2,7 +2,7 @@
 #include "ltdc.h"
 #include "core.h"
 #include "variables.h"
-#include "stm32f7xx.h"
+//#include "stm32f7xx.h"
 #include "stm32f7xx_hal.h"
 #include "stm32f7xx_hal_ltdc.h"
 #include "i2c.h"

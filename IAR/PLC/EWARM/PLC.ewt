@@ -1223,6 +1223,9 @@
         <name>$PROJ_DIR$\..\Src\lcd.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\leds.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\ltdc.c</name>
       </file>
       <file>
