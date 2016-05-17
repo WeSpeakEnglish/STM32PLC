@@ -72,7 +72,6 @@ int main(void)
   //WriteNewTextFileSD(buff,  "0:hi.txt", sizeof(buff));
 
   /* USER CODE END 2 */
-  FastSin(20);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while(1){

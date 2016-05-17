@@ -5,6 +5,7 @@
 #include "core.h"
 #include "gui.h"
 #include "lcd.h"
+#include "keyboard.h"
 
 // 
 void Timer13_Init(void){
@@ -22,16 +23,26 @@ void TIM13_IRQHandler(void){
 static uint32_t Counter = 0;
 TIM13->SR &= ~TIM_SR_UIF; //—брасываем флаг UIF
 
-switch (Counter % 8){
-  case 0: break;
-  case 1: break;
-  case 2: break;
-  case 3: break;
-  case 4: break;
-  case 5: break;
-  case 6: break;
-  case 7: break;
-  
+switch (Counter % 16){
+  case 0:
+    SetLineKbd(0); break;
+  case 1:
+    ReadLineKbd(0); break;
+  case 2:
+    SetLineKbd(1); break;
+  case 3: 
+    ReadLineKbd(1); break;
+  case 4: 
+    SetLineKbd(2); break;
+  case 5: 
+    ReadLineKbd(2); break;
+  case 6:     
+    SetLineKbd(3); break;
+  case 7: 
+    ReadLineKbd(3); break;
+  case 8:     
+    SolvePressedKeys(); break;
+ 
 }  
 Counter++;
 return;

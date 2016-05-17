@@ -1220,6 +1220,9 @@
         <name>$PROJ_DIR$\..\Src\interrupts.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\keyboard.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\lcd.c</name>
       </file>
       <file>

@@ -14,7 +14,7 @@ stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=1504671439
+Checksum=2084681247
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -60,13 +60,14 @@ ITMlogFile=$PROJ_DIR$\ITM.log
 
 [struct_types]
 Fmt0=GUI_Object-color	4	0
-Fmt1=date_time_t-day	3	0
-Fmt2=date_time_t-hours	3	0
-Fmt3=date_time_t-minutes	3	0
-Fmt4=date_time_t-month	3	0
-Fmt5=date_time_t-seconds	3	0
-Fmt6=date_time_t-weekday	3	0
-Fmt7=date_time_t-year	3	0
+Fmt1=KB_status-code	4	0
+Fmt2=date_time_t-day	3	0
+Fmt3=date_time_t-hours	3	0
+Fmt4=date_time_t-minutes	3	0
+Fmt5=date_time_t-month	3	0
+Fmt6=date_time_t-seconds	3	0
+Fmt7=date_time_t-weekday	3	0
+Fmt8=date_time_t-year	3	0
 [array_types]
 Fmt0=u32[8388608]	4	0
 [watch_formats]
@@ -124,7 +125,8 @@ Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_h
 Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.324.7" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.372.7" 0 0 1 "" 0 "" 0
 Bp4=_ 0 "EMUL_DATA" "0x20000350" 2 1 1 1 4294967295
-Count=5
+Bp5=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\keyboard.c}.99.5" 0 0 1 "" 0 "" 0
+Count=6
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
