@@ -1059,6 +1059,9 @@
         <name>$PROJ_DIR$\..\Src\sdmmc.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\sound.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\spi.c</name>
       </file>
       <file>
