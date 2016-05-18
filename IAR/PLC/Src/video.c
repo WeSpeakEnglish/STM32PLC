@@ -186,8 +186,8 @@ void _HW_Fill_ImageToRAM(uint32_t SrcAddress, uint32_t DstAddress, uint32_t xSiz
 }
 
 void LCD_Layers_Init(void){
-  _HW_Fill_Finite_Color(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, 0xFFFFFFFF);
-  while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
+ // _HW_Fill_Finite_Color(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, 0xFFFFFFFF);
+ // while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
   //fill the first layer  
   _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET);
   while(!PLC_DMA2D_Status.Ready)RoutineMedium(); 
@@ -214,12 +214,13 @@ if (res == FR_OK){
   //open the file
   res = f_open(&OurFile,(char const*)NameOfFile,FA_READ);
 //  f_lseek(&OurFile,0); //pointer to the first byte
-  f_read(&OurFile, pbmp, 30, &br);
+  if (res == FR_OK)f_read(&OurFile, pbmp, 30, &br);
  // f_write(&OurFile,buff, NumberOfBytes, &br); //write the file
 
  }
  else{
    //не удалось смонтировать диск
+   return;
  }
 
 

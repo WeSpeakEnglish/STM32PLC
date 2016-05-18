@@ -44,8 +44,10 @@ static uint8_t FlagPressed = 0;
   case 70: 
     ReadLineKbd(3); break;
   case 80:     
-    if(SolvePressedKeys()) 
+    if(SolvePressedKeys()) {
       CounterSound = 0, FlagPressed = 1;
+      if(KB_Status.PRESSED)KBD_Handle(KB_Status.code);
+    }
     else
       if(CounterSound == 200) FlagPressed = 0;
     

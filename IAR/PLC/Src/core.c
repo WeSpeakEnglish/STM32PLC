@@ -297,7 +297,7 @@ HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
 
 tmpmrd = (uint32_t)SDRAM_MODEREG_BURST_LENGTH_8          |        //Step 7: Program the external memory mode register
                      SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |
-                     SDRAM_MODEREG_CAS_LATENCY_2           |
+                     SDRAM_MODEREG_CAS_LATENCY_3           |
                      SDRAM_MODEREG_OPERATING_MODE_STANDARD |
                      SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;
 Cmd.CommandMode= FMC_SDRAM_CMD_LOAD_MODE;

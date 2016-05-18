@@ -38,7 +38,7 @@ switch (DealNumber){
     
     break;
   case 2: UB_Touch_Read();
-          ChangeCircle1( Touch_Data.status );
+          if(Touch_Data.status == TOUCH_PRESSED)TouchScreen_Handle(Touch_Data.xp, Touch_Data.yp);
                       break;
   case 3: break;
   case 4: break;

@@ -5,9 +5,10 @@
 #include "image888.h"
 #include "rtc.h"
 #include "calculations.h"
+#include "core.h"
 
 GUI_Object* Circles[4];
-GUI_Object* Image1; 
+//GUI_Object* Image1; 
 GUI_Object* Text1;
 GUI_Object* Text2; 
 GUI_Object* Text3;
@@ -16,6 +17,13 @@ GUI_Object* Poly2;
 GUI_Object* Poly3;
 uint8_t StrDate[11]="25.04.2016";
 uint8_t StrTime[9]="20:00:00";
+
+volatile uint8_t UpdateScreen = 0;
+
+
+struct{
+  uint8_t Screen; //0 =base 1= lateral blade 2 = frontal blade 3 = topping 4 = brush 
+}DISP;
 
 
 
@@ -27,6 +35,7 @@ static Point Poly2_points[4]={{340,170},{360,50},{380,170},{360,160}};
 static Point Poly3_points[4]={{340,170},{360,70},{380,170},{360,160}};
 static Point CircleCenterTest = {360,190};
 
+DISP.Screen = 0; 
 
   GUI_Free();
 
@@ -39,7 +48,7 @@ static Point CircleCenterTest = {360,190};
 //  GUI_SetObject(FILLED_RECT_TYPE, 0xFFCC0000, 1, 4, 100, 100, 200, 200);
  // GUI_SetObject(HORIZONTAL_LINE_TYPE,0xFF00FF00, 1, 3, 100, 200, 300);
  // GUI_SetObject(FILLED_TRIANGLE, 0xFF00AA00, 1, 6, 50, 100, 650, 20, 300, 150);
-  Image1 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 0, 0, 800, 480);  
+//  Image1 = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, SDRAM_BANK_ADDR + IMAGE_1_OFFSET, 0, 0, 800, 480);  
 //  Text1 = GUI_SetObject(TEXT_STRING ,0xFF0000FF, 2, 5, 100, 200, StrData, LEFT_MODE, 1);   // with 1 pix kerning
  
   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
@@ -83,7 +92,7 @@ void Run_GUI_1(void){
 // RotatePoly((pPoint)(Poly1->params[0]), &CircleCenterTest, (uint16_t)(Poly1->params[1]), 6.f*(float)dt.seconds);
   Poly1->params[3] = dt.seconds * 6000;
   Poly2->params[3] = dt.minutes * 6000;
-  Poly3->params[3] = dt.hours*30000 + dt.minutes*100;
+  Poly3->params[3] = dt.hours*30000 + dt.minutes*200;
  // for(i = 0; i < 4; i++){
  //  Poly1_points[1] = RotatePoint(Poly1_points[1], CircleCenterTest, 0.01f);
 //   Circles[i] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, Poly1_points[i].X, Poly1_points[i].Y, 2);
@@ -101,19 +110,36 @@ void ChangeCircle1(uint8_t Consistance){
 
   switch(Consistance){
     case TOUCH_PRESSED:
-     //  Circle1->color = 0xFFFFFF00;
-    //   Circle1->z_index = 1;
-    //   if (Touch_Data.yp > 150) Touch_Data.yp = 150;
-     //  Circle1->params[1] = 300- Touch_Data.yp;
       Circles[0]->params[0] = Touch_Data.xp;
       Circles[0]->params[1] = Touch_Data.yp;
-    //  Image1->params[0] =SDRAM_BANK_ADDR + IMAGE_2_OFFSET;
       break;
     case TOUCH_RELEASED: 
-     //  Circle1->color = 0xFFFFFF99; 
-     //  Circle1->z_index = 4;
- //     Image1->params[0] =SDRAM_BANK_ADDR + IMAGE_1_OFFSET;
+
       break;
   }
 
 }
+
+void PreLoadImages(uint32_t BaseAddr){
+ //LoadBitmapFromSD("000.bmp", BaseAddr + IMAGE_1_OFFSET);
+    LoadBitmapFromSD("006.bmp", BaseAddr + LAYER_BACK_OFFSET);
+    LoadBitmapFromSD("006.bmp", BaseAddr + LAYER_1_OFFSET);
+    LoadBitmapFromSD("006.bmp", BaseAddr + LAYER_2_OFFSET);
+
+  //  LoadBitmapFromSD("006.bmp", BaseAddr + LAYER_3_OFFSET);
+ //   LoadBitmapFromSD("006.bmp", BaseAddr + IMAGE_1_OFFSET);
+ //   LoadBitmapFromSD("006.bmp", BaseAddr + IMAGE_2_OFFSET);
+ return;
+}
+
+void KBD_Handle(uint8_t code){ //the handle of KBD
+  UpdateScreen = 1;
+ return;
+}
+
+void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
+  ChangeCircle1(TOUCH_PRESSED);
+  UpdateScreen = 1;
+  return;
+}
+

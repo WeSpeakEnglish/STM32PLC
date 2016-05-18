@@ -109,16 +109,16 @@ typedef enum
 #define LCD_DEFAULT_FONT        GOST_B_23_var     
 ////////////////////////////////////////////////////
 #define SDRAM_BANK_ADDR         0xC0000000
-#define LAYERS_SIZE         0x00177000
+#define LAYERS_SIZE             0x00177000
 #define LAYER_1_OFFSET          0x00000000
-#define LAYER_2_OFFSET          0x00177000  // 800x480x4 layer 1536000 offset
-#define LAYER_3_OFFSET          0x002EE000  // 800x480x4 layer 1536000 offset
-#define LAYER_BACK_OFFSET       0x00465000  // BACKGROUND
-#define IMAGE_1_OFFSET          0x005DC000  // big image 1   
-#define IMAGE_2_OFFSET          IMAGE_1_OFFSET + LAYERS_SIZE //big image 2
-#define DisplayHEIGHT   480 // pixels
-#define DisplayWIDTH    800 // pixels
-#define PixelWIDTH      4   // bytes
+#define LAYER_2_OFFSET          LAYER_1_OFFSET + LAYERS_SIZE            // 800x480x4 layer 1536000 offset
+#define LAYER_3_OFFSET          LAYER_2_OFFSET + LAYERS_SIZE            // 800x480x4 layer 1536000 offset
+#define LAYER_BACK_OFFSET       LAYER_3_OFFSET + LAYERS_SIZE            // BACKGROUND
+#define IMAGE_1_OFFSET          LAYER_BACK_OFFSET + LAYERS_SIZE         // big image 1   
+#define IMAGE_2_OFFSET          IMAGE_1_OFFSET + LAYERS_SIZE            //big image 2
+#define DisplayHEIGHT           480 // pixels
+#define DisplayWIDTH            800 // pixels
+#define PixelWIDTH              4   // bytes
 //////////////////////////////////////////////////////
 
 

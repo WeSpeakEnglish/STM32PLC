@@ -3,6 +3,7 @@
 #include "initial.h"
 #include "files.h"
 #include "calculations.h"
+#include "userinterface.h"
 
 /* USER CODE END Includes */
 
@@ -81,6 +82,13 @@ int main(void)
   /* USER CODE BEGIN 3 */
    // RoutineMedium(); // get and run deals from medium queue 
     RoutineFast();
+    if(UpdateScreen){
+    Run_GUI_1();
+    Show_GUI();
+    UpdateScreen = 0;
+    }
+
+    
   }
 
   /* USER CODE END 3 */

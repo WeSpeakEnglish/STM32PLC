@@ -1,10 +1,9 @@
 #include "initial.h"
 #include "rtc.h"
 #include "leds.h"
+#include "userinterface.h"
 
 void InitPeriph(void){
-uint8_t res; //variable for return values
-
 SDRAM_Initialization_Sequence(&hsdram1);
   
   pMediumQueueIni();            // fill the medium queue by Zero functions
@@ -33,24 +32,9 @@ SDRAM_Initialization_Sequence(&hsdram1);
   
   SDRAM_free();
   
-  res = BSP_SD_Init();
-  res = disk_initialize(0);
-  
- LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
- LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET);
-//  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-//  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET); 
- // LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
- // LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET);
- // LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-//  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET); 
-//  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-///  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET);
-//  LoadBitmapFromSD("0:ONE.BMP", SDRAM_BANK_ADDR+IMAGE_1_OFFSET);
-//  LoadBitmapFromSD("0:TWO.BMP", SDRAM_BANK_ADDR+IMAGE_2_OFFSET); 
-  
-  LCD_Layers_Init();
-  
+  PreLoadImages(SDRAM_BANK_ADDR);
+  //LCD_Layers_Init();
+   
   MX_LTDC_Init();
   LCD_Init();
   LCD_SetLight(7);

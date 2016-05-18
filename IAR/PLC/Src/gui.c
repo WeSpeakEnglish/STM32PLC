@@ -5,6 +5,7 @@
 #include "core.h"
 #include "ltdc.h"
 #include "calculations.h"
+#include "userinterface.h"
 
 static GUI_Object GUI_Objects[MAX_OBJECTS_Q];
 
@@ -134,23 +135,26 @@ return 0;
 
 void Show_GUI(void){
   
- RCC->PLLSAICFGR =0x44003300;
+// RCC->PLLSAICFGR =0x44003300;
 
-  GUI_Release();
+ 
+  
 
+
+  GUI_Release(); 
+  
  if(!LayerOfView){
      HAL_LTDC_SetAddress(&hltdc, SDRAM_BANK_ADDR + LAYER_1_OFFSET, 0); // set the present layer address
-     _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET); // fill the other layer
+//     _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_2_OFFSET); // fill the other layer
     }
  else{
      HAL_LTDC_SetAddress(&hltdc, SDRAM_BANK_ADDR + LAYER_2_OFFSET, 0); // set the present layer address
-    _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET); // fill the other layer
+//    _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, SDRAM_BANK_ADDR + LAYER_1_OFFSET); // fill the other layer
  }
 // 
-while(PLC_DMA2D_Status.Ready == 0){ M_pull()();}
-
  LayerOfView++;
  LayerOfView %= 2;
+ FillImageSoft(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, ProjectionLayerAddress[LayerOfView], 800, 480);  
 
 }  
 
