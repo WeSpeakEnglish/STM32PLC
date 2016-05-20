@@ -11,12 +11,11 @@ void SDRAM_free(void){
 }  
 
 void NAND_free(void){
- uint32_t i, a; 
+ uint32_t i; 
  my_array_in_NAND[0] = 0xFF;
  for(i = 0; i < NAND_512_SIZE; i++){
-    a = 0;
-    my_array_in_NAND[0] = 0xFF;
-    a =  my_array_in_NAND[i];
+     my_array_in_NAND[0] = 0xFF;
+     my_array_in_NAND[i];
  }
 }
 
@@ -38,8 +37,6 @@ void NAND_readId(void)
 uint8_t NAND_WriteNByte(uint8_t* Buffer, uint16_t BlockNumber, uint8_t PageNumber, uint16_t ByteNumber, uint16_t N)
 {
 
-uint16_t i=0;
-uint8_t status;
 
 return 0;
 }

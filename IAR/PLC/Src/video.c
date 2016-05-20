@@ -197,9 +197,10 @@ void LCD_Layers_Init(void){
 }
 
   
-void LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage)//
+ImgSize LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage)//
 {
   uint32_t index = 0, width = 0, height = 0, bit_pixel = 0;
+  ImgSize Size;
  // uint32_t address;
   uint32_t input_color_mode = 0;
   uint8_t pbmp[DisplayWIDTH*4];
@@ -220,7 +221,9 @@ if (res == FR_OK){
  }
  else{
    //не удалось смонтировать диск
-   return;
+   Size.height = Size.width =0;
+   
+   return Size;
  }
 
 
@@ -231,10 +234,12 @@ if (res == FR_OK){
   /* Read bitmap width */
   width = *(uint16_t *) (pbmp + 18);
   width |= (*(uint16_t *) (pbmp + 20)) << 16;
+  Size.width = width;
   
   /* Read bitmap height */
   height = *(uint16_t *) (pbmp + 22);
   height |= (*(uint16_t *) (pbmp + 24)) << 16; 
+  Size.height = height;
   
   /* Read bit/pixel */
   bit_pixel = *(uint16_t *) (pbmp + 28);   
@@ -278,6 +283,7 @@ if (res == FR_OK){
   f_close(&OurFile);//close the file
   f_mount(NULL, "0:", 0);//unmount the drive
   
+  return Size;
 }  
    
 void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){

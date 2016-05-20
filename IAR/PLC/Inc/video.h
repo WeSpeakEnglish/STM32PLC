@@ -9,6 +9,11 @@
 #include "lcd.h"
    
 typedef struct{
+ uint16_t width;
+ uint16_t height;
+}ImgSize;
+
+typedef struct{
  uint8_t Ready;
 }DMA2D_Status;
 
@@ -25,7 +30,7 @@ extern const uint32_t ProjectionLayerAddress[2]; // Were we fill out our objects
  void _HW_Fill_Region(uint32_t DstAddress, uint32_t xSize, uint32_t ySize, uint32_t OffLine, uint32_t color);
  void _HW_Fill_Image(uint32_t SrcAddress, uint32_t DstAddress, uint32_t xSize, uint32_t  ySize); 
  void _HW_Fill_ImageToRAM(uint32_t SrcAddress, uint32_t DstAddress, uint32_t xSize, uint32_t  ySize); 
- void LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage);
+ ImgSize LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage);
  void TwoDigitsToChars(uint8_t * Src);
 #ifdef __cplusplus
  }

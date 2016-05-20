@@ -25,6 +25,18 @@ struct{
   uint8_t Screen; //0 =base 1= lateral blade 2 = frontal blade 3 = topping 4 = brush 
 }DISP;
 
+struct ImageInfo{
+  uint16_t index;
+  uint16_t xsize;
+  uint16_t ysize;
+  uint32_t address;
+};
+
+struct{
+struct ImageInfo ImgArray[100];
+uint16_t Number;
+}IMAGES;
+
 
 
 
@@ -120,15 +132,45 @@ void ChangeCircle1(uint8_t Consistance){
 
 }
 
-void PreLoadImages(uint32_t BaseAddr){
- //LoadBitmapFromSD("000.bmp", BaseAddr + IMAGE_1_OFFSET);
-    LoadBitmapFromSD("006.bmp", BaseAddr + LAYER_BACK_OFFSET);
-    LoadBitmapFromSD("006.bmp", BaseAddr + LAYER_1_OFFSET);
-    LoadBitmapFromSD("006.bmp", BaseAddr + LAYER_2_OFFSET);
+uint32_t FillStructIMG(uint32_t address, uint16_t startIndex, uint16_t stopIndex){
+  uint16_t i = 0;
+  static uint8_t Name[]="000.bmp";
+  ImgSize SizesIMG;
+  
+  for(i = startIndex; i < stopIndex+1; i++){
+    Name[0] = (i/100) + 0x30;
+    Name[1] = (i/10 - 10*(i/100))  + 0x30;
+    Name[2] = (i%10)  + 0x30;
+   SizesIMG = LoadBitmapFromSD(Name, address);
+  
+   IMAGES.ImgArray[IMAGES.Number].index   = i;
+   IMAGES.ImgArray[IMAGES.Number].xsize   = SizesIMG.width;
+   IMAGES.ImgArray[IMAGES.Number].ysize   = SizesIMG.height; 
+   IMAGES.ImgArray[IMAGES.Number].address = address;
+   address += ((uint32_t)SizesIMG.height ) * ((uint32_t)SizesIMG.width) * 4;
+   IMAGES.Number++;
+  }
+  return address;
+}
 
-  //  LoadBitmapFromSD("006.bmp", BaseAddr + LAYER_3_OFFSET);
- //   LoadBitmapFromSD("006.bmp", BaseAddr + IMAGE_1_OFFSET);
- //   LoadBitmapFromSD("006.bmp", BaseAddr + IMAGE_2_OFFSET);
+void PreLoadImages(uint32_t BaseAddr){
+  uint32_t address;
+
+  IMAGES.Number = 0;
+  // just simply load images into the memory 
+  address = BaseAddr + IMAGE_1_OFFSET;
+  address = FillStructIMG(address, 0,   29);
+  address = FillStructIMG(address, 100, 105);
+  address = FillStructIMG(address, 200, 204);
+  address = FillStructIMG(address, 300, 303);
+  address = FillStructIMG(address, 400, 404);
+  
+  
+   //image 006.bmp like base  
+   FillImageSoft(IMAGES.ImgArray[6].address, BaseAddr + LAYER_BACK_OFFSET, IMAGES.ImgArray[6].xsize, IMAGES.ImgArray[6].ysize); 
+   FillImageSoft(IMAGES.ImgArray[6].address, BaseAddr + LAYER_1_OFFSET, IMAGES.ImgArray[6].xsize, IMAGES.ImgArray[6].ysize);
+   FillImageSoft(IMAGES.ImgArray[6].address, BaseAddr + LAYER_2_OFFSET, IMAGES.ImgArray[6].xsize, IMAGES.ImgArray[6].ysize);
+
  return;
 }
 
@@ -136,9 +178,28 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
   UpdateScreen = 1;
  return;
 }
+// define zones for Touh Screen pressing detection
+typedef struct { 
+  Point LeftTop;
+  Point RightBottom;
+} Zone;
 
+uint8_t solveTriangleZones(Zone * pZone, uint8_t Type) //solve triangle zones [/] and [\] types 
+{
+  //Zone ZonesTS;
+  float x1 = (float) pZone->LeftTop.X;
+  float x2 = (float) pZone->RightBottom.X;
+  float y1 = (float) pZone->LeftTop.Y;
+  float y2 = (float) pZone->RightBottom.Y;
+ // float x1 = pZone->
+return 0;
+}
 void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
+ const Zone ZonesTS[]={{{0,1},{2,3}},{{4,5},{6,7}}};  
+  
+  
   ChangeCircle1(TOUCH_PRESSED);
+  
   UpdateScreen = 1;
   return;
 }
