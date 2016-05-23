@@ -4,7 +4,6 @@
 #include "variables.h"
 #include "core.h"
 #include "ltdc.h"
-#include "image888.h"
 #include "ff.h"
 #include "rtc.h"
 

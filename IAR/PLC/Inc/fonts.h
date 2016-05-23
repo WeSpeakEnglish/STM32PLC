@@ -23,7 +23,6 @@ typedef struct _tFont
 
 extern sFONT GOST_B_23_var;
 extern sFONT ARIALB_16pt;
-extern sFONT RIAD_16pt;
 
 
 #define LINE(x) ((x) * (((sFONT *)LCD_GetFont())->Height))

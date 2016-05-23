@@ -82,6 +82,7 @@ void GUI_Release(){  // create GUI
           case POLYGON_TYPE:
                    break;
           case TEXT_STRING:
+            LCD_InitParams(0, GUI_Objects[i].params[6], GUI_Objects[i].color, (sFONT*) GUI_Objects[i].params[5]);
             LCD_DisplayStringAt(GUI_Objects[i].params[0], GUI_Objects[i].params[1], (uint8_t*)GUI_Objects[i].params[2], GUI_Objects[i].params[3], (uint8_t)GUI_Objects[i].params[4]);
                    break; 
           case CIRCLE_TYPE:

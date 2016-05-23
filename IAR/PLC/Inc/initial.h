@@ -20,7 +20,6 @@
 
 #include "ltdc.h"
 #include "core.h"
-#include "image888.h"
 #include "lcd.h"
 #include "video.h"
 #include "gui.h"

@@ -2,18 +2,19 @@
 #include "video.h"
 #include "lcd.h"
 #include "stmpe811.h"
-#include "image888.h"
 #include "rtc.h"
 #include "calculations.h"
 #include "core.h"
 #include "keyboard.h"
 #include "sound.h"
+#include "fonts.h"
 
 GUI_Object* Circles[4];
 GUI_Object* Images[10]; 
 GUI_Object* Text1;
 GUI_Object* Text2; 
 GUI_Object* Text3;
+GUI_Object* Text4;
 GUI_Object* Poly1;
 GUI_Object* Poly2;
 GUI_Object* Poly3;
@@ -64,11 +65,15 @@ DISP.Screen = 0;
    
    GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
-  LCD_SetBackColor(0x0000FFFF);
-  Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 40, 10, StrTime, LEFT_MODE, 1);   // with 1 pix kerning and center
-  Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 700, 10, StrDate, LEFT_MODE, 1);   // with 1 pix kerning
-  
- Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, 800, 480, 2);
+ // LCD_SetBackColor(0x0000FFFF);
+
+  Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning and center
+  Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning
+
+
+  Text4 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 200, 200, "þÿ", LEFT_MODE, 1, &RIAD_16pt, 0x0000FFFF);   // with 1 pix kerning
+ 
+  Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, 800, 480, 2);
  
  UpdateScreen = 1;
 }

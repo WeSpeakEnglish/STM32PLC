@@ -38,7 +38,6 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-#include "image888.h"
 #include "video.h"
 /* USER CODE END 0 */
 

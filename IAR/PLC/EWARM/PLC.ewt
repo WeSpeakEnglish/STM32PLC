@@ -1172,6 +1172,9 @@
         <name>$PROJ_DIR$\..\Src\adc.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Utilities\Fonts\ARIALB_16pt.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\bsp_driver_sd.c</name>
       </file>
       <file>
@@ -1202,6 +1205,9 @@
         <name>$PROJ_DIR$\..\Src\fmc.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Utilities\Fonts\GOST_B_23_var.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\gpio.c</name>
       </file>
       <file>
@@ -1209,9 +1215,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\i2c.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\image888.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\initial.c</name>
@@ -1236,6 +1239,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\memory.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Utilities\Fonts\RIAD_16pt.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\rtc.c</name>

@@ -5,7 +5,7 @@
 #include "dac.h"
 #include "core.h"
 #include "variables.h"
-#include "../../../Utilities/Fonts/GOST_B_23_var.c"
+#include "fonts.h"
 
 #define POLY_X(Z)              ((int32_t)((Points + Z)->X))
 #define POLY_Y(Z)              ((int32_t)((Points + Z)->Y))      
@@ -1011,6 +1011,8 @@ void LCD_InitParams(uint32_t LayerIndexGet, uint32_t BackColor, uint32_t TextCol
   DrawProp[LayerIndex].pFont     = pFont;
   DrawProp[LayerIndex].TextColor = TextColor; 
 }
+
+
 
 void LCD_SetColorPixel(uint32_t Color){
 DrawProp[LayerIndex].TextColor = Color;
