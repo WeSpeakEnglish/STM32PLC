@@ -63,8 +63,8 @@ return &NullObj;
 void GUI_Release(){  // create GUI 
   static int i, j;       //indexes
 
- j = 0;
- for(j = 0; j < MAX_Z_INDEX; j++ ){
+ //if z-index == 0 eq hide
+ for(j = 1; j < MAX_Z_INDEX; j++ ){
   
     for(i = 0; i < MAX_OBJECTS_Q; i++){
      if(GUI_Objects[i].z_index == j){

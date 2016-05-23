@@ -4,7 +4,7 @@
 
 
 extern volatile uint8_t UpdateScreen;
-
+extern volatile uint8_t TimeIsReady;
 void Load_GUI_0(void);
 void Load_GUI_2(void);
 void ChangeCircle1(uint8_t Consistance);

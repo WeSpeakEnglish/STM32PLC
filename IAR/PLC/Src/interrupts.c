@@ -30,7 +30,7 @@ void   EXTI9_5_IRQHandler(void)        //; EXTI Line 9..5
         
          EXTI->PR |= (1<<7);
          
-           
+         TimeIsReady = 1;  
 
         };
   

@@ -6,6 +6,8 @@
 #include "rtc.h"
 #include "calculations.h"
 #include "core.h"
+#include "keyboard.h"
+#include "sound.h"
 
 GUI_Object* Circles[4];
 GUI_Object* Images[10]; 
@@ -18,14 +20,15 @@ GUI_Object* Poly3;
 uint8_t StrDate[11]="25.04.2016";
 uint8_t StrTime[9]="20:00:00";
 
+volatile uint8_t TimeIsReady = 0;
 volatile uint8_t UpdateScreen = 0;
 
 
 struct{
-  uint8_t Screen; //0 =base 1= lateral blade 2 = frontal blade 3 = topping 4 = brush 
-  uint8_t Event;
-  uint8_t KbdCode;
-  uint8_t TS_ZoneNumber;
+  uint8_t       Screen; //0 =base 1= lateral blade 2 = frontal blade 3 = topping 4 = brush 
+  uint8_t       Event;
+  uint8_t       KbdCode;
+  int8_t        TS_ZoneNumber;
 }DISP;
 
 struct ImageInfo{
@@ -53,28 +56,84 @@ DISP.Screen = 0;
    Images[0] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[11].address, 12, 407, IMAGES.ImgArray[11].xsize, IMAGES.ImgArray[11].ysize); 
    
    //load buttons
-   Images[1] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[22].address, 12, 48, IMAGES.ImgArray[22].xsize, IMAGES.ImgArray[22].ysize); 
-
-  GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
+   Images[1] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[22].address, 12, 48, IMAGES.ImgArray[22].xsize, IMAGES.ImgArray[22].ysize); //OFF left
+   Images[2] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[3].address, 12, 118, IMAGES.ImgArray[3].xsize, IMAGES.ImgArray[3].ysize); //auto left
+   Images[3] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[9].address, 12, 190, IMAGES.ImgArray[9].xsize, IMAGES.ImgArray[9].ysize); //max left
+   Images[4] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[20].address, 12, 262, IMAGES.ImgArray[20].xsize, IMAGES.ImgArray[20].ysize); //sim left
+   Images[5] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[18].address, 12, 337, IMAGES.ImgArray[18].xsize, IMAGES.ImgArray[18].ysize); //sim brush
+   
+   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
   LCD_SetBackColor(0x0000FFFF);
   Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 40, 10, StrTime, LEFT_MODE, 1);   // with 1 pix kerning and center
   Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 5, 700, 10, StrDate, LEFT_MODE, 1);   // with 1 pix kerning
   
  Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, 800, 480, 2);
-
+ 
+ UpdateScreen = 1;
 }
 
 void Run_GUI(void){
 
   date_time_t dt;
+  
+  if(TimeIsReady){
+  TimeIsReady = 0;
+    PCF8563_read_datetime(&dt);
+    GetDateToStr(StrDate, &dt);
+    GetTimeToStr(StrTime, &dt);
+  }
+  if(DISP.Event){  
   switch(DISP.Screen){
   case 0:
-      PCF8563_read_datetime(&dt);
-      GetDateToStr(StrDate, &dt);
-      GetTimeToStr(StrTime, &dt);
+        switch(DISP.TS_ZoneNumber){
+        case 0:  //toggle index of button
+          if(!Images[1]->z_index){
+          Images[1]->z_index = 1;
+          Images[2]->z_index = 0;
+          Images[3]->z_index = 0;
+          Images[4]->z_index = 0;
+          } 
+          break;
+        case 1:  //toggle index of button
+          if(!Images[2]->z_index){
+          Images[2]->z_index = 1;
+          Images[1]->z_index = 0;
+          Images[3]->z_index = 0;
+          Images[4]->z_index = 0;
+          } 
+          break;  
+        case 2:  //toggle index of button
+          if(!Images[3]->z_index){
+          Images[3]->z_index = 1;
+          Images[1]->z_index = 0;
+          Images[2]->z_index = 0;
+          Images[4]->z_index = 0;
+          } 
+          break;  
+        case 3:  //toggle index of button
+          if(!Images[4]->z_index){
+          Images[4]->z_index = 1;
+          Images[1]->z_index = 0;
+          Images[2]->z_index = 0;
+          Images[3]->z_index = 0;
+          } 
+          break; 
+        case 4:
+          if(!Images[5]->z_index){
+          Images[5]->z_index = 1;
+           }   
+          else Images[5]->z_index = 0;
+          break;
+      } 
+     DISP.TS_ZoneNumber = -1; 
+     DISP.Screen = 0;
+    
    break;
   }
+  
+  DISP.Event = 0;
+  } 
 }
 
 void Load_GUI_2(void){
@@ -128,6 +187,10 @@ void PreLoadImages(uint32_t BaseAddr){
 }
 
 void KBD_Handle(uint8_t code){ //the handle of KBD
+  
+  //up flags
+  DISP.Event = 1;
+  DISP.KbdCode = KB_Status.code;
   UpdateScreen = 1;
  return;
 }
@@ -154,20 +217,43 @@ uint8_t solveTriangleZones(Zone * pZone, uint8_t Type, const pPoint Coords) //so
   return 0;
 }
 void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
- const Zone ZonesTS_0[]={
+ uint8_t Index;
+  const Zone ZonesTS_0[]={
    {{12,48},{116,106}}, // SW OFF (LEFT)
    {{12,119},{116,176}}, // AUTO (LEFT)
    {{12,190},{116,248}}, // MAX (LEFT)
    {{12,262},{116,320}},  //SIM (LEFT)
    {{12,338},{116,396}},  //BRUSH (LEFT)
  };  
-  
+ 
+ 
+ DISP.TS_ZoneNumber = -1;
+
+ switch (DISP.Screen){ 
+    case 0:
+        for(Index = 0; Index < sizeof(ZonesTS_0)/8; Index++){
+            if((x > ZonesTS_0[Index].LeftTop.X  && x < ZonesTS_0[Index].RightBottom.X)&&
+              (y > ZonesTS_0[Index].LeftTop.Y  && y < ZonesTS_0[Index].RightBottom.Y)) DISP.TS_ZoneNumber = Index;
+     } 
+     break;
+     case 1: 
+       
+      break;  
+ 
+ 
+ }
   
       Circles[0]->params[0] = Touch_Data.xp;
       Circles[0]->params[1] = Touch_Data.yp;
- 
-  
+      
+ //up flags
+ if(DISP.TS_ZoneNumber != -1){    
+  DISP.Event = 1;
+ // DISP.Screen = 1;
   UpdateScreen = 1;
+      }
+  
+  SOUND.CounterSound= 0, SOUND.SoundPeriod = 50;
   return;
 }
 

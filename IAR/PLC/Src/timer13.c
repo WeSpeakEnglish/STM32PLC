@@ -23,7 +23,7 @@ NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn); //Разрешение TIM6_DAC_IRQn прерывания
 void TIM13_IRQHandler(void){
 static uint32_t Counter = 0;
 static uint32_t CounterUPD = 0;
-static uint32_t CounterSound = 0;
+
 static uint8_t FlagPressed = 0;
  TIM13->SR &= ~TIM_SR_UIF; //Сбрасываем флаг UIF
 
@@ -46,20 +46,22 @@ static uint8_t FlagPressed = 0;
     ReadLineKbd(3); break;
   case 80:     
     if(SolvePressedKeys()) {
-      CounterSound = 0, FlagPressed = 1;
-      if(KB_Status.PRESSED)KBD_Handle(KB_Status.code);
+      if(KB_Status.PRESSED) SOUND.CounterSound= 0, SOUND.SoundPeriod = 200;
+      FlagPressed = 1;
+      if(KB_Status.PRESSED) KBD_Handle(KB_Status.code);
     }
     else
-      if(CounterSound == 200) FlagPressed = 0;
+      if(SOUND.CounterSound == SOUND.SoundPeriod) FlagPressed = 0;
     
     break;
     
     
     
  }  
- if (CounterSound < 200 && FlagPressed) {
-   if(KB_Status.PRESSED)Bip(CounterSound%2); 
-   CounterSound++;
+ if (SOUND.CounterSound < SOUND.SoundPeriod) {
+  // if(KB_Status.PRESSED)
+   Bip(SOUND.CounterSound%2); 
+   SOUND.CounterSound++;
  } 
  Counter++;
  Counter%=100;
