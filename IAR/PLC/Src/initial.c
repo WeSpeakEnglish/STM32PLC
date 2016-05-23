@@ -38,7 +38,7 @@ SDRAM_Initialization_Sequence(&hsdram1);
   MX_LTDC_Init();
   LCD_Init();
   LCD_SetLight(7);
-  Load_GUI_1(); 
+  Load_GUI_0(); 
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
   LED_control(1);
  

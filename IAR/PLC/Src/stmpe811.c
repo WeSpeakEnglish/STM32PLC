@@ -52,7 +52,7 @@ ErrorStatus UB_Touch_Read(void)
   else {
     Touch_Data.status = TOUCH_PRESSED;
   }
-
+  if( Touch_Data.status == TOUCH_PRESSED){
     x = P_Touch_Read_X();
     y = P_Touch_Read_Y();
     xDiff = x > _x? (x - _x): (_x - x);
@@ -65,6 +65,7 @@ ErrorStatus UB_Touch_Read(void)
   
   Touch_Data.xp = _x;
   Touch_Data.yp = _y;
+  }
   
   temp = 0x01; 
   HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_FIFO_STA, I2C_MEMADD_SIZE_8BIT, &temp, 1, 200);
@@ -215,7 +216,7 @@ uint8_t P_Touch_IOAFConfig(uint8_t IO_Pin, FunctionalState NewState)
 static uint16_t P_Touch_Read_X(void)
 {
   int32_t x;
-  if( Touch_Data.status == TOUCH_PRESSED){
+
   x = P_Touch_Read_16b(IOE_REG_TP_DATA_X);
 
   x -=X_SUB;
@@ -227,7 +228,7 @@ static uint16_t P_Touch_Read_X(void)
 
   
   if( x < 0 ) x = 0;
-  }
+
   return (uint16_t)(x);
 }
 

@@ -83,7 +83,7 @@ int main(void)
    // RoutineMedium(); // get and run deals from medium queue 
     RoutineFast();
     if(UpdateScreen){
-    Run_GUI_1();
+    Run_GUI();
     Show_GUI();
     UpdateScreen = 0;
     }

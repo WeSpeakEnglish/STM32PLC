@@ -199,7 +199,9 @@ void LCD_Layers_Init(void){
   
 ImgSize LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage)//
 {
-  uint32_t index = 0, width = 0, height = 0, bit_pixel = 0;
+  uint32_t index = 0, byte_pixel = 0;
+  uint32_t psw, scanlinebytes, padding;
+  
   ImgSize Size;
  // uint32_t address;
   uint32_t input_color_mode = 0;
@@ -214,9 +216,7 @@ ImgSize LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage)//
 if (res == FR_OK){
   //open the file
   res = f_open(&OurFile,(char const*)NameOfFile,FA_READ);
-//  f_lseek(&OurFile,0); //pointer to the first byte
   if (res == FR_OK)f_read(&OurFile, pbmp, 30, &br);
- // f_write(&OurFile,buff, NumberOfBytes, &br); //write the file
 
  }
  else{
@@ -232,27 +232,23 @@ if (res == FR_OK){
   index |= (*(__IO uint16_t *) (pbmp + 12)) << 16;
   
   /* Read bitmap width */
-  width = *(uint16_t *) (pbmp + 18);
-  width |= (*(uint16_t *) (pbmp + 20)) << 16;
-  Size.width = width;
-  
+  Size.width  = *(uint16_t *) (pbmp + 18);
+  Size.width |= (*(uint16_t *) (pbmp + 20)) << 16;
+   
   /* Read bitmap height */
-  height = *(uint16_t *) (pbmp + 22);
-  height |= (*(uint16_t *) (pbmp + 24)) << 16; 
-  Size.height = height;
+  Size.height = *(uint16_t *) (pbmp + 22);
+  Size.height |= (*(uint16_t *) (pbmp + 24)) << 16; 
   
   /* Read bit/pixel */
-  bit_pixel = *(uint16_t *) (pbmp + 28);   
-  
+  byte_pixel = (*(uint16_t *) (pbmp + 28))/8;   
   /* Set the address */
-  //address = AddressOfImage;
   
   /* Get the layer pixel format */    
-  if ((bit_pixel/8) == 4)
+  if (byte_pixel == 4)
   {
     input_color_mode = CM_ARGB8888;
   }
-  else if ((bit_pixel/8) == 2)
+  else if (byte_pixel == 2)
   {
     input_color_mode = CM_RGB565;   
   }
@@ -260,25 +256,29 @@ if (res == FR_OK){
   {
     input_color_mode = CM_RGB888;
   }
-  //// here we can read
   /* Bypass the bitmap header */
- // pbmp += (index + (width * (height - 1) * (bit_pixel/8))); 
-  PositionOfFile = index + (width * (height - 1) * (bit_pixel/8));
-  LineBytesSize = (bit_pixel/8)*DisplayWIDTH;
+  padding = 0;
+  scanlinebytes = Size.width * byte_pixel;
+  while ( ( scanlinebytes + padding ) % 4 != 0 )
+		padding++;
+  psw = scanlinebytes + padding;
+  
+  PositionOfFile = index + psw * (Size.height - 1);
+  LineBytesSize = byte_pixel * Size.width;
   res = f_lseek(&OurFile, PositionOfFile); //pointer to the last line of bitmap
   res = f_read(&OurFile, &pbmp[0], LineBytesSize, &br);
 
   /* Convert picture to ARGB8888 pixel format */
-  for(index=0; index < height; index++)
+  for(index=0; index < Size.height; index++)
   {
     /* Pixel format conversion */
-    LL_ConvertLineToARGB8888(pbmp, (void *)AddressOfImage, (uint32_t) width,(uint32_t) input_color_mode);
+    LL_ConvertLineToARGB8888(pbmp, (void *)AddressOfImage, (uint32_t) Size.width, (uint32_t) input_color_mode);
     
     /* Increment the source and destination buffers */
-    AddressOfImage +=  (DisplayWIDTH*4);
-    PositionOfFile -= width*(bit_pixel/8);
+    AddressOfImage +=  (Size.width * 4);
+    PositionOfFile -= psw;
   f_lseek(&OurFile, PositionOfFile); //pointer to the last line of bitmap
-  f_read(&OurFile, pbmp, LineBytesSize, &br);
+  f_read(&OurFile, pbmp, LineBytesSize + (Size.width) % 4, &br);
   } 
   f_close(&OurFile);//close the file
   f_mount(NULL, "0:", 0);//unmount the drive
