@@ -988,7 +988,7 @@
         <name>$PROJ_DIR$\..\Src\adc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Utilities\Fonts\ARIALB_16pt.c</name>
+        <name>$PROJ_DIR$\..\Src\ARIALB_16pt.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\bsp_driver_sd.c</name>
@@ -1021,7 +1021,7 @@
         <name>$PROJ_DIR$\..\Src\fmc.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Utilities\Fonts\GOST_B_23_var.c</name>
+        <name>$PROJ_DIR$\..\Src\GOST_B_23_var.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\gpio.c</name>
@@ -1057,7 +1057,13 @@
         <name>$PROJ_DIR$\..\Src\memory.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Utilities\Fonts\RIAD_16pt.c</name>
+        <name>$PROJ_DIR$\..\Src\RIAD_16pt.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\RIAD_30pt.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\RIAD_80pt.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\rtc.c</name>

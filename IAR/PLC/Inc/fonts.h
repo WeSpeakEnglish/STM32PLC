@@ -10,7 +10,7 @@
 
 struct FONT_CHAR_INFO{
  uint8_t Wide;
- uint16_t Offset;
+ uint32_t Offset;
 };
 typedef struct _tFont
 {    
@@ -23,6 +23,9 @@ typedef struct _tFont
 
 extern sFONT GOST_B_23_var;
 extern sFONT ARIALB_16pt;
+extern sFONT RIAD_16pt;
+extern sFONT RIAD_30pt;
+extern sFONT RIAD_80pt;
 
 
 #define LINE(x) ((x) * (((sFONT *)LCD_GetFont())->Height))

@@ -67,11 +67,11 @@ DISP.Screen = 0;
   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
  // LCD_SetBackColor(0x0000FFFF);
 
-  Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning and center
-  Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning
+ // Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning and center
+ // Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning
 
 
-  Text4 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 200, 200, "ю€", LEFT_MODE, 1, &RIAD_16pt, 0x0000FFFF);   // with 1 pix kerning
+  Text4 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 200, 200, "ѕривет", LEFT_MODE, 1, &RIAD_80pt, 0x0000FFFF);   // with 1 pix kerning
  
   Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, 800, 480, 2);
  

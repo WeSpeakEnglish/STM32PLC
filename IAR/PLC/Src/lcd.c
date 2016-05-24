@@ -16,7 +16,7 @@
 static uint32_t            ActiveLayer = 0;
 static LCD_DrawPropTypeDef DrawProp[MAX_LAYER_NUMBER];
 static uint32_t LayerIndex = 0;
-static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint8_t SignWide);
+static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint16_t SignWide);
 static void LL_FillBuffer(uint32_t LayerIndex, void *pDst, uint32_t xSize, uint32_t ySize, uint32_t OffLine, uint32_t ColorIndex);
 
 uint32_t LCD_GetXSize(void)
@@ -225,12 +225,12 @@ void LCD_ClearStringLine(uint32_t Line)
 
 void LCD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii)
 {
-  DrawChar(Xpos, Ypos, &DrawProp[ActiveLayer].pFont->table[DrawProp[ActiveLayer].pFont->tableInfo[(Ascii-' ')].Offset],DrawProp[ActiveLayer].pFont->tableInfo[(Ascii-' ')].Wide);
+  DrawChar(Xpos, Ypos, &DrawProp[ActiveLayer].pFont->table[DrawProp[ActiveLayer].pFont->tableInfo[(Ascii-' ')].Offset],(uint16_t)DrawProp[ActiveLayer].pFont->tableInfo[(Ascii-' ')].Wide);
 }
 
 void LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode, uint8_t Kerning )
 {
-  uint16_t ref_column = 1, i = 0;
+  uint32_t ref_column = 1, i = 0;
   uint32_t size = 0, xsize = 0; 
   uint8_t  *ptr = Text;
   
@@ -776,55 +776,48 @@ void LCD_FillEllipse(int Xpos, int Ypos, int XRadius, int YRadius)
   * @param  c: Pointer to the character data
   * @retval None
   */
-static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint8_t SignWide)
+static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint16_t SignWide)
 {
-  uint32_t i = 0, j = 0;
-  uint16_t height, width;
-  uint8_t  offset;
+  uint32_t i = 0, j = 0, k = 0;
+  uint16_t height; 
+  uint16_t width;
+  uint8_t  BytesWide;
   uint8_t  *pchar;
-  uint32_t line;
+  uint8_t  position;
+
+  uint8_t ShiftVar = 0;
+
   
   height = DrawProp[ActiveLayer].pFont->Height;
   width  = (uint16_t)SignWide;
+  BytesWide = ((SignWide-1)/8) + 1 ;
+  position = 0;
   
-  offset =  8 *((width + 7)/8) -  width ;
-  
-  for(i = 0; i < height; i++)
-  {
-    pchar = ((uint8_t *)c + (width + 7)/8 * i);
-    
-    switch(((width + 7)/8))
+  for (k = 0; k < height; k++)
+    {
+    for (j = 0; j < BytesWide; j++)
     {
       
-    case 1:
-      line =  pchar[0];      
-      break;
-      
-    case 2:
-      line =  (pchar[0]<< 8) | pchar[1];      
-      break;
-      
-    case 3:
-    default:
-      line =  (pchar[0]<< 16) | (pchar[1]<< 8) | pchar[2];      
-      break;
-    } 
-    
-    for (j = 0; j < width; j++)
-    {
-      if(line & (1 << (width- j + offset- 1))) 
+      for(i = 0; i < 8; i++ ){
+       if(position < SignWide){ 
+      if(c[j] & (1 << 7-i) ) 
       {
         //LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].TextColor);
-        Fast_LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].TextColor);
+        Fast_LCD_DrawPixel((Xpos + position), Ypos, DrawProp[ActiveLayer].TextColor);
       }
       else
       {
-       if(DrawProp[ActiveLayer].BackColor & 0xFF000000) Fast_LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].BackColor);
+       if(DrawProp[ActiveLayer].BackColor & 0xFF000000) Fast_LCD_DrawPixel((Xpos + position), Ypos, DrawProp[ActiveLayer].BackColor);
       //  LCD_DrawPixel((Xpos + j), Ypos, DrawProp[ActiveLayer].BackColor);
-      } 
+      }
+      position++;
+      }
+      }
     }
+    c += BytesWide;
+    position = 0;
     Ypos++;
-  }
+    }
 }
 
 /**
