@@ -10,7 +10,7 @@
 #include "fonts.h"
 
 GUI_Object* Circles[4];
-GUI_Object* Images[10]; 
+GUI_Object* Images[50]; 
 GUI_Object* Text1;
 GUI_Object* Text2; 
 GUI_Object* Text3;
@@ -54,7 +54,7 @@ DISP.Screen = 0;
   GUI_Free();
  
   
-   Images[0] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[11].address, 12, 407, IMAGES.ImgArray[11].xsize, IMAGES.ImgArray[11].ysize); 
+   Images[6] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[11].address, 12, 407, IMAGES.ImgArray[11].xsize, IMAGES.ImgArray[11].ysize); 
    
    //load buttons
    Images[1] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[22].address, 12, 48, IMAGES.ImgArray[22].xsize, IMAGES.ImgArray[22].ysize); //OFF left
@@ -62,13 +62,20 @@ DISP.Screen = 0;
    Images[3] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[9].address, 12, 190, IMAGES.ImgArray[9].xsize, IMAGES.ImgArray[9].ysize); //max left
    Images[4] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[20].address, 12, 262, IMAGES.ImgArray[20].xsize, IMAGES.ImgArray[20].ysize); //sim left
    Images[5] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[18].address, 12, 337, IMAGES.ImgArray[18].xsize, IMAGES.ImgArray[18].ysize); //sim brush
-   
+  
+   Images[6] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[11].address, 12, 407, IMAGES.ImgArray[11].xsize, IMAGES.ImgArray[11].ysize); 
+   Images[7] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[12].address, 124, 407, IMAGES.ImgArray[12].xsize, IMAGES.ImgArray[12].ysize); 
+   Images[8] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[13].address, 236, 407, IMAGES.ImgArray[13].xsize, IMAGES.ImgArray[13].ysize); 
+   Images[9] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[14].address, 348, 407, IMAGES.ImgArray[14].xsize, IMAGES.ImgArray[14].ysize); 
+   Images[10] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[15].address, 461, 407, IMAGES.ImgArray[15].xsize, IMAGES.ImgArray[15].ysize); 
+   Images[11] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[16].address, 573, 407, IMAGES.ImgArray[16].xsize, IMAGES.ImgArray[16].ysize); 
+  
    GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
  // LCD_SetBackColor(0x0000FFFF);
 
- // Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning and center
- // Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning
+  Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning and center
+  Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning
 
 
   Text4 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 200, 200, "Привет", LEFT_MODE, 1, &RIAD_80pt, 0x0000FFFF);   // with 1 pix kerning
@@ -88,10 +95,8 @@ void Run_GUI(void){
     GetDateToStr(StrDate, &dt);
     GetTimeToStr(StrTime, &dt);
   }
-  if(DISP.Event){  
-  switch(DISP.Screen){
-  case 0:
-        switch(DISP.TS_ZoneNumber){
+  if(DISP.Event){ 
+     switch(DISP.TS_ZoneNumber){
         case 0:  //toggle index of button
           if(!Images[1]->z_index){
           Images[1]->z_index = 1;
@@ -130,13 +135,28 @@ void Run_GUI(void){
            }   
           else Images[5]->z_index = 0;
           break;
-      } 
-     DISP.TS_ZoneNumber = -1; 
-     DISP.Screen = 0;
+        case 5:
+          if(!Images[10]->z_index){
+          Images[10]->z_index = 1;
+           }   
+          else Images[10]->z_index = 0;
+          break;  
+        case 6:
+          if(!Images[11]->z_index){
+          Images[11]->z_index = 1;
+           }   
+          else Images[11]->z_index = 0;
+          break;   
+      }
+  switch(DISP.Screen){
+  case 0:
+ 
+ 
+
     
    break;
   }
-  
+  DISP.TS_ZoneNumber = -1; 
   DISP.Event = 0;
   } 
 }
@@ -229,6 +249,8 @@ void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
    {{12,190},{116,248}}, // MAX (LEFT)
    {{12,262},{116,320}},  //SIM (LEFT)
    {{12,338},{116,396}},  //BRUSH (LEFT)
+   {{464,412},{558,480}},  //LIGHT (DOWN)
+   {{572,412},{672,480}},  //LIGHT (DOWN)
  };  
  
  

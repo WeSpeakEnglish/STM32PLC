@@ -1247,6 +1247,9 @@
         <name>$PROJ_DIR$\..\Src\RIAD_30pt.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\RIAD_40pt.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\RIAD_80pt.c</name>
       </file>
       <file>

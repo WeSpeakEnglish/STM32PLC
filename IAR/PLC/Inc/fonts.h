@@ -25,6 +25,7 @@ extern sFONT GOST_B_23_var;
 extern sFONT ARIALB_16pt;
 extern sFONT RIAD_16pt;
 extern sFONT RIAD_30pt;
+extern sFONT RIAD_40pt;
 extern sFONT RIAD_80pt;
 
 

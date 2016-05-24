@@ -780,16 +780,10 @@ static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint16_t Si
 {
   uint32_t i = 0, j = 0, k = 0;
   uint16_t height; 
-  uint16_t width;
-  uint8_t  BytesWide;
-  uint8_t  *pchar;
+  uint16_t  BytesWide;
   uint8_t  position;
 
-  uint8_t ShiftVar = 0;
-
-  
   height = DrawProp[ActiveLayer].pFont->Height;
-  width  = (uint16_t)SignWide;
   BytesWide = ((SignWide-1)/8) + 1 ;
   position = 0;
   
