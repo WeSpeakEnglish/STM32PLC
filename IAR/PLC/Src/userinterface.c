@@ -44,17 +44,26 @@ struct ImageInfo ImgArray[100];
 uint16_t Number;
 }IMAGES;
 
+struct{
+uint16_t Dose;
+uint8_t Diapazone;
+uint16_t Rate;
+}PatchParms;
 
 
 
 void Load_GUI_0(void){
 
-DISP.Screen = 0; 
-
+ DISP.Screen = 0; 
+ 
+ PatchParms.Dose = 120;
+ PatchParms.Rate = 1200;
+ PatchParms.Diapazone = 8;
+ 
   GUI_Free();
  
   
-   Images[6] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[11].address, 12, 407, IMAGES.ImgArray[11].xsize, IMAGES.ImgArray[11].ysize); 
+   //Images[6] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[11].address, 12, 407, IMAGES.ImgArray[11].xsize, IMAGES.ImgArray[11].ysize); 
    
    //load buttons
    Images[1] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[22].address, 12, 48, IMAGES.ImgArray[22].xsize, IMAGES.ImgArray[22].ysize); //OFF left
@@ -71,14 +80,14 @@ DISP.Screen = 0;
    Images[11] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[16].address, 573, 407, IMAGES.ImgArray[16].xsize, IMAGES.ImgArray[16].ysize); 
   
    GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
-  GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
+   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
  // LCD_SetBackColor(0x0000FFFF);
 
   Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning and center
   Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning
 
 
-  Text4 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 200, 200, "Привет", LEFT_MODE, 1, &RIAD_80pt, 0x0000FFFF);   // with 1 pix kerning
+  Text4 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 80, Itoa(PatchParms.Dose), LEFT_MODE, 1, &RIAD_30pt, 0x0000FFFF);   // with 1 pix kerning
  
   Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, 800, 480, 2);
  

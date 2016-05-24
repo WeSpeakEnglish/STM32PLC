@@ -14,7 +14,7 @@ stlinkserialNo=B4060975
 stlinkfoundProbes=
 LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=1132500074
+Checksum=272556759
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -81,16 +81,6 @@ Fmt5={W}1:address	4	0
 Fmt6={W}1:line2	1	0
 Fmt7={W}1:stmpe_id	4	0
 Fmt8={W}1:x_address	4	0
-[DriverProfiling]
-Enabled=0
-Mode=3
-Graph=0
-Symbiont=0
-Exclusions=
-[CallStackLog]
-Enabled=0
-[CallStackStripe]
-ShowTiming=1
 [Trace2]
 Enabled=0
 ShowSource=0
@@ -139,7 +129,8 @@ Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_h
 Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.324.7" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_ltdc.c}.372.7" 0 0 1 "" 0 "" 0
 Bp4=_ 0 "EMUL_DATA" "0x20000350" 2 1 1 1 4294967295
-Count=5
+Bp5=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\gui.c}.162.1" 0 0 1 "" 0 "" 0
+Count=6
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -153,3 +144,13 @@ A1=_ "E:\CODE\PLC\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_tim_ex.c" ""
 A2=_ "E:\CODE\PLC\Src\main.c" ""
 Count=3
 SuppressDialog=0
+[DriverProfiling]
+Enabled=0
+Mode=3
+Graph=0
+Symbiont=0
+Exclusions=
+[CallStackLog]
+Enabled=0
+[CallStackStripe]
+ShowTiming=1
