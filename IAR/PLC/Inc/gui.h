@@ -20,6 +20,8 @@
 #define         FILLED_POLY                  12
 #define         POLY_TYPE                    13
 #define         ROTATING_FILLED_POLY_TYPE    14
+#define         RECT_TYPE                    15
+#define         IMAGE_WITH_TRANSP            16
 ////////////////////////
 
 #include "variables.h"

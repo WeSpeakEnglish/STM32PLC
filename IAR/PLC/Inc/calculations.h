@@ -12,5 +12,5 @@ Point RotatePoint(Point Coord, Point Coord0, float32_t angle); //angle in degree
 void RotatePoly(Point* pToPoints, uint8_t NumbOfPoints, const pPoint Origin, uint32_t angle_deg);
 void StorePoly(const Point* pToPoints, uint8_t NumbOfPoints); //we can store our poly before rotation 
 void RestorePoly(Point* pToPoints, uint8_t NumbOfPoints); //and restore it after to iliminate degradation 
-uint8_t * Itoa(uint16_t Number);
+uint8_t * Itoa(uint8_t * StrDst, uint16_t Number);
 #endif

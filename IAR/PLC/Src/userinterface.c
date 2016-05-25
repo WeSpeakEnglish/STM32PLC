@@ -11,15 +11,14 @@
 
 GUI_Object* Circles[4];
 GUI_Object* Images[50]; 
-GUI_Object* Text1;
-GUI_Object* Text2; 
-GUI_Object* Text3;
-GUI_Object* Text4;
-GUI_Object* Poly1;
+GUI_Object* Text[19];
+GUI_Object* Rect1;
 GUI_Object* Poly2;
 GUI_Object* Poly3;
 uint8_t StrDate[11]="25.04.2016";
 uint8_t StrTime[9]="20:00:00";
+uint8_t StrDATA[16][8];
+
 
 volatile uint8_t TimeIsReady = 0;
 volatile uint8_t UpdateScreen = 0;
@@ -32,21 +31,17 @@ struct{
   int8_t        TS_ZoneNumber;
 }DISP;
 
-struct ImageInfo{
-  uint16_t index;
-  uint16_t xsize;
-  uint16_t ysize;
-  uint32_t address;
-};
+
 
 struct{
-struct ImageInfo ImgArray[100];
+ImageInfo ImgArray[100];
 uint16_t Number;
 }IMAGES;
 
 struct{
 uint16_t Dose;
-uint8_t Diapazone;
+uint8_t DiapL;
+uint8_t DiapR;
 uint16_t Rate;
 }PatchParms;
 
@@ -58,7 +53,8 @@ void Load_GUI_0(void){
  
  PatchParms.Dose = 120;
  PatchParms.Rate = 1200;
- PatchParms.Diapazone = 8;
+ PatchParms.DiapL = 4;
+ PatchParms.DiapR = 4;
  
   GUI_Free();
  
@@ -66,29 +62,59 @@ void Load_GUI_0(void){
    //Images[6] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[11].address, 12, 407, IMAGES.ImgArray[11].xsize, IMAGES.ImgArray[11].ysize); 
    
    //load buttons
-   Images[1] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[22].address, 12, 48, IMAGES.ImgArray[22].xsize, IMAGES.ImgArray[22].ysize); //OFF left
-   Images[2] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[3].address, 12, 118, IMAGES.ImgArray[3].xsize, IMAGES.ImgArray[3].ysize); //auto left
-   Images[3] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[9].address, 12, 190, IMAGES.ImgArray[9].xsize, IMAGES.ImgArray[9].ysize); //max left
-   Images[4] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[20].address, 12, 262, IMAGES.ImgArray[20].xsize, IMAGES.ImgArray[20].ysize); //sim left
-   Images[5] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[18].address, 12, 337, IMAGES.ImgArray[18].xsize, IMAGES.ImgArray[18].ysize); //sim brush
+   Images[1] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[22], 12, 48); //OFF left
+   Images[2] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[3], 12, 118); //auto left
+   Images[3] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[9], 12, 190); //max left
+   Images[4] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[20], 12, 262); //sim left
+   Images[5] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[18], 12, 337); //sim brush
   
-   Images[6] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 1, 5, IMAGES.ImgArray[11].address, 12, 407, IMAGES.ImgArray[11].xsize, IMAGES.ImgArray[11].ysize); 
-   Images[7] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[12].address, 124, 407, IMAGES.ImgArray[12].xsize, IMAGES.ImgArray[12].ysize); 
-   Images[8] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[13].address, 236, 407, IMAGES.ImgArray[13].xsize, IMAGES.ImgArray[13].ysize); 
-   Images[9] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[14].address, 348, 407, IMAGES.ImgArray[14].xsize, IMAGES.ImgArray[14].ysize); 
-   Images[10] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[15].address, 461, 407, IMAGES.ImgArray[15].xsize, IMAGES.ImgArray[15].ysize); 
-   Images[11] = GUI_SetObject(IMAGE_FAST_FILL,0xFF00FF00, 0, 5, IMAGES.ImgArray[16].address, 573, 407, IMAGES.ImgArray[16].xsize, IMAGES.ImgArray[16].ysize); 
-  
-   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
-   GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
+   Images[6] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[11], 12, 407); 
+   Images[7] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[12], 124, 407); 
+   Images[8] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[13], 236, 407); 
+   Images[9] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[14], 348, 407); 
+   Images[10] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[15], 461, 407); 
+   Images[11] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[16], 573, 407); 
+   Images[12] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[2], 153, 63); 
+   
+   Images[13] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[1], 151, 112); 
+   Images[14] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[0], 151, 250);
+   Images[15] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[42], 414, 112);
+   
+   Images[16] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 1, 3, &IMAGES.ImgArray[7], 684, 47); //after reflow change to 0xFF333333 
+   Images[17] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 1, 3, &IMAGES.ImgArray[7], 684, 169); //after reflow change to 0xFF333333 
+    
+   Rect1 = GUI_SetObject(RECT_TYPE,0xFFFAC58F, 1, 4, 152, 63, 651, 99);
+   
+  // GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
+ //  GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
  // LCD_SetBackColor(0x0000FFFF);
 
-  Text2 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning and center
-  Text3 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning
-
-
-  Text4 = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 80, Itoa(PatchParms.Dose), LEFT_MODE, 1, &RIAD_30pt, 0x0000FFFF);   // with 1 pix kerning
+  Text[2] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning and center
+  Text[3] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // with 1 pix kerning
  
+  Itoa(StrDATA[0], PatchParms.Dose);
+  Itoa(StrDATA[1], PatchParms.DiapL);
+  Itoa(StrDATA[2], PatchParms.Rate);
+  Itoa(StrDATA[3], PatchParms.DiapR);
+  Itoa(StrDATA[4], PatchParms.DiapR + PatchParms.DiapL);
+  
+  Text[4] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 500, 82,"1254 Í„    œ≈—Œ -—ŒÀ‹", CENTER_MODE, 2, &RIAD_16pt, 0x0000FFFF); 
+ 
+  Text[5] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 90, StrDATA[0], CENTER_MODE, 2, &RIAD_30pt, 0x0000FFFF);   // with 2 pix kerning
+  Text[6] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 213, StrDATA[4], CENTER_MODE, 2, &RIAD_30pt, 0x0000FFFF);
+  Text[7] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 336, StrDATA[2], CENTER_MODE, 2, &RIAD_30pt, 0x0000FFFF);
+  Text[8] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 330, 120, StrDATA[0], RIGHT_MODE, 4, &RIAD_80pt, 0x0000FFFF);
+  Text[9] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 330, 200, "„/Ï≤", LEFT_MODE, 1, &RIAD_16pt, 0x0000FFFF);   
+  Text[10] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 270, StrDATA[4], RIGHT_MODE, 4, &RIAD_80pt, 0x0000FFFF);
+  Text[11] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 350, "Ï", LEFT_MODE, 1, &RIAD_16pt, 0x0000FFFF); 
+  Text[12] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 480, 300, StrDATA[1], RIGHT_MODE, 2, &RIAD_40pt, 0x0000FFFF);
+  Text[13] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 588, 300, StrDATA[3], LEFT_MODE, 2, &RIAD_40pt, 0x0000FFFF);
+  
+  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 120, "„/Ï≤", CENTER_MODE, 1, &RIAD_16pt, 0x0000FFFF);   // with 1 pix kerning
+  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 243, "Ï", CENTER_MODE, 1, &RIAD_16pt, 0x0000FFFF);
+  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 366, "Ó·/ÏËÌ", CENTER_MODE, 1, &RIAD_16pt, 0x0000FFFF);
+  
+  
   Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, 800, 480, 2);
  
  UpdateScreen = 1;

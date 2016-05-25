@@ -125,9 +125,9 @@ void RestorePoly(Point* pToPoints, uint8_t NumbOfPoints) //and restore it after 
   }
 }
 
-uint8_t * Itoa(uint16_t Number){ // convert int into string
-  static uint8_t StrDst[]={"65536"};
-  uint8_t * pStrDst = StrDst;
+uint8_t * Itoa(uint8_t * StrDst, uint16_t Number){ // convert int into string
+
+  uint8_t * pStrDst = &StrDst[0];
   uint16_t Tmp;
   uint8_t Iliminate = 1;
   
@@ -151,6 +151,6 @@ uint8_t * Itoa(uint16_t Number){ // convert int into string
   Tmp = Number%10;
   *pStrDst++ = Tmp + 0x30;
   *pStrDst = '\0';
-return StrDst;
+return &StrDst[0];
 }
 

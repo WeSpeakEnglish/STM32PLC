@@ -397,15 +397,26 @@ void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
   }
 }
 
-void LCD_DrawRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
+void LCD_DrawRect(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t  y2)
 {
   /* Draw horizontal lines */
-  LCD_DrawHLine(Xpos, Ypos, Width);
-  LCD_DrawHLine(Xpos, (Ypos+ Height), Width);
-  
+ // LCD_DrawHLine(Xpos, Ypos, Width);
+ // LCD_DrawHLine(Xpos, (Ypos+ Height), Width);
+  if(x1 < DisplayWIDTH +1){
+   if(x2 < DisplayWIDTH +1){  
+     if(y1 < DisplayHEIGHT +1){  
+       if(y2 < DisplayHEIGHT +1){  
+            DrawFastLineVertical(x1,y1,y2);
+            DrawFastLineVertical(x2,y1,y2);
+            DrawFastLineHorizontal(y1,x1,x2);
+            DrawFastLineHorizontal(y2,x1,x2);
+     }
+    }
+   }
+  }
   /* Draw vertical lines */
-  LCD_DrawVLine(Xpos, Ypos, Height);
-  LCD_DrawVLine((Xpos + Width), Ypos, Height);
+ // LCD_DrawVLine(Xpos, Ypos, Height);
+ // LCD_DrawVLine((Xpos + Width), Ypos, Height);
 }
 
 void LCD_DrawCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
@@ -1085,11 +1096,11 @@ void LCD_FillRect(uint32_t x1, uint32_t y1, uint32_t x2, uint32_t y2){
     DrawFastLineHorizontal(y1++, x1, x2);
 }
 
-void LCD_Fill_Image(uint32_t ImageAddress, uint32_t x, uint32_t y, uint32_t xSize, uint32_t ySize){
-  static uint32_t address;
- 
+void LCD_Fill_Image(ImageInfo * Image, uint32_t x, uint32_t y){
+ static uint32_t address;
+  
  address = ProjectionLayerAddress[LayerOfView] + 4 * y * DisplayWIDTH + 4 * x;
- FillImageSoft(ImageAddress, address, xSize, ySize);
+ FillImageSoft(Image->address, address, Image->xsize, Image->ysize);
 
 }
 
@@ -1102,6 +1113,22 @@ uint32_t* pImageAddress = (uint32_t*)ImageAddress;
   for(i = 0; i < xSize; i++){
        data = *pImageAddress++;
        if(data & 0xFF000000) // is it not transparent?
+       *(__IO uint32_t*)(address + i * 4 + S_Y) = data;
+   }
+ }
+}
+
+void LCD_Fill_ImageTRANSP(ImageInfo * Image, uint32_t x, uint32_t y){
+static uint32_t address;
+address = ProjectionLayerAddress[LayerOfView] + 4 * y * DisplayWIDTH + 4 * x;
+uint32_t S_Y, data, i , j;
+uint32_t* pImageAddress = (uint32_t*) Image->address;
+
+ for(j = 0; j < (Image->ysize); j++){
+   S_Y = 4 * j * DisplayWIDTH;
+  for(i = 0; i < (Image->xsize); i++){
+       data = *pImageAddress++;
+       if(data != DrawProp[LayerIndex].TextColor) // is it not transparent?
        *(__IO uint32_t*)(address + i * 4 + S_Y) = data;
    }
  }

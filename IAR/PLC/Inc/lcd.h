@@ -38,7 +38,13 @@ typedef struct
   int16_t X;
   int16_t Y;
 }Point, * pPoint; 
-   
+
+typedef struct {
+  uint16_t index;
+  uint16_t xsize;
+  uint16_t ysize;
+  uint32_t address;
+}ImageInfo;   
 /** 
   * @brief  Line mode structures definition  
   */ 
@@ -162,7 +168,7 @@ void     LCD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii);
 void     LCD_DrawHLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length);
 void     LCD_DrawVLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length);
 void     LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
-void     LCD_DrawRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
+void     LCD_DrawRect(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 void     LCD_DrawCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius);
 void     LCD_DrawPolygon(pPoint Points, uint16_t PointCount);
 void     LCD_DrawEllipse(int Xpos, int Ypos, int XRadius, int YRadius);
@@ -185,7 +191,9 @@ void Fast_LCD_DrawPixel(uint16_t Xpos, uint16_t Ypos, uint32_t ARGB_Code);
 void LCD_SetLight(uint16_t);
 void DrawFastLineVertical(uint16_t x1, uint16_t y1, uint16_t y2);
 void DrawFastLineHorizontal(uint16_t y1, uint16_t x1, uint16_t x2);
-void LCD_Fill_Image(uint32_t ImageAddress, uint32_t x, uint32_t y, uint32_t xSize, uint32_t ySize);
+//void LCD_Fill_Image(uint32_t ImageAddress, uint32_t x, uint32_t y, uint32_t xSize, uint32_t ySize);
+void LCD_Fill_Image(ImageInfo * Image, uint32_t x, uint32_t y);
+void LCD_Fill_ImageTRANSP(ImageInfo * Image, uint32_t x, uint32_t y);
 void FillImageSoft(uint32_t ImageAddress, uint32_t address, uint32_t xSize, uint32_t ySize);
 void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
 #endif /* __LCD_H */
