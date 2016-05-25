@@ -80,8 +80,9 @@ void Load_GUI_0(void){
    Images[14] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[0], 151, 250);
    Images[15] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[42], 414, 112);
    
-   Images[16] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 1, 3, &IMAGES.ImgArray[7], 684, 47); //after reflow change to 0xFF333333 
-   Images[17] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 1, 3, &IMAGES.ImgArray[7], 684, 169); //after reflow change to 0xFF333333 
+   Images[16] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 1, 3, &IMAGES.ImgArray[7], 684, 47); // DOSE RIGHT after reflow change to 0xFF333333 
+   Images[17] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 0, 3, &IMAGES.ImgArray[7], 684, 169); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
+   Images[18] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 0, 3, &IMAGES.ImgArray[7], 684, 293); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
     
    Rect1 = GUI_SetObject(RECT_TYPE,0xFFFAC58F, 1, 4, 152, 63, 651, 99);
    
@@ -182,13 +183,49 @@ void Run_GUI(void){
            }   
           else Images[11]->z_index = 0;
           break;   
+        case 7:  //toggle index of button
+         if(!Images[16]->z_index){
+          Images[16]->z_index = 1;
+          Images[17]->z_index = 0;
+          Images[18]->z_index = 0;
+          } 
+          break;
+        case 8:  //toggle index of button
+         if(!Images[17]->z_index){
+          Images[17]->z_index = 1;
+          Images[16]->z_index = 0;
+          Images[18]->z_index = 0;
+          } 
+          break;
+          
+        case 9:  //toggle index of button
+         if(!Images[18]->z_index){
+          Images[18]->z_index = 1;
+          Images[16]->z_index = 0;
+          Images[17]->z_index = 0;
+          }  
+          break;  
       }
   switch(DISP.Screen){
   case 0:
- 
- 
-
-    
+    if(Images[16]->z_index){ 
+     Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
+     Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+    }
+    else{
+     Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
+     Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+    }
+   switch(DISP.TS_ZoneNumber){
+        case 10:  //toggle index of button
+            Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
+            Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+          break;
+        case 11:  //toggle index of button
+            Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
+            Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+          break;   
+   }
    break;
   }
   DISP.TS_ZoneNumber = -1; 
@@ -285,8 +322,13 @@ void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
    {{12,262},{116,320}},  //SIM (LEFT)
    {{12,338},{116,396}},  //BRUSH (LEFT)
    {{464,412},{558,480}},  //LIGHT (DOWN)
-   {{572,412},{672,480}},  //LIGHT (DOWN)
- };  
+   {{572,412},{672,480}},  //FLASH (DOWN)
+   {{690,50},{784,147}}, // RIGHT DOZE
+   {{690,177},{784,267}}, // RIGHT RANGE
+   {{690,300},{784,385}}, // RIGHT RATE
+   {{150,118},{386,242}}, // SQUARE WITH DOZE
+   {{150,258},{386,378}}, // SQUARE WITH RANGE
+ };   
  
  
  DISP.TS_ZoneNumber = -1;
