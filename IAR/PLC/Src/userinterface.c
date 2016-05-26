@@ -47,7 +47,8 @@ uint16_t Rate;
 
 
 void Load_GUI_0(void){
-
+ uint8_t i;
+ 
  DISP.Screen = 0; 
  
  PatchParms.Dose = 120;
@@ -83,15 +84,32 @@ void Load_GUI_0(void){
    Images[16] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 1, 3, &IMAGES.ImgArray[7], 684, 47); // DOSE RIGHT after reflow change to 0xFF333333 
    Images[17] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 0, 3, &IMAGES.ImgArray[7], 684, 169); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
    Images[18] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 0, 3, &IMAGES.ImgArray[7], 684, 293); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
-    
+      
+   //IMAGES load to STRUCT and HIDE they for the Zero screen
+   Images[19] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[31], 150, 61); // SCREEN 2 LEFT PRESSED(BIG IMG)
+   Images[20] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[32], 150, 61); // SCREEN 2 BOTTOM PRESSED(BIG IMG)
+   Images[21] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[33], 150, 61); // SCREEN 2 RIGTH PRESSED(BIG IMG)
+   Images[22] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[34], 150, 61); // SCREEN 2 TOP PRESSED(BIG IMG)
+   Images[23] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[35], 150, 61); // SCREEN 2 NOT PRESSED (BIG IMG)
+   Images[24] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[36], 150, 61); // SCREEN 1 NOT PRESSED (BIG IMG)
+   Images[25] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[37], 150, 61); // SCREEN 1 LEFT PRESSED (BIG IMG)
+   Images[26] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[38], 150, 61); // SCREEN 1 BOTTOM PRESSED (BIG IMG)
+   Images[27] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[39], 150, 61); // SCREEN 1 RIGHT PRESSED (BIG IMG)
+   Images[28] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[40], 150, 61); // SCREEN 1 TOP PRESSED (BIG IMG)
+   Images[29] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[45], 150, 61); // SCREEN 3 NOT PRESSED (BIG IMG)
+   Images[30] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[46], 150, 61); // SCREEN 3 BOTTOM BRUSH (BIG IMG)
+   Images[31] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[47], 150, 61); // SCREEN 3 LEFT RATE (BIG IMG)
+   Images[32] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[48], 150, 61); // SCREEN 3 TOP BRUSH (BIG IMG)
+   Images[33] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[49], 150, 61); // SCREEN 3 RIGHT RATE (BIG IMG)
+   
    Rect1 = GUI_SetObject(RECT_TYPE,0xFFFAC58F, 1, 4, 152, 63, 651, 99); // rect on the top of screen zero
    
   // GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 20, 10, 110, 35);
  //  GUI_SetObject(FILLED_RECT_TYPE, 0xFF000000, 2, 4, 690, 10, 780, 35);
  // LCD_SetBackColor(0x0000FFFF);
 
-  Text[2] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // watch
-  Text[3] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var, 0x0000FFFF);   // date
+  Text[2] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var,0);   // watch
+  Text[3] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var,0);   // date
  
   Itoa(StrDATA[0], PatchParms.Dose);
   Itoa(StrDATA[1], PatchParms.DiapL);
@@ -99,23 +117,24 @@ void Load_GUI_0(void){
   Itoa(StrDATA[3], PatchParms.DiapR);
   Itoa(StrDATA[4], PatchParms.DiapR + PatchParms.DiapL);
   
-  Text[4] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 500, 82,"1254 êã    ÏÅÑÎÊ-ÑÎËÜ", CENTER_MODE, 2, &RIAD_16pt, 0x0000FFFF); 
+  Text[4] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 500, 82,"1254 êã    ÏÅÑÎÊ-ÑÎËÜ", CENTER_MODE, 2, &RIAD_16pt,0); 
  
-  Text[5] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 90, StrDATA[0], CENTER_MODE, 2, &RIAD_30pt, 0x0000FFFF);   // DOSE RIGHT
-  Text[6] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 213, StrDATA[4], CENTER_MODE, 2, &RIAD_30pt, 0x0000FFFF);  // DIAPAZONE RIGHT 
-  Text[7] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 336, StrDATA[2], CENTER_MODE, 2, &RIAD_30pt, 0x0000FFFF);  // RATE RIGHT
+  Text[5] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 90, StrDATA[0], CENTER_MODE, 2, &RIAD_30pt,0);   // DOSE RIGHT
+  Text[6] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 213, StrDATA[4], CENTER_MODE, 2, &RIAD_30pt,0);  // DIAPAZONE RIGHT 
+  Text[7] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 336, StrDATA[2], CENTER_MODE, 2, &RIAD_30pt,0);  // RATE RIGHT
   
-  Text[8] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 350, "ì", LEFT_MODE, 1, &RIAD_16pt, 0x0000FFFF); 
-  Text[9] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 330, 200, "ã/ì²", LEFT_MODE, 1, &RIAD_16pt, 0x0000FFFF);   
-  Text[10] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 270, StrDATA[4], RIGHT_MODE, 4, &RIAD_80pt, 0x0000FFFF);
-  Text[11] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 330, 120, StrDATA[0], RIGHT_MODE, 4, &RIAD_80pt, 0x0000FFFF);
+  Text[8] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 350, "ì", LEFT_MODE, 1, &RIAD_16pt,0); 
+  Text[9] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 330, 200, "ã/ì²", LEFT_MODE, 1, &RIAD_16pt,0);   
+  Text[10] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 270, StrDATA[4], RIGHT_MODE, 4, &RIAD_80pt,0);
+  Text[11] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 330, 120, StrDATA[0], RIGHT_MODE, 4, &RIAD_80pt,0);
 
-  Text[12] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 480, 300, StrDATA[1], RIGHT_MODE, 2, &RIAD_40pt, 0x0000FFFF);
-  Text[13] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 588, 300, StrDATA[3], LEFT_MODE, 2, &RIAD_40pt, 0x0000FFFF);
+  Text[12] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 480, 300, StrDATA[1], RIGHT_MODE, 2, &RIAD_40pt,0);
+  Text[13] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 588, 300, StrDATA[3], LEFT_MODE, 2, &RIAD_40pt,0);
+  Text[14] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 0, 7, 527, 213, StrDATA[2], CENTER_MODE, 2, &RIAD_40pt,0); // BIG RATE on the SCREEN 3
   
-  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 120, "ã/ì²", CENTER_MODE, 1, &RIAD_16pt, 0x0000FFFF);   // with 1 pix kerning
-  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 243, "ì", CENTER_MODE, 1, &RIAD_16pt, 0x0000FFFF);
-  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 366, "îá/ìèí", CENTER_MODE, 1, &RIAD_16pt, 0x0000FFFF);
+  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 120, "ã/ì²", CENTER_MODE, 1, &RIAD_16pt,0);   // with 1 pix kerning
+  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 243, "ì", CENTER_MODE, 1, &RIAD_16pt,0);
+  GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 366, "îá/ìèí", CENTER_MODE, 1, &RIAD_16pt,0);
   
   
   Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, 800, 480, 2);
@@ -185,21 +204,24 @@ void Run_GUI(void){
            }   
           else Images[11]->z_index = 0;
           break;   
-        case 7:  //toggle index of button
+        case 7:  //toggle index of button    
+         DISP.Screen = 0;
+         ViewScreen();
          if(!Images[16]->z_index){
           Images[16]->z_index = 1;
           Images[17]->z_index = 0;
           Images[18]->z_index = 0;
           } 
-         DISP.Screen = 0;
+
           break;
-        case 8:  //toggle index of button
+        case 8:  //toggle index of button  
+         DISP.Screen = 0;
+         ViewScreen();
          if(!Images[17]->z_index){
           Images[17]->z_index = 1;
           Images[16]->z_index = 0;
           Images[18]->z_index = 0;
           } 
-         DISP.Screen = 0;
           break;
           
         case 9:  //toggle index of button
@@ -209,6 +231,7 @@ void Run_GUI(void){
           Images[17]->z_index = 0;
           }  
          DISP.Screen = 3;
+         ViewScreen();
           break;  
         case 12: //pressed topping
          DISP.Screen = 0;
@@ -273,6 +296,7 @@ void Run_GUI(void){
    break;
   case 3:
     DISP.SelectedField = 0; 
+
     ViewScreen(3);
    break; 
   }
@@ -417,12 +441,12 @@ void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
   return;
 }
 
-void ViewScreen(){
+void ViewScreen(void){
  uint16_t i;
  i = sizeof(Images);
   Rect1->z_index = 0;
   for(i = 6; i < sizeof(Images)/4; i++ )  {
-  Images[i]->z_index = 0;
+  if(i > 11 || i < 10)Images[i]->z_index = 0;
   }
   for(i = 4; i < sizeof(Text)/4; i++ )  {
     if(i > 7 || i < 5) Text[i]->z_index = 0;
@@ -435,9 +459,11 @@ void ViewScreen(){
      Images[13]->z_index = 1; // 1-st big rectangle
      Images[14]->z_index = 1; // 2-nd big rectangle
      Images[15]->z_index = 1; // TRUCK show
+     Images[16]-> z_index = 1; // show orange sguare
      
-     Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[1]; // squares to the default position
-     Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+   //  Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[0]; // squares to the default position
+   //  Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
+     
      
       Rect1->z_index = 1; //RECT
       Text[4] -> z_index = 1; // the SAND and SALT
@@ -449,15 +475,22 @@ void ViewScreen(){
       Text[12] -> z_index = 1;
       Text[13] -> z_index = 1;  
       
+      
       DISP.SelectedField = 0;
             break; 
     case 1:
+      Images[7]->z_index = 1;  //BLADE FRONT BOTTOM
+      Images[24]->z_index = 1; //SHOW BLADE FRONT BIG PICTURE
             break;  
     case 2:
+      Images[8]->z_index = 1;  //BLADE SIDE BOTTOM
+      Images[23]->z_index = 1; //SHOW BLADE SIDE BIG PICTURE
             break;
     case 3:
       Images[18]->z_index = 1; //RATE RIGTH
       Images[9]->z_index = 1;  //BRUSH BOTTOM
+      Images[29]->z_index = 1; //SHOW BRUSH BIG PICTURE
+      Text[14]->z_index = 1;
             break;          
   }
 
