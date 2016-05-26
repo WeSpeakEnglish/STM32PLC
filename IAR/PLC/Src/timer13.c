@@ -46,9 +46,13 @@ static uint8_t FlagPressed = 0;
     ReadLineKbd(3); break;
   case 80:     
     if(SolvePressedKeys()) {
-      if(KB_Status.PRESSED) SOUND.CounterSound= 0, SOUND.SoundPeriod = 200;
+      if(KB_Status.PRESSED){ 
+      SOUND.CounterSound= 0; 
+      SOUND.SoundPeriod = 200;
+      KBD_Handle(KB_Status.code);
+      }
       FlagPressed = 1;
-      if(KB_Status.PRESSED) KBD_Handle(KB_Status.code);
+       
     }
     else
       if(SOUND.CounterSound == SOUND.SoundPeriod) FlagPressed = 0;
@@ -65,6 +69,6 @@ static uint8_t FlagPressed = 0;
  } 
  Counter++;
  Counter%=100;
- if(!(CounterUPD % 2048))UpdateScreen = 1;
+// if(!(CounterUPD % 2048))UpdateScreen = 1;
  return;
 }

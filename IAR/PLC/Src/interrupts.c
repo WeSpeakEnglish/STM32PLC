@@ -3,6 +3,7 @@
 #include "timer14.h"
 #include "core.h"
 #include "userinterface.h"
+#include "rtc.h"
 
 
 
@@ -22,7 +23,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 
 void   EXTI9_5_IRQHandler(void)        //; EXTI Line 9..5
 {
-        
+      
         
  NVIC_ClearPendingIRQ (EXTI9_5_IRQn);
         
@@ -30,7 +31,9 @@ void   EXTI9_5_IRQHandler(void)        //; EXTI Line 9..5
         
          EXTI->PR |= (1<<7);
          
-         TimeIsReady = 1;  
+    
+    PCF8563_read_datetime(&dt);
+    TimeIsReady = 1;
 
         };
   

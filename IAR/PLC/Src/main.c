@@ -82,10 +82,11 @@ int main(void)
   /* USER CODE BEGIN 3 */
    // RoutineMedium(); // get and run deals from medium queue 
     RoutineFast();
-    if(UpdateScreen){
+    if(TimeIsReady){
     Run_GUI();
     Show_GUI();
     UpdateScreen = 0;
+    
     }
 
     
