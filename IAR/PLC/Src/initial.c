@@ -28,7 +28,7 @@ SDRAM_Initialization_Sequence(&hsdram1);
  // dt.minutes = 56;
  // dt.seconds = 0;
 //  PCF8563_set_datetime(&dt);
-//  config_CLKOUT(0x83); // 1 SECOND Clockuot
+  config_CLKOUT(0x82); // 1 SECOND Clockuot
   
  // SDRAM_free();
   

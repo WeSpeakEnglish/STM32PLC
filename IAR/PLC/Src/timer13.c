@@ -23,8 +23,6 @@ NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn); //Разрешение TIM6_DAC_IRQn прерывания
 void TIM13_IRQHandler(void){
 static uint32_t Counter = 0;
 static uint32_t CounterUPD = 0;
-
-static uint8_t FlagPressed = 0;
  TIM13->SR &= ~TIM_SR_UIF; //Сбрасываем флаг UIF
 
  switch (Counter){
@@ -52,11 +50,11 @@ static uint8_t FlagPressed = 0;
       CounterUPD = 0;
       }
       KBD_Handle(KB_Status.code);
-      FlagPressed = 1;
-       
-    }
+   }
     else
-      if(SOUND.CounterSound == SOUND.SoundPeriod) FlagPressed = 0;
+      if(SOUND.CounterSound == SOUND.SoundPeriod){
+         if(DISP.ReleaseTask && (Touch_Data.status == TOUCH_RELEASED)) ReleaseFunction();
+      }
     
     if((KB_Status.EVENT && KB_Status.PRESSED) &&((CounterUPD % 2000) == 1900))
       KBD_Handle(KB_Status.code);
@@ -76,6 +74,5 @@ static uint8_t FlagPressed = 0;
  Counter%=100; 
  CounterUPD++;
 
-// if(!(CounterUPD % 2048))UpdateScreen = 1;
  return;
 }

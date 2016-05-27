@@ -1,11 +1,11 @@
 #include "userinterface.h"
 #include "video.h"
-#include "lcd.h"
 #include "calculations.h"
 #include "core.h"
 #include "keyboard.h"
 #include "sound.h"
 #include "fonts.h"
+#include "timer14.h"
 
 #define DOZE_LIMIT_H 200
 #define DOZE_LIMIT_L 100
@@ -27,16 +27,7 @@ volatile uint8_t TimeIsReady = 0;
 volatile uint8_t UpdateScreen = 0;
 date_time_t dt;  
 
-volatile struct{
-  uint8_t       Screen; //0 =base 1= lateral blade 2 = frontal blade 3 = topping 4 = brush 
-  uint8_t       Event;
-  uint8_t       KbdCode;
-  int8_t        TS_ZoneNumber;
-  int8_t        SelectedField;
-  int8_t        ReleaseTask; // task for release button or touch screen
-}DISP;
-
-
+volatile Disp DISP;
 
 struct{
 ImageInfo ImgArray[100];
@@ -51,6 +42,32 @@ uint16_t Rate;
 }PatchParms;
 
 
+  const Zone ZonesTS_0[]={
+   {{12,48},{116,106}},    //0 SW OFF (LEFT)
+   {{12,119},{116,176}},   //1 AUTO (LEFT)
+   {{12,190},{116,248}},   //2 MAX (LEFT)
+   {{12,262},{116,320}},   //3 SIM (LEFT)
+   {{12,338},{116,396}},   //4 BRUSH (LEFT)
+   {{464,412},{558,480}},  //5 LIGHT (DOWN)
+   {{572,412},{672,480}},  //6 FLASH (DOWN)
+   {{690,50},{784,147}},   //7 DOZE (RIGHT)
+   {{690,177},{784,267}},  //8 RANGE (RIGHT)
+   {{690,300},{784,385}},  //9 RATE (RIGHT)
+   {{150,118},{386,242}},  //10 SQUARE WITH DOZE
+   {{150,258},{386,378}},  //11 SQUARE WITH RANGE
+   {{16,415},{110,498}},   //12 TOPPING(DOWN)
+   {{130,415},{220,498}},  //13 FRONT BLADE(DOWN)  
+   {{240,415},{334,498}},  //14 SIDE BLADE(DOWN) 
+   {{350,415},{446,498}},  //15 BRUSH(DOWN) 
+   
+   {{273,62},{531,142}},   //16 THE NORD BIG IMAGE
+   {{152,62},{272,142}},   //17 THE NW BIG IMAGE  
+   {{532,62},{654,142}},   //18 THE NE BIG IMAGE 
+   
+   {{273,302},{531,380}},   //19 THE SOUCH BIG IMAGE
+   {{152,302},{272,380}},   //20 THE NW BIG IMAGE  
+   {{532,302},{654,380}},   //21 THE NE BIG IMAGE  
+ };   
 
 void Load_GUI_0(void){
 
@@ -91,21 +108,21 @@ void Load_GUI_0(void){
    Images[18] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 0, 3, &IMAGES.ImgArray[7], 684, 293); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
       
    //IMAGES load to STRUCT and HIDE they for the Zero screen
-   Images[19] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[31], 150, 61); // SCREEN 2 LEFT PRESSED(BIG IMG)
-   Images[20] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[32], 150, 61); // SCREEN 2 BOTTOM PRESSED(BIG IMG)
-   Images[21] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[33], 150, 61); // SCREEN 2 RIGTH PRESSED(BIG IMG)
-   Images[22] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[34], 150, 61); // SCREEN 2 TOP PRESSED(BIG IMG)
+ //  Images[19] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[31], 150, 61); // SCREEN 2 LEFT PRESSED(BIG IMG)
+ //  Images[20] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[32], 150, 61); // SCREEN 2 BOTTOM PRESSED(BIG IMG)
+ //  Images[21] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[33], 150, 61); // SCREEN 2 RIGTH PRESSED(BIG IMG)
+ //  Images[22] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[34], 150, 61); // SCREEN 2 TOP PRESSED(BIG IMG)
    Images[23] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[35], 150, 61); // SCREEN 2 NOT PRESSED (BIG IMG)
    Images[24] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[36], 150, 61); // SCREEN 1 NOT PRESSED (BIG IMG)
-   Images[25] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[37], 150, 61); // SCREEN 1 LEFT PRESSED (BIG IMG)
-   Images[26] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[38], 150, 61); // SCREEN 1 BOTTOM PRESSED (BIG IMG)
-   Images[27] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[39], 150, 61); // SCREEN 1 RIGHT PRESSED (BIG IMG)
-   Images[28] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[40], 150, 61); // SCREEN 1 TOP PRESSED (BIG IMG)
+ // Images[25] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[37], 150, 61); // SCREEN 1 LEFT PRESSED (BIG IMG)
+ // Images[26] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[38], 150, 61); // SCREEN 1 BOTTOM PRESSED (BIG IMG)
+ // Images[27] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[39], 150, 61); // SCREEN 1 RIGHT PRESSED (BIG IMG)
+ //  Images[28] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[40], 150, 61); // SCREEN 1 TOP PRESSED (BIG IMG)
    Images[29] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[45], 150, 61); // SCREEN 3 NOT PRESSED (BIG IMG)
-   Images[30] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[46], 150, 61); // SCREEN 3 BOTTOM BRUSH (BIG IMG)
-   Images[31] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[47], 150, 61); // SCREEN 3 LEFT RATE (BIG IMG)
-   Images[32] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[48], 150, 61); // SCREEN 3 TOP BRUSH (BIG IMG)
-   Images[33] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[49], 150, 61); // SCREEN 3 RIGHT RATE (BIG IMG)
+ //  Images[30] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[46], 150, 61); // SCREEN 3 BOTTOM BRUSH (BIG IMG)
+ //  Images[31] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[47], 150, 61); // SCREEN 3 LEFT RATE (BIG IMG)
+ //  Images[32] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[48], 150, 61); // SCREEN 3 TOP BRUSH (BIG IMG)
+ //  Images[33] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[49], 150, 61); // SCREEN 3 RIGHT RATE (BIG IMG)
    
    Rect1 = GUI_SetObject(RECT_TYPE,0xFFFAC58F, 1, 4, 152, 63, 651, 99); // rect on the top of screen zero
    
@@ -128,9 +145,9 @@ void Load_GUI_0(void){
   Text[6] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 213, StrDATA[4], CENTER_MODE, 2, &RIAD_30pt,0);  // DIAPAZONE RIGHT 
   Text[7] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 336, StrDATA[2], CENTER_MODE, 2, &RIAD_30pt,0);  // RATE RIGHT
   
-  Text[8] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 350, "ì", LEFT_MODE, 1, &RIAD_16pt,0); 
+  Text[8] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 340, "ì", LEFT_MODE, 1, &RIAD_16pt,0); 
   Text[9] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 330, 200, "ã/ì²", LEFT_MODE, 1, &RIAD_16pt,0);   
-  Text[10] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 270, StrDATA[4], RIGHT_MODE, 4, &RIAD_80pt,0);
+  Text[10] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 335, 260, StrDATA[4], RIGHT_MODE, 4, &RIAD_80pt,0);
   Text[11] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 330, 120, StrDATA[0], RIGHT_MODE, 4, &RIAD_80pt,0);
 
   Text[12] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 480, 300, StrDATA[1], RIGHT_MODE, 2, &RIAD_40pt,0);
@@ -149,9 +166,9 @@ void Load_GUI_0(void){
 
 void Run_GUI(void){
 
-
  // TimeIsReady = 0;
   if(TimeIsReady){
+    PCF8563_read_datetime(&dt);
     GetDateToStr(StrDate, &dt);
     GetTimeToStr(StrTime, &dt);
     TimeIsReady = 0;
@@ -273,7 +290,7 @@ void Run_GUI(void){
           Images[17]->z_index = 0;
           Images[18]->z_index = 0;
           }   
-      DISP.SelectedField = 1;            
+          DISP.SelectedField = 1;            
           break;
         case 11:  //toggle rectangles
             Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
@@ -286,6 +303,7 @@ void Run_GUI(void){
           } 
           DISP.SelectedField = 2; 
           break;   
+  
    }
     
     if(Images[16]->z_index){ 
@@ -300,7 +318,20 @@ void Run_GUI(void){
    break;
   case 1:
     DISP.SelectedField = 0; 
-    
+   switch(DISP.TS_ZoneNumber){
+        case 16:  ////toggle rectangles
+           Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[40];
+           DISP.ReleaseTask = 1;
+          break;
+        case 17:  //toggle rectangles
+          if(solveTriangleZones( &ZonesTS_0[17], 1, Touch_Data.xp, Touch_Data.yp))
+                 Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[40]; 
+          else
+                 Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[39];
+          
+          DISP.ReleaseTask = 1; 
+          break; 
+    }
    break;
   case 2:
     DISP.SelectedField = 0; 
@@ -308,7 +339,7 @@ void Run_GUI(void){
   case 3:
     DISP.SelectedField = 0; 
 
-    ViewScreen(3);
+    ViewScreen();
    break; 
   }
   DISP.TS_ZoneNumber = -1; 
@@ -401,18 +432,11 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
   
   }
   
-// UpdateScreen = 1;  
- F_push(Run_GUI);
- F_push(Show_GUI);
+ UpdateScreen = 1;  
  return;
 }
-// define zones for Touh Screen pressing detection
-typedef struct { 
-  Point LeftTop;
-  Point RightBottom;
-} Zone;
 
-uint8_t solveTriangleZones(Zone * pZone, uint8_t Type, const pPoint Coords) //solve triangle zones [/] and [\] types 
+uint8_t solveTriangleZones(const Zone * pZone, uint8_t Type, const uint16_t X,  const uint16_t Y) //solve triangle zones [/] and [\] types 
 {
   //Zone ZonesTS;
   float x1 = (float) pZone->LeftTop.X;
@@ -422,64 +446,45 @@ uint8_t solveTriangleZones(Zone * pZone, uint8_t Type, const pPoint Coords) //so
   float Ys, k;
   
   k = (y2 - y1)/(x2 - x1);
-  if(Type)  Ys = y1 + k*(Coords->X - x1);
-  else Ys = y2 - k*(Coords->X - x1);
+  if(Type)  Ys = y1 + k*(X - x1);
+  else Ys = y2 - k*(X - x1);
  // float x1 = pZone->
-  if((uint16_t)Ys > Coords->Y) return 1; 
+  if((uint16_t)Ys > Y) return 1; 
   return 0;
 }
 void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
  uint8_t Index;
-  const Zone ZonesTS_0[]={
-   {{12,48},{116,106}},    //0 SW OFF (LEFT)
-   {{12,119},{116,176}},   //1 AUTO (LEFT)
-   {{12,190},{116,248}},   //2 MAX (LEFT)
-   {{12,262},{116,320}},   //3 SIM (LEFT)
-   {{12,338},{116,396}},   //4 BRUSH (LEFT)
-   {{464,412},{558,480}},  //5 LIGHT (DOWN)
-   {{572,412},{672,480}},  //6 FLASH (DOWN)
-   {{690,50},{784,147}},   //7 DOZE (RIGHT)
-   {{690,177},{784,267}},  //8 RANGE (RIGHT)
-   {{690,300},{784,385}},  //9 RATE (RIGHT)
-   {{150,118},{386,242}},  //10 SQUARE WITH DOZE
-   {{150,258},{386,378}},  //11 SQUARE WITH RANGE
-   {{16,415},{110,498}},   //12 TOPPING(DOWN)
-   {{130,415},{220,498}},  //13 FRONT BLADE(DOWN)  
-   {{240,415},{334,498}},  //14 SIDE BLADE(DOWN) 
-   {{350,415},{446,498}},  //15 BRUSH(DOWN) 
- };   
  
- 
+ if(Touch_Data.status == TOUCH_PRESSED){
  DISP.TS_ZoneNumber = -1;
-
-// switch (DISP.Screen){ 
-//    case 0:
-        for(Index = 0; Index < sizeof(ZonesTS_0)/8; Index++){
+ 
+  
+   for(Index = 0; Index < sizeof(ZonesTS_0)/8; Index++){
+      if(DISP.Screen == 0) {
+         if(Index > 15 && Index < 22) continue; // throw unnecessary zones 
+       }
             if((x > ZonesTS_0[Index].LeftTop.X  && x < ZonesTS_0[Index].RightBottom.X)&&
               (y > ZonesTS_0[Index].LeftTop.Y  && y < ZonesTS_0[Index].RightBottom.Y)) DISP.TS_ZoneNumber = Index;
      } 
-//     break;
- //    case 1: 
-       
- //     break;  
- 
- 
- //}
   
-      Circles[0]->params[0] = Touch_Data.xp;
-      Circles[0]->params[1] = Touch_Data.yp;
-      
- //up flags
- if(DISP.TS_ZoneNumber != -1){    
-  DISP.Event = 1;
- // DISP.Screen = 1;
- UpdateScreen = 1;
- F_push(Run_GUI);
- F_push(Show_GUI);
-      }
+       Circles[0]->params[0] = Touch_Data.xp;
+       Circles[0]->params[1] = Touch_Data.yp;
+
+
   
   SOUND.CounterSound= 0, SOUND.SoundPeriod = 50;
-  return;
+ }
+ else{
+  Timer14_Init_Deal(200, 3);
+ 
+ }
+ if(DISP.TS_ZoneNumber != -1){    
+  DISP.Event = 1;
+
+
+      } 
+ UpdateScreen = 1;
+ return;
 }
 
 void ViewScreen(void){
@@ -540,10 +545,12 @@ void ViewScreen(void){
 void ReleaseFunction(void){
   switch(DISP.ReleaseTask){
    case 1 :
-     
+     Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[36];
+     UpdateScreen = 1;
+     TimeIsReady = 1;
            break;  
   
   }
-
+DISP.ReleaseTask = 0;
 }
 

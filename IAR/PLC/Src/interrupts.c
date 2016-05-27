@@ -14,7 +14,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 
   
    Timer14_Init_Deal(100, 1);
-
+ 
  return;
 
 }
@@ -23,7 +23,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 
 void   EXTI9_5_IRQHandler(void)        //; EXTI Line 9..5
 {
-      
+ static uint8_t Counter = 0;     
         
  NVIC_ClearPendingIRQ (EXTI9_5_IRQn);
         
@@ -32,8 +32,8 @@ void   EXTI9_5_IRQHandler(void)        //; EXTI Line 9..5
          EXTI->PR |= (1<<7);
          
     
-    PCF8563_read_datetime(&dt);
-    TimeIsReady = 1;
+    
+  if(!(Counter%32)) TimeIsReady = 1;
 
         };
   

@@ -14,7 +14,7 @@ stlinkserialNo=B4060975
 stlinkfoundProbes=
 LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=1872317463
+Checksum=566069049
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -129,7 +129,8 @@ mode=1
 Bp0=_ 0 "EMUL_DATA" "0x20000350" 2 1 1 1 4294967295
 Bp1=_ 0 "EMUL_DATA" "DISP.SelectedField" 0 0 0 0 4294967295
 Bp2=_ 0 "EMUL_DATA" "KB_Status.EVENT" 0 0 0 0 4294967295
-Count=3
+Bp3=_ 0 "EMUL_DATA" "DISP.ReleaseTask" 0 0 0 0 4294967295
+Count=4
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
