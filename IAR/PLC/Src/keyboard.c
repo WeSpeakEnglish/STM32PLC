@@ -90,7 +90,7 @@ for(i=0;i<8;i++){
       else Event = 1;
      //if(Event){   //press down is Zero
       KB_Status.PRESSED  = Event;
-      
+      KB_Status.EVENT = 1;
     //  QueueElem.QueEl.EventType = Event;              //pressed eq 0 or unpressed (eq1)
    //   QueueElem.QueEl.Keyb_Key = CharNames[i];        // what key number?
       KB_Status.code = CharNames[i];

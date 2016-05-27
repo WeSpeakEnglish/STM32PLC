@@ -7,6 +7,11 @@
 #include "sound.h"
 #include "fonts.h"
 
+#define DOZE_LIMIT_H 200
+#define DOZE_LIMIT_L 100
+#define RANGE_LIMIT_H 6
+#define RANGE_LIMIT_L 1
+
 GUI_Object* Circles[4];
 GUI_Object* Images[50]; 
 GUI_Object* Text[19];
@@ -22,12 +27,13 @@ volatile uint8_t TimeIsReady = 0;
 volatile uint8_t UpdateScreen = 0;
 date_time_t dt;  
 
-struct{
+volatile struct{
   uint8_t       Screen; //0 =base 1= lateral blade 2 = frontal blade 3 = topping 4 = brush 
   uint8_t       Event;
   uint8_t       KbdCode;
   int8_t        TS_ZoneNumber;
   int8_t        SelectedField;
+  int8_t        ReleaseTask; // task for release button or touch screen
 }DISP;
 
 
@@ -38,25 +44,24 @@ uint16_t Number;
 }IMAGES;
 
 struct{
-uint16_t Dose;
-uint8_t DiapL;
-uint8_t DiapR;
+uint16_t Doze;
+uint16_t DiapL;
+uint16_t DiapR;
 uint16_t Rate;
 }PatchParms;
 
 
 
 void Load_GUI_0(void){
- uint8_t i;
- 
+
  DISP.Screen = 0; 
  
- PatchParms.Dose = 120;
+ PatchParms.Doze = 120;
  PatchParms.Rate = 1200;
  PatchParms.DiapL = 4;
  PatchParms.DiapR = 4;
- DISP.SelectedField = 0;
  
+ DISP.SelectedField = 1; 
   GUI_Free();
  
   
@@ -111,7 +116,7 @@ void Load_GUI_0(void){
   Text[2] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 40, 10, StrTime, LEFT_MODE, 1, &GOST_B_23_var,0);   // watch
   Text[3] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 700, 10, StrDate, LEFT_MODE, 1, &GOST_B_23_var,0);   // date
  
-  Itoa(StrDATA[0], PatchParms.Dose);
+  Itoa(StrDATA[0], PatchParms.Doze);
   Itoa(StrDATA[1], PatchParms.DiapL);
   Itoa(StrDATA[2], PatchParms.Rate);
   Itoa(StrDATA[3], PatchParms.DiapR);
@@ -151,6 +156,12 @@ void Run_GUI(void){
     GetTimeToStr(StrTime, &dt);
     TimeIsReady = 0;
   }
+  
+  Itoa(StrDATA[0], PatchParms.Doze);
+  Itoa(StrDATA[1], PatchParms.DiapL);
+  Itoa(StrDATA[2], PatchParms.Rate);
+  Itoa(StrDATA[3], PatchParms.DiapR);
+  Itoa(StrDATA[4], PatchParms.DiapR + PatchParms.DiapL);
  // }
   if(DISP.Event){ 
      switch(DISP.TS_ZoneNumber){
@@ -245,24 +256,14 @@ void Run_GUI(void){
          DISP.Screen = 2;
          ViewScreen(); 
           break;  
-        case 15: //pressed blade front
+        case 15: //pressed blade side
          DISP.Screen = 3;
          ViewScreen(); 
           break; 
       }
   switch(DISP.Screen){
   case 0:
-    if(Images[16]->z_index){ 
-     DISP.SelectedField = 1; 
-     Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
-     Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
-    }
-    else{
-     DISP.SelectedField = 2; 
-     Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
-     Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
-    }
-   switch(DISP.TS_ZoneNumber){
+    switch(DISP.TS_ZoneNumber){
         case 10:  ////toggle rectangles
             Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
             Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
@@ -272,7 +273,7 @@ void Run_GUI(void){
           Images[17]->z_index = 0;
           Images[18]->z_index = 0;
           }   
-            
+      DISP.SelectedField = 1;            
           break;
         case 11:  //toggle rectangles
             Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
@@ -283,9 +284,19 @@ void Run_GUI(void){
           Images[16]->z_index = 0;
           Images[18]->z_index = 0;
           } 
-          
+          DISP.SelectedField = 2; 
           break;   
    }
+    
+    if(Images[16]->z_index){ 
+     Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
+     Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+    }
+    else{
+     Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
+     Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+    }
+   
    break;
   case 1:
     DISP.SelectedField = 0; 
@@ -358,11 +369,41 @@ void PreLoadImages(uint32_t BaseAddr){
 void KBD_Handle(uint8_t code){ //the handle of KBD
   
   //up flags
+  if(KB_Status.PRESSED){
   DISP.Event = 1;
   DISP.KbdCode = KB_Status.code;
+  
+  switch(DISP.SelectedField){
+    case 1:
+     if(KB_Status.code == 0x34) 
+        if(PatchParms.Doze < DOZE_LIMIT_H)PatchParms.Doze+=10;
+     if(KB_Status.code == 0x37) 
+        if(PatchParms.Doze > DOZE_LIMIT_L)PatchParms.Doze-=10;   
+     
+       break;
+       
+    case 2:
+      if(KB_Status.code == 0x34){ 
+        if(PatchParms.DiapL < RANGE_LIMIT_H)PatchParms.DiapL++;
+        if(PatchParms.DiapR < RANGE_LIMIT_H)PatchParms.DiapR++;
+      }
+      if(KB_Status.code == 0x37){ 
+        if(PatchParms.DiapL > RANGE_LIMIT_L)PatchParms.DiapL--;
+        if(PatchParms.DiapR > RANGE_LIMIT_L)PatchParms.DiapR--; 
+      }
+      break;
+  }
+
+  
+  }
+  else
+  {
+  
+  }
+  
+// UpdateScreen = 1;  
  F_push(Run_GUI);
  F_push(Show_GUI);
- UpdateScreen = 1; 
  return;
 }
 // define zones for Touh Screen pressing detection
@@ -492,6 +533,16 @@ void ViewScreen(void){
       Images[29]->z_index = 1; //SHOW BRUSH BIG PICTURE
       Text[14]->z_index = 1;
             break;          
+  }
+
+}
+
+void ReleaseFunction(void){
+  switch(DISP.ReleaseTask){
+   case 1 :
+     
+           break;  
+  
   }
 
 }

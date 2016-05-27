@@ -49,13 +49,17 @@ static uint8_t FlagPressed = 0;
       if(KB_Status.PRESSED){ 
       SOUND.CounterSound= 0; 
       SOUND.SoundPeriod = 200;
-      KBD_Handle(KB_Status.code);
+      CounterUPD = 0;
       }
+      KBD_Handle(KB_Status.code);
       FlagPressed = 1;
        
     }
     else
       if(SOUND.CounterSound == SOUND.SoundPeriod) FlagPressed = 0;
+    
+    if((KB_Status.EVENT && KB_Status.PRESSED) &&((CounterUPD % 2000) == 1900))
+      KBD_Handle(KB_Status.code);
     
     break;
     
@@ -66,9 +70,12 @@ static uint8_t FlagPressed = 0;
   // if(KB_Status.PRESSED)
    Bip(SOUND.CounterSound%2); 
    SOUND.CounterSound++;
- } 
+ }
+
  Counter++;
- Counter%=100;
+ Counter%=100; 
+ CounterUPD++;
+
 // if(!(CounterUPD % 2048))UpdateScreen = 1;
  return;
 }
