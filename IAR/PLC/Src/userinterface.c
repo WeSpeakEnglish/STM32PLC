@@ -65,8 +65,18 @@ uint16_t Rate;
    {{532,62},{654,142}},   //18 THE NE BIG IMAGE 
    
    {{273,302},{531,380}},   //19 THE SOUCH BIG IMAGE
-   {{152,302},{272,380}},   //20 THE NW BIG IMAGE  
-   {{532,302},{654,380}},   //21 THE NE BIG IMAGE  
+   {{152,302},{272,380}},   //20 THE SW BIG IMAGE  
+   {{532,302},{654,380}},   //21 THE SE BIG IMAGE  
+   
+   {{152,143},{272,301}},   //22 THE LEFT BIG IMAGE 
+   {{532,143},{654,301}},   //23 THE RIGHT BIG IMAGE 
+   
+   {{150,66},{400,142}},    //24 THE BRUSH UP 
+   {{150,298},{400,380}},   //25 THE BRUSH DOWN 
+   
+   {{401,66},{652,142}},    //26 THE RATE UP 
+   {{401,298},{652,380}},   //27 THE RATE DOWN 
+   
  };   
 
 void Load_GUI_0(void){
@@ -321,25 +331,129 @@ void Run_GUI(void){
    switch(DISP.TS_ZoneNumber){
         case 16:  ////toggle rectangles
            Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[40];
-           DISP.ReleaseTask = 1;
-          break;
+                       DISP.ReleaseTask = 1;
+                       break;
         case 17:  //toggle rectangles
-          if(solveTriangleZones( &ZonesTS_0[17], 1, Touch_Data.xp, Touch_Data.yp))
+            if(solveTriangleZones( &ZonesTS_0[17], 1, Touch_Data.xp, Touch_Data.yp))
                  Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[40]; 
-          else
+            else
+                 Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[37];
+           DISP.ReleaseTask = 1; 
+                        break; 
+        case 22:  //toggle rectangles LEFT PRESSED
+             Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[37];
+             DISP.ReleaseTask = 1; 
+             break;
+        case 20:  // SW pressed
+            if(solveTriangleZones( &ZonesTS_0[20], 0, Touch_Data.xp, Touch_Data.yp))
+                 Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[37]; 
+            else
+                 Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[38];
+          
+           DISP.ReleaseTask = 1; 
+               break;
+         case 18:  // NE
+            if(solveTriangleZones( &ZonesTS_0[18], 0, Touch_Data.xp, Touch_Data.yp))
+                 Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[40]; 
+            else
                  Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[39];
           
-          DISP.ReleaseTask = 1; 
+           DISP.ReleaseTask = 1; 
+               break;
+          
+         case 21:  //toggle rectangles
+            if(solveTriangleZones( &ZonesTS_0[21], 1, Touch_Data.xp, Touch_Data.yp))
+                 Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[39]; 
+            else
+                 Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[38];
+          
+           DISP.ReleaseTask = 1; 
+        break;   
+        case 19:  //toggle rectangles
+             Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[38];
+             DISP.ReleaseTask = 1; 
           break; 
+        case 23:  //toggle rectangles
+             Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[39];
+             DISP.ReleaseTask = 1; 
+          break;   
     }
    break;
-  case 2:
+  case 2:  
     DISP.SelectedField = 0; 
+   switch(DISP.TS_ZoneNumber){ 
+    case 16: 
+         Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[34];
+         DISP.ReleaseTask = 2;
+          break;  
+    case 17:                   
+       if(solveTriangleZones( &ZonesTS_0[17], 1, Touch_Data.xp, Touch_Data.yp))
+                 Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[34]; 
+            else
+                 Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[31];
+            DISP.ReleaseTask = 2; 
+           break;  
+    case 22:
+           Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[31];
+            DISP.ReleaseTask = 2; 
+               break; 
+    case 20:
+           if(solveTriangleZones( &ZonesTS_0[20], 0, Touch_Data.xp, Touch_Data.yp))
+                 Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[31]; 
+            else
+                 Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[32];
+          
+           DISP.ReleaseTask = 2; 
+               break;  
+    case 18: //NE
+           if(solveTriangleZones( &ZonesTS_0[18], 0, Touch_Data.xp, Touch_Data.yp))
+                 Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[34]; 
+            else
+                 Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[33];
+           DISP.ReleaseTask = 2; 
+               break;
+    case 21:  //SE
+            if(solveTriangleZones( &ZonesTS_0[21], 1, Touch_Data.xp, Touch_Data.yp))
+                 Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[33]; 
+            else
+                 Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[32];
+           DISP.ReleaseTask = 2; 
+        break;    
+   case 19:  //toggle rectangles
+             Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[32];
+             DISP.ReleaseTask = 2; 
+          break; 
+   case 23:  //RIGHT
+             Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[33];
+             DISP.ReleaseTask = 2; 
+          break;        
+        
+   }
    break;
   case 3:
     DISP.SelectedField = 0; 
-
-    ViewScreen();
+    
+    switch(DISP.TS_ZoneNumber){ 
+        case 24: //TOP BRUSH
+           Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[48];
+           DISP.ReleaseTask = 3; 
+           break;
+        case 25: //BOTTOM BRUSH
+           Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[46];
+           DISP.ReleaseTask = 3; 
+           break;  
+        case 26: //TOP RATE
+           Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[49];
+           DISP.ReleaseTask = 3; 
+           break;
+        case 27: //BOTTOM RATE
+           Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[47];
+           DISP.ReleaseTask = 3; 
+           break;      
+    }
+    
+ 
+    //ViewScreen();
    break; 
   }
   DISP.TS_ZoneNumber = -1; 
@@ -424,14 +538,101 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
       }
       break;
   }
+  
+  switch(DISP.Screen){
+        case 1:
+          switch(KB_Status.code){
+               case 0x34:
+                     //Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[40];
+                     //  DISP.ReleaseTask = 1;
+                       DISP.TS_ZoneNumber = 16; 
+                       DISP.Event = 1;
+                 break;
+               case 0x35:  
+                       Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[37];
+                       DISP.ReleaseTask = 1; 
+                 break; 
+               case 0x36:
+                       Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[39];
+                       DISP.ReleaseTask = 1; 
+                 break;
+               case 0x37:  
+                       Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[38];
+                       DISP.ReleaseTask = 1; 
+                 break;   
+          }
+          break;
+        case 2:
+          switch(KB_Status.code){
+               case 0x34:
+                      Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[34];
+                      DISP.ReleaseTask = 2;
+                 break;
+                case 0x35:  
+                       Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[31];
+                       DISP.ReleaseTask = 2; 
+                break; 
+               case 0x36:
+                       Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[33];
+                       DISP.ReleaseTask = 2; 
+                 break;
+               case 0x37:  
+                       Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[32];
+                       DISP.ReleaseTask = 2; 
+                 break;                   
+          }
+          break;
+          case 3: 
+                    switch(KB_Status.code){
+               case 0x34:
+                       DISP.TS_ZoneNumber = 24; 
+                       DISP.Event = 1;
+                       DISP.ReleaseTask = 3;
+                 break;
+               case 0x35:  
+                       DISP.TS_ZoneNumber = 27; 
+                       DISP.Event = 1;
+                       DISP.ReleaseTask = 3;
+                 break; 
+               case 0x36:
+                       DISP.TS_ZoneNumber = 26; 
+                       DISP.Event = 1;
+                       DISP.ReleaseTask = 3;
+                     //  Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[39];
+                     //  DISP.ReleaseTask = 1; 
+                 break;
+               case 0x37:  
+                       DISP.TS_ZoneNumber = 25; 
+                       DISP.Event = 1;
+                       DISP.ReleaseTask = 3;
+                 break;   
+          }
+          break;
+  }
 
   
   }
   else
   {
+    DISP.Event = 1;
+      switch(DISP.Screen){
+        case 1:
+          DISP.ReleaseTask = 1;
+          ReleaseFunction();
+          break;
+        case 2:
+          DISP.ReleaseTask = 2;
+          ReleaseFunction();
+          break;
+        case 3:
+          DISP.ReleaseTask = 3;
+          ReleaseFunction();
+          break;  
+     }
   
   }
   
+KB_Status.EVENT =0;
  UpdateScreen = 1;  
  return;
 }
@@ -461,8 +662,12 @@ void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
   
    for(Index = 0; Index < sizeof(ZonesTS_0)/8; Index++){
       if(DISP.Screen == 0) {
-         if(Index > 15 && Index < 22) continue; // throw unnecessary zones 
+         if(Index > 15 ) continue; // throw unnecessary zones 
        }
+      
+    if(DISP.Screen == 3) {
+         if(Index < 24) continue; // throw unnecessary zones 
+       }   
             if((x > ZonesTS_0[Index].LeftTop.X  && x < ZonesTS_0[Index].RightBottom.X)&&
               (y > ZonesTS_0[Index].LeftTop.Y  && y < ZonesTS_0[Index].RightBottom.Y)) DISP.TS_ZoneNumber = Index;
      } 
@@ -543,14 +748,21 @@ void ViewScreen(void){
 }
 
 void ReleaseFunction(void){
+  if(!KB_Status.PRESSED){
   switch(DISP.ReleaseTask){
    case 1 :
      Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[36];
-     UpdateScreen = 1;
-     TimeIsReady = 1;
-           break;  
-  
+         break;  
+   case 2 :
+     Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[35];
+         break;        
+   case 3 : 
+     Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[45];     
+         break;
+  } 
   }
+  UpdateScreen = 1;
+  TimeIsReady = 1;
 DISP.ReleaseTask = 0;
 }
 

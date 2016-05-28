@@ -23,6 +23,7 @@ NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn); //Разрешение TIM6_DAC_IRQn прерывания
 void TIM13_IRQHandler(void){
 static uint32_t Counter = 0;
 static uint32_t CounterUPD = 0;
+static uint8_t FlagKBD_Repeat = 0;
  TIM13->SR &= ~TIM_SR_UIF; //Сбрасываем флаг UIF
 
  switch (Counter){
@@ -57,8 +58,13 @@ static uint32_t CounterUPD = 0;
       }
     
     if((KB_Status.EVENT && KB_Status.PRESSED) &&((CounterUPD % 2000) == 1900))
-      KBD_Handle(KB_Status.code);
-    
+    { 
+    KBD_Handle(KB_Status.code);
+    FlagKBD_Repeat =1;
+    }
+    if(KB_Status.EVENT && !KB_Status.PRESSED && FlagKBD_Repeat)
+      {KBD_Handle(KB_Status.code); FlagKBD_Repeat =0;}
+        
     break;
     
     

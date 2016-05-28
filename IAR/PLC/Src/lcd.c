@@ -643,7 +643,8 @@ void LCD_FillCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius)
   current_y = Radius;
   
   LCD_SetTextColor(DrawProp[ActiveLayer].TextColor);
-  
+  if(Xpos < Radius) Xpos = Radius;
+  if(Ypos < Radius) Ypos = Radius;
   while (current_x <= current_y)
   {
     if(current_y > 0) 

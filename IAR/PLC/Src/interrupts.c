@@ -10,10 +10,10 @@
 
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-
+ NVIC_ClearPendingIRQ (EXTI0_IRQn);
 
   
-   Timer14_Init_Deal(100, 1);
+   Timer14_Init_Deal(350, 1);
  
  return;
 
