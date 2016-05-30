@@ -183,7 +183,7 @@ return(temp + (temp >> 2) + (bcd_value & 0x0f));
 //----------------------------------------------
 //----------------------------------------------
 
-void PCF8563_set_datetime(date_time_t *dt)
+void PCF8563_set_datetime(date_time_t volatile *dt)
 {
 
 union{  
@@ -245,7 +245,7 @@ PCF8563_write_byte(PCF8563_CTRL_STATUS_REG1,PCF8563_START_COUNTING);
 // All further reading within that cycle is done from
 // those registers.
 
-void PCF8563_read_datetime(date_time_t *dt)
+void PCF8563_read_datetime(date_time_t volatile *dt)
 {
 union{  
   struct{
@@ -381,7 +381,7 @@ mode = mode | ti_tp;
 PCF8563_write_byte(PCF8563_CTRL_STATUS_REG2, mode);
 } 
 
-void GetDateToStr(uint8_t * StrDstDate, date_time_t * dt){ // getting date
+void GetDateToStr(uint8_t * StrDstDate, date_time_t volatile * dt){ // getting date
   StrDstDate[0] = dt->day/10 + 0x30;
   StrDstDate[1] = dt->day%10 + 0x30;
   StrDstDate[2] = '.';
@@ -395,7 +395,7 @@ void GetDateToStr(uint8_t * StrDstDate, date_time_t * dt){ // getting date
   StrDstDate[10] ='\0';
 }
 
-void GetTimeToStr(uint8_t * StrDstTime, date_time_t * dt){ // getting date
+void GetTimeToStr(uint8_t * StrDstTime, date_time_t volatile * dt){ // getting date
   StrDstTime[0] = dt->hours/10 + 0x30;
   StrDstTime[1] = dt->hours%10 + 0x30;
   StrDstTime[2] = ':';

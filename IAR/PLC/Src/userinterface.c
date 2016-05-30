@@ -6,14 +6,16 @@
 #include "sound.h"
 #include "fonts.h"
 #include "timer14.h"
+#include "timer13.h"
 
 #define DOZE_LIMIT_H 200
 #define DOZE_LIMIT_L 100
 #define RANGE_LIMIT_H 6
 #define RANGE_LIMIT_L 1
+#define RATE_LIMIT_H 2000
+#define RATE_LIMIT_L 500
 
-GUI_Object* Circles[4];
-GUI_Object* Images[50]; 
+GUI_Object* Images[40]; 
 GUI_Object* Text[19];
 GUI_Object* Rect1;
 GUI_Object* Poly2;
@@ -23,9 +25,11 @@ uint8_t StrTime[9]="20:00:00";
 uint8_t StrDATA[16][8];
 
 
-volatile uint8_t TimeIsReady = 0;
+volatile uint32_t TimeIsReady = 0;
 volatile uint8_t UpdateScreen = 0;
-date_time_t dt;  
+uint8_t RateChange = 0;
+
+volatile date_time_t dt;  
 
 volatile Disp DISP;
 
@@ -34,12 +38,7 @@ ImageInfo ImgArray[100];
 uint16_t Number;
 }IMAGES;
 
-struct{
-uint16_t Doze;
-uint16_t DiapL;
-uint16_t DiapR;
-uint16_t Rate;
-}PatchParms;
+volatile PatchPARMS PatchParms;
 
 
   const Zone ZonesTS_0[]={
@@ -80,7 +79,7 @@ uint16_t Rate;
  };   
 
 void Load_GUI_0(void){
-
+uint16_t Temp_16;  
  DISP.Screen = 0; 
  
  PatchParms.Doze = 120;
@@ -147,7 +146,9 @@ void Load_GUI_0(void){
   Itoa(StrDATA[1], PatchParms.DiapL);
   Itoa(StrDATA[2], PatchParms.Rate);
   Itoa(StrDATA[3], PatchParms.DiapR);
-  Itoa(StrDATA[4], PatchParms.DiapR + PatchParms.DiapL);
+  Temp_16 = PatchParms.DiapR;
+  Temp_16 += PatchParms.DiapL;
+  Itoa(StrDATA[4], Temp_16);
   
   Text[4] = GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 500, 82,"1254 êã    ÏÅÑÎÊ-ÑÎËÜ", CENTER_MODE, 2, &RIAD_16pt,0); 
  
@@ -168,15 +169,11 @@ void Load_GUI_0(void){
   GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 243, "ì", CENTER_MODE, 1, &RIAD_16pt,0);
   GUI_SetObject(TEXT_STRING ,0xFFFFFFFF, 3, 7, 735, 366, "îá/ìèí", CENTER_MODE, 1, &RIAD_16pt,0);
   
-  
-  Circles[0] = GUI_SetObject(FILLED_CIRCLE_TYPE, 0xFF00FF99, 4, 3, 800, 480, 2);
- 
- UpdateScreen = 1;
+  UpdateScreen = 1;
 }
 
 void Run_GUI(void){
-
- // TimeIsReady = 0;
+uint16_t Temp16;
   if(TimeIsReady){
     PCF8563_read_datetime(&dt);
     GetDateToStr(StrDate, &dt);
@@ -188,7 +185,9 @@ void Run_GUI(void){
   Itoa(StrDATA[1], PatchParms.DiapL);
   Itoa(StrDATA[2], PatchParms.Rate);
   Itoa(StrDATA[3], PatchParms.DiapR);
-  Itoa(StrDATA[4], PatchParms.DiapR + PatchParms.DiapL);
+  Temp16 = PatchParms.DiapR;
+  Temp16 += PatchParms.DiapL;
+  Itoa(StrDATA[4], Temp16);
  // }
   if(DISP.Event){ 
      switch(DISP.TS_ZoneNumber){
@@ -250,7 +249,7 @@ void Run_GUI(void){
           Images[17]->z_index = 0;
           Images[18]->z_index = 0;
           } 
-
+         DISP.SelectedField = 1;
           break;
         case 8:  //toggle index of button  
          DISP.Screen = 0;
@@ -260,6 +259,7 @@ void Run_GUI(void){
           Images[16]->z_index = 0;
           Images[18]->z_index = 0;
           } 
+          DISP.SelectedField = 2;
           break;
           
         case 9:  //toggle index of button
@@ -319,10 +319,12 @@ void Run_GUI(void){
     if(Images[16]->z_index){ 
      Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
      Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+     DISP.SelectedField = 1; 
     }
     else{
      Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
      Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[0];
+     DISP.SelectedField = 2; 
     }
    
    break;
@@ -445,17 +447,24 @@ void Run_GUI(void){
         case 26: //TOP RATE
            Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[49];
            DISP.ReleaseTask = 3; 
+           RateChange  = 1;
+           if(PatchParms.Rate < RATE_LIMIT_H)PatchParms.Rate +=10;
+           //CounterUPD = 0;
            break;
         case 27: //BOTTOM RATE
            Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[47];
            DISP.ReleaseTask = 3; 
+           RateChange  = 2;
+           if(PatchParms.Rate > RATE_LIMIT_L)PatchParms.Rate -=10;
+         //  CounterUPD = 0;
            break;      
     }
     
  
-    //ViewScreen();
+    //
    break; 
   }
+  
   DISP.TS_ZoneNumber = -1; 
   DISP.Event = 0;
   } 
@@ -593,18 +602,25 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
                        DISP.TS_ZoneNumber = 27; 
                        DISP.Event = 1;
                        DISP.ReleaseTask = 3;
+                       DISP.SelectedField = 4; 
+                       RateChange = 2;
+                       //CounterUPD = 0;
                  break; 
                case 0x36:
                        DISP.TS_ZoneNumber = 26; 
                        DISP.Event = 1;
                        DISP.ReleaseTask = 3;
-                     //  Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[39];
-                     //  DISP.ReleaseTask = 1; 
+                       DISP.SelectedField = 3; 
+                       RateChange  = 1;
+                       //CounterUPD = 0;
+                     //  if(PatchParms.Rate < RATE_LIMIT_H)PatchParms.Rate +=10;
                  break;
                case 0x37:  
                        DISP.TS_ZoneNumber = 25; 
                        DISP.Event = 1;
                        DISP.ReleaseTask = 3;
+ 
+                    //   if(PatchParms.Rate > RATE_LIMIT_L)PatchParms.Rate -=10;
                  break;   
           }
           break;
@@ -629,10 +645,10 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
           ReleaseFunction();
           break;  
      }
-  
+  // DISP.SelectedField =1;
   }
   
-KB_Status.EVENT =0;
+//KB_Status.EVENT =0;
  UpdateScreen = 1;  
  return;
 }
@@ -664,19 +680,18 @@ void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
       if(DISP.Screen == 0) {
          if(Index > 15 ) continue; // throw unnecessary zones 
        }
+      if(DISP.Screen == 1 || DISP.Screen == 2)
+      {
+        if(Index > 23) continue; // throw unnecessary zones 
+      }
+         
       
     if(DISP.Screen == 3) {
-         if(Index < 24) continue; // throw unnecessary zones 
+         if(Index < 24 && Index > 15) continue; // throw unnecessary zones 
        }   
             if((x > ZonesTS_0[Index].LeftTop.X  && x < ZonesTS_0[Index].RightBottom.X)&&
               (y > ZonesTS_0[Index].LeftTop.Y  && y < ZonesTS_0[Index].RightBottom.Y)) DISP.TS_ZoneNumber = Index;
      } 
-  
-       Circles[0]->params[0] = Touch_Data.xp;
-       Circles[0]->params[1] = Touch_Data.yp;
-
-
-  
   SOUND.CounterSound= 0, SOUND.SoundPeriod = 50;
  }
  else{
@@ -727,7 +742,7 @@ void ViewScreen(void){
       Text[13] -> z_index = 1;  
       
       
-      DISP.SelectedField = 0;
+      DISP.SelectedField = 1;
             break; 
     case 1:
       Images[7]->z_index = 1;  //BLADE FRONT BOTTOM
@@ -757,12 +772,20 @@ void ReleaseFunction(void){
      Images[23]->params[0] = (uint32_t) &IMAGES.ImgArray[35];
          break;        
    case 3 : 
-     Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[45];     
+     Images[29]->params[0] = (uint32_t) &IMAGES.ImgArray[45]; 
+     RateChange  = 0;
          break;
   } 
-  }
+  } 
+
   UpdateScreen = 1;
   TimeIsReady = 1;
 DISP.ReleaseTask = 0;
 }
-
+void UpDownRate(uint8_t Direction){
+  if(Direction){
+   if(PatchParms.Rate < RATE_LIMIT_H)PatchParms.Rate +=10;
+  }
+  else
+   if(PatchParms.Rate > RATE_LIMIT_L)PatchParms.Rate -=10; 
+}

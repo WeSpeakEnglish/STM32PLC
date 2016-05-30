@@ -15,6 +15,14 @@ typedef struct{
  // int8_t        ReleaseFlag; // task for release button or touch screen
 }Disp;
 
+typedef struct{
+uint16_t Doze;
+uint16_t DiapL;
+uint16_t DiapR;
+uint16_t Rate;
+}PatchPARMS;
+
+extern volatile PatchPARMS PatchParms;
 // define zones for Touh Screen pressing detection
 typedef struct { 
   Point LeftTop;
@@ -22,9 +30,10 @@ typedef struct {
 } Zone;
 
 extern volatile uint8_t UpdateScreen;
-extern volatile uint8_t TimeIsReady;
+extern volatile uint32_t TimeIsReady;
 extern volatile Disp DISP;
-extern date_time_t dt;
+extern volatile date_time_t dt;
+extern uint8_t RateChange;
 void Load_GUI_0(void);
 void Load_GUI_2(void);
 void ChangeCircle1(uint8_t Consistance);
@@ -35,7 +44,7 @@ void PreLoadImages(uint32_t BaseAddr);
 void ViewScreen(void);
 void ReleaseFunction(void);
 uint8_t solveTriangleZones(const Zone * pZone, uint8_t Type, const uint16_t X,  const uint16_t Y);
-
+void UpDownRate(uint8_t Direction);
 
 
 

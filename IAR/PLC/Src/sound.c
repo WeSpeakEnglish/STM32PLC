@@ -37,7 +37,7 @@ HAL_DAC_Start(&hdac,DAC_CHANNEL_2);
 //HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_2, (uint32_t*)saw_wave_array, 1024, DAC_ALIGN_12B_R);
 
  switch(Log){
-       case 0:     HAL_DAC_SetValue(&hdac, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 300); break;
+       case 0:     HAL_DAC_SetValue(&hdac, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 800); break;
        case 1:     HAL_DAC_SetValue(&hdac, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0);
  }
   }

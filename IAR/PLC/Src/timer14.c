@@ -1,4 +1,5 @@
 #include "timer14.h"
+#include "rtc.h"
 #include "tim.h"
 #include "stmpe811.h"
 #include "userinterface.h"
@@ -46,7 +47,8 @@ switch (DealNumber){
   case 3: 
     ReleaseFunction();
     break;
-  case 4: break;
+  case 4: 
+    break;
   case 5: break;
   case 6: break;
   case 7: break;

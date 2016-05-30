@@ -80,13 +80,14 @@ int main(void)
     MX_USB_HOST_Process();
 
   /* USER CODE BEGIN 3 */
-   RoutineFast(); // get and run deals from medium queue 
-   if(UpdateScreen||TimeIsReady){
-   Run_GUI();
-    Show_GUI();
-    UpdateScreen = 0;
-    }
+  // RoutineFast(); // get and run deals from medium queue 
 
+        if(UpdateScreen||TimeIsReady){
+    
+
+  Run_GUI();//();
+  Show_GUI();//();
+        }
     
   }
 

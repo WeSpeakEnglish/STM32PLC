@@ -1,12 +1,14 @@
 #include "timer13.h"
 #include "tim.h"
-#include "variables.h"
+
 #include "userinterface.h"
 #include "core.h"
 #include "gui.h"
 #include "lcd.h"
 #include "keyboard.h"
 #include "sound.h"
+
+
 
 // 
 void Timer13_Init(void){
@@ -23,6 +25,7 @@ NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn); //Разрешение TIM6_DAC_IRQn прерывания
 void TIM13_IRQHandler(void){
 static uint32_t Counter = 0;
 static uint32_t CounterUPD = 0;
+
 static uint8_t FlagKBD_Repeat = 0;
  TIM13->SR &= ~TIM_SR_UIF; //Сбрасываем флаг UIF
 
@@ -50,6 +53,9 @@ static uint8_t FlagKBD_Repeat = 0;
       SOUND.SoundPeriod = 200;
       CounterUPD = 0;
       }
+      
+      CounterUPD = 0;
+      
       KBD_Handle(KB_Status.code);
    }
     else
@@ -57,18 +63,33 @@ static uint8_t FlagKBD_Repeat = 0;
          if(DISP.ReleaseTask && (Touch_Data.status == TOUCH_RELEASED)) ReleaseFunction();
       }
     
-    if((KB_Status.EVENT && KB_Status.PRESSED) &&((CounterUPD % 2000) == 1900))
+    if((KB_Status.EVENT && KB_Status.PRESSED) &&((CounterUPD % 20) == 18))
     { 
     KBD_Handle(KB_Status.code);
     FlagKBD_Repeat =1;
     }
     if(KB_Status.EVENT && !KB_Status.PRESSED && FlagKBD_Repeat)
       {KBD_Handle(KB_Status.code); FlagKBD_Repeat =0;}
-        
+    if((CounterUPD % 20) == 18){
+      if (RateChange  == 1)
+        UpDownRate(1);  
+      if (RateChange  == 2) 
+        UpDownRate(0);
+      
+     CounterUPD = 0; 
+    }
+    CounterUPD++;
     break;
     
+ //  case 90: 
+//        if(UpdateScreen||TimeIsReady){
     
-    
+
+//   F_push(Run_GUI);//();
+//   F_push(Show_GUI);//();
+
+ //   }
+    break;
  }  
  if (SOUND.CounterSound < SOUND.SoundPeriod) {
   // if(KB_Status.PRESSED)
@@ -78,7 +99,7 @@ static uint8_t FlagKBD_Repeat = 0;
 
  Counter++;
  Counter%=100; 
- CounterUPD++;
+ 
 
  return;
 }
