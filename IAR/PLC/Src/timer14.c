@@ -50,7 +50,7 @@ switch (DealNumber){
    TouchScreen_Handle();       
           break;
   case 3: 
-    F_push(ReleaseFunction);
+    ReleaseFunction();
     break;
   case 4: 
     break;
