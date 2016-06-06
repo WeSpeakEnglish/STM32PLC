@@ -197,8 +197,8 @@ uint8_t P_Touch_IOAFConfig(uint8_t IO_Pin, FunctionalState NewState)
    HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_GPIO_AF, I2C_MEMADD_SIZE_8BIT, &temp, 1, 200);
    return(0);
 }
-//#define DISPLAY_8IN             1U 
-#define DISPLAY_9IN           1U 
+#define DISPLAY_8IN             1U 
+//#define DISPLAY_9IN           1U 
 
 ///CALIBRATING DATA
 #ifdef DISPLAY_8IN

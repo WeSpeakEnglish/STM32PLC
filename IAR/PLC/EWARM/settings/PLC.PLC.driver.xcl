@@ -24,7 +24,7 @@
 
 "--drv_catch_exceptions=0x000" 
 
-"--drv_interface_speed=1800" 
+"--drv_interface_speed=480" 
 
 
 

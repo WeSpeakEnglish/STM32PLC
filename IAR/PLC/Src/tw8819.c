@@ -297,7 +297,9 @@ void BD_Init_TW8819(void)
 {
 	uint8_t 	 index, val, mode;
 	uint8_t 	*RegSet;
-	
+        
+HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+
 	val=0;
 	WriteTW88Page(&val);
 	ReadTW88(0,&mode);

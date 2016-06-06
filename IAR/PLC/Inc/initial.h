@@ -17,7 +17,7 @@
 #include "gpio.h"
 #include "fmc.h"
 
-
+#include "tw8819.h"
 #include "ltdc.h"
 #include "core.h"
 #include "lcd.h"
@@ -30,6 +30,8 @@
 #include "timer14.h"
 #include "stmpe811.h" 
 #include "ff.h"
+#include "rtc.h"
+#include "leds.h"
 
 void InitPeriph(void);
 #endif
