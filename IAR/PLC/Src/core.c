@@ -9,6 +9,10 @@ volatile uint8_t mutexF = 0;
 volatile uint8_t mutexM = 0;
 volatile uint8_t mutexS = 0;
 
+//////
+volatile uint8_t RESmutex_1 = 0; //the Resource mutex
+//////
+
 
 // there are three different queues and routines for corresponding timers 
 // Released Three full independent queues and service functions with their content
@@ -104,39 +108,46 @@ void pFastQueueIni(void){
 /// ADD ELEMENTs TO THE QUEUES
 int8_t S_push(void (*pointerQ)(void) ){
  if ((S_last+1)%Q_SIZE_SLOW == S_first)	return 1;
-   if(mutexS == 0){
+   while(mutexS != 0);
     mutexS = 1;  // enter to critical section
     pSlowQueue[S_last++] = pointerQ;
     S_last%=Q_SIZE_SLOW;
     mutexS = 0; 
-   }
-   else return 1;
- return 0;
+  return 0;
 }
 
 int8_t M_push(void (*pointerQ)(void) ){
 
  if ((M_last+1)%Q_SIZE_MEDIUM == M_first) return 1;
  
- if(mutexM == 0){
+ while(mutexM != 0);
     mutexM = 1;  // enter to critical section
     pMediumQueue[M_last++] = pointerQ;
     M_last%=Q_SIZE_MEDIUM;
     mutexM = 0; 
-   }
-   else return 1;
  return 0;
 }
 
 int8_t F_push(void (*pointerQ)(void) ){
   if ((F_last+1)%Q_SIZE_FAST == F_first)return 1;
-  if(mutexF == 0){
+while(mutexF != 0);
+
     mutexF = 1;  // enter to critical section
     pFastQueue[F_last++] = pointerQ;
     F_last%=Q_SIZE_FAST;
     mutexF = 0; 
-   }
-  else return 1;
+ return 0;
+}
+
+int8_t F_push2(void (*pointerQ_1)(void),void (*pointerQ_2)(void)){
+  if ((F_last + 2)%Q_SIZE_FAST == F_first)return 1;
+while(mutexF != 0);
+
+    mutexF = 1;  // enter to critical section
+    pFastQueue[F_last++] = pointerQ_1;
+    pFastQueue[F_last++] = pointerQ_2;
+    F_last%=Q_SIZE_FAST;
+    mutexF = 0; 
  return 0;
 }
 /// GET ELEMENTs FROM THE QUEUES
@@ -144,40 +155,33 @@ void (*S_pull(void))(void){
  void (*pullVarS)(void);
 
  if (S_last == S_first)return emptyS;
-  if(mutexS == 0){
+while(mutexS != 0);
     mutexS = 1;  // enter to critical section
     pullVarS = pSlowQueue[S_first++];
     S_first%=Q_SIZE_SLOW;
     mutexS = 0;  // enter to critical section 
-  }
-    else return emptyS;
 return pullVarS;
 }
 
 void (*M_pull(void))(void){
  void (*pullVar)(void);
  if (M_last == M_first)return emptyM;
-   if(mutexM == 0){
+   while(mutexM != 0);
     mutexM = 1;  // enter to critical section
     pullVar = pMediumQueue[M_first++];
     M_first%=Q_SIZE_MEDIUM;
     mutexM = 0;  // enter to critical section 
-  }
-    else return emptyM;
 return pullVar;
 }
 
 void (*F_pull(void))(void){
  void (*pullVar)(void);
  if (F_last == F_first)return emptyF;
-    if(mutexF == 0){
+   while(mutexF != 0);
     mutexF = 1;  // enter to critical section
     pullVar = pFastQueue[F_first++];
     F_first%=Q_SIZE_FAST;
     mutexF = 0;  // enter to critical section 
-  }
-  else return emptyF;
-  
 return pullVar;
 }
 
@@ -258,61 +262,5 @@ uint8_t DelayUsOnProcessRoutine(void (*pointerF)(void),uint32_t TimeDel, uint8_t
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
 
-void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram) {    //***********************************************
-
-//static void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef *Cmd) {    //***********************************************
-FMC_SDRAM_CommandTypeDef Cmd;
-__IO uint32_t tmpmrd =0;
-Cmd.CommandMode= FMC_SDRAM_CMD_CLK_ENABLE;    //Step 3:  Configure a clock configuration enable command
-Cmd.CommandTarget= FMC_SDRAM_CMD_TARGET_BANK1;
-Cmd.AutoRefreshNumber= 1;
-Cmd.ModeRegisterDefinition= 0;
-
-
-HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);    //Send the command
-HAL_Delay(100);    
-
-//Step 4: Insert 100 ms delay
-
-Cmd.CommandMode= FMC_SDRAM_CMD_PALL;    //Step 5: Configure a PALL (precharge all) command
-Cmd.CommandTarget= FMC_SDRAM_CMD_TARGET_BANK1;
-Cmd.AutoRefreshNumber= 1;
-Cmd.ModeRegisterDefinition= 0;
-HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000); 
-
-Cmd.CommandMode= FMC_SDRAM_CMD_AUTOREFRESH_MODE;    //Step 6 : Configure a Auto-Refresh command
-Cmd.CommandTarget= FMC_SDRAM_CMD_TARGET_BANK1;
-Cmd.AutoRefreshNumber= 4;
-Cmd.ModeRegisterDefinition= 0;
-HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
-
-#define SDRAM_MODEREG_BURST_LENGTH_2 ((uint16_t) 0x0001)
-#define SDRAM_MODEREG_BURST_LENGTH_8 ((uint16_t)0x0004)
-#define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL ((uint16_t) 0x0000)
-#define SDRAM_MODEREG_CAS_LATENCY_2              ((uint16_t)0x0020)
-#define SDRAM_MODEREG_CAS_LATENCY_3 ((uint16_t) 0x0030)
-#define SDRAM_MODEREG_OPERATING_MODE_STANDARD ((uint16_t) 0x0000)
-#define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE ((uint16_t) 0x0200)
-#define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((uint16_t)0x0000) 
-
-tmpmrd = (uint32_t)SDRAM_MODEREG_BURST_LENGTH_8          |        //Step 7: Program the external memory mode register
-                     SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |
-                     SDRAM_MODEREG_CAS_LATENCY_3           |
-                     SDRAM_MODEREG_OPERATING_MODE_STANDARD |
-                     SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;
-Cmd.CommandMode= FMC_SDRAM_CMD_LOAD_MODE;
-Cmd.CommandTarget= FMC_SDRAM_CMD_TARGET_BANK1;
-Cmd.AutoRefreshNumber= 1;
-Cmd.ModeRegisterDefinition= tmpmrd;
-HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
-//Dummy = *((volatile uint32_t *)(SDRAM_BASE_ADDR | (0x33<<12)));
-
-
-    /* Step 8: Set the refresh rate counter
-64msec / 4096 fresh = 15.62 us 
-refresh count= 15.62usec * 84MHz  - 20 =  1292 */
-HAL_SDRAM_ProgramRefreshRate(hsdram, 1386);     //refresh count
-
-}
 
 

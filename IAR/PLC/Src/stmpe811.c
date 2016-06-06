@@ -34,6 +34,10 @@ ErrorStatus UB_Touch_Init(void)
 
 uint8_t temp, temp2; 
 
+void MX_Touch_Read(void){
+   UB_Touch_Read();
+}
+
 ErrorStatus UB_Touch_Read(void)
 {
   uint32_t xDiff, yDiff , x , y;

@@ -18,6 +18,7 @@
 //here is our variables
 extern volatile int8_t Semaphore; // that semaphore for queues and routines control if you need :)
 extern volatile uint32_t TicksGlobalUS; //US MUST be ticking in timer in the timer interrupt handle, it needs just ++ operation
+extern volatile uint8_t RESmutex_1; //the Resource mutex
 ///////////////////////  
 void RoutineFast(void);
 void RoutineMedium(void);
@@ -33,6 +34,7 @@ void (*M_pull(void))(void);
 ////FAST QUEUE//////////////
 void pFastQueueIni(void);
 int8_t F_push(void (*pointerQ)(void));
+int8_t F_push2(void (*pointerQ_1)(void),void (*pointerQ_2)(void));   
 void (*F_pull(void))(void);
 ///////////////////////////
 //waiting functions
@@ -40,7 +42,6 @@ void DelayOnFastQ(uint8_t WaitQFast); // push several tasks from the Fast Queue
 void DelayOnMediumQ(uint8_t WaitQMedium); // push several tasks from the Medium Queue
 void DelayOnSlowQ(uint8_t WaitQSlow); // push several tasks from the Slow Queue
 uint8_t DelayUsOnProcessRoutine(void (*pointerF)(void),uint32_t TimeDel, uint8_t Ini); //DO OUR void function(void) while expecting TimeDel microsec or another timer periods
-void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram); // 
 void MPU_Config (void);
    
 #ifdef __cplusplus

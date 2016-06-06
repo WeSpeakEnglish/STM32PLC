@@ -175,7 +175,11 @@ uint16_t Temp_16;
 void Run_GUI(void){
 uint16_t Temp16;
   if(TimeIsReady){
+    while (RESmutex_1) ;
+    RESmutex_1 = 1;
     PCF8563_read_datetime(&dt);
+    RESmutex_1 = 0;
+    
     GetDateToStr(StrDate, &dt);
     GetTimeToStr(StrTime, &dt);
     TimeIsReady = 0;
@@ -669,9 +673,10 @@ uint8_t solveTriangleZones(const Zone * pZone, uint8_t Type, const uint16_t X,  
   if((uint16_t)Ys > Y) return 1; 
   return 0;
 }
-void TouchScreen_Handle(uint16_t x, uint16_t y){ //the handle of Touch Screen
+void TouchScreen_Handle(void){ //the handle of Touch Screen
  uint8_t Index;
- 
+ uint16_t x = Touch_Data.xp;
+ uint16_t y = Touch_Data.yp;
  if(Touch_Data.status == TOUCH_PRESSED){
  DISP.TS_ZoneNumber = -1;
  
@@ -726,10 +731,6 @@ void ViewScreen(void){
      Images[14]->z_index = 1; // 2-nd big rectangle
      Images[15]->z_index = 1; // TRUCK show
      Images[16]-> z_index = 1; // show orange sguare
-     
-   //  Images[13]->params[0] = (uint32_t)&IMAGES.ImgArray[0]; // squares to the default position
-   //  Images[14]->params[0] = (uint32_t)&IMAGES.ImgArray[1];
-     
      
       Rect1->z_index = 1; //RECT
       Text[4] -> z_index = 1; // the SAND and SALT

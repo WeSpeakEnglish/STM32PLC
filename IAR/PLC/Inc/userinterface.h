@@ -39,7 +39,7 @@ void Load_GUI_2(void);
 void ChangeCircle1(uint8_t Consistance);
 void Run_GUI(void);
 void KBD_Handle(uint8_t code);
-void TouchScreen_Handle(uint16_t x, uint16_t y);
+void TouchScreen_Handle(void);
 void PreLoadImages(uint32_t BaseAddr);
 void ViewScreen(void);
 void ReleaseFunction(void);

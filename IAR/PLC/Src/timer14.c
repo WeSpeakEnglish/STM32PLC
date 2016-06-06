@@ -3,6 +3,7 @@
 #include "tim.h"
 #include "stmpe811.h"
 #include "userinterface.h"
+#include "core.h"
 
 
 uint8_t DealNumber = 0; //the number of actual deal For pending deal
@@ -34,18 +35,22 @@ TIM14->DIER &= ~TIM_DIER_UIE; //разрешаем прерывание от таймера
 switch (DealNumber){
   case 0: break;
   case 1: 
+   while (RESmutex_1) ;
+   RESmutex_1 = 1;
    P_Touch_FreeIRQ();
+   RESmutex_1 = 0;
    Timer14_Init_Deal(300,2);
     break;
     
   case 2: 
-          
-          UB_Touch_Read();
-           
-          TouchScreen_Handle(Touch_Data.xp, Touch_Data.yp);
-                      break;
+   while (RESmutex_1) ;
+   RESmutex_1 = 1;
+          MX_Touch_Read();
+    RESmutex_1 = 0;
+   TouchScreen_Handle();       
+          break;
   case 3: 
-    ReleaseFunction();
+    F_push(ReleaseFunction);
     break;
   case 4: 
     break;

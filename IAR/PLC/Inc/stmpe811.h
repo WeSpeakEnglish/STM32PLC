@@ -135,6 +135,7 @@ extern Touch_Data_t Touch_Data;
 
 ErrorStatus UB_Touch_Init(void);
 ErrorStatus UB_Touch_Read(void);
+void MX_Touch_Read(void); 
 void P_Touch_FreeIRQ(void);
 #ifdef __cplusplus
 }
