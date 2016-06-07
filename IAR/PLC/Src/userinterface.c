@@ -300,9 +300,14 @@ uint16_t Temp16;
           if(!CAM_flag) {
             CAM_flag = 1;
             LCD_Video_GPIO_Deinit();
+             while (RESmutex_1) ;
+              RESmutex_1 = 1;
+              ChangeCVBS();
+              RESmutex_1 = 0;
           }
           else {
             CAM_flag = 0;
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
             LCD_Video_GPIO_Init();
           }
          break;
@@ -623,7 +628,6 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
                        DISP.ReleaseTask = 3;
                        DISP.SelectedField = 4; 
                        RateChange = 2;
-                       //CounterUPD = 0;
                  break; 
                case 0x36:
                        DISP.TS_ZoneNumber = 26; 
@@ -631,15 +635,11 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
                        DISP.ReleaseTask = 3;
                        DISP.SelectedField = 3; 
                        RateChange  = 1;
-                       //CounterUPD = 0;
-                     //  if(PatchParms.Rate < RATE_LIMIT_H)PatchParms.Rate +=10;
                  break;
                case 0x37:  
                        DISP.TS_ZoneNumber = 25; 
                        DISP.Event = 1;
                        DISP.ReleaseTask = 3;
- 
-                    //   if(PatchParms.Rate > RATE_LIMIT_L)PatchParms.Rate -=10;
                  break;   
           }
           break;
