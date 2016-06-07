@@ -634,7 +634,7 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
   }
   else
   {
-    DISP.Event = 1;
+  //  DISP.Event = 1;
       switch(DISP.Screen){
         case 1:
           DISP.ReleaseTask = 1;

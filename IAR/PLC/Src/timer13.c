@@ -68,6 +68,8 @@ static uint8_t FlagKBD_Repeat = 0;
     KBD_Handle(KB_Status.code);
     FlagKBD_Repeat =1;
     }
+    if((!KB_Status.PRESSED) && (Touch_Data.status == TOUCH_RELEASED))
+      CounterUPD = 0;
     if(KB_Status.EVENT && !KB_Status.PRESSED && FlagKBD_Repeat)
       {KBD_Handle(KB_Status.code); FlagKBD_Repeat =0;}
     if((CounterUPD % 20) == 18){
