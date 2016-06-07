@@ -142,7 +142,7 @@ return 0;
 
 void Show_GUI(void){
   
- RCC->PLLSAICFGR =0x44003300;
+ //RCC->PLLSAICFGR =0x44003300;
 
  
   
@@ -162,7 +162,7 @@ void Show_GUI(void){
  LayerOfView++;
  LayerOfView %= 2;
  FillImageSoft(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, ProjectionLayerAddress[LayerOfView], 800, 480);  
-RCC->PLLSAICFGR = 0x44003FC0;
+//RCC->PLLSAICFGR = 0x44003FC0;
 }  
 
 

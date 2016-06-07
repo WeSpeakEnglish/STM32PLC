@@ -83,8 +83,11 @@ int main(void)
    RoutineFast(); // get and run deals from medium queue 
 
   //      if(UpdateScreen||TimeIsReady){
-  Run_GUI();//();
-  Show_GUI();//();
+   
+  if(UpdateScreen == 1)Run_GUI();
+  if(!CAM_flag){
+    Show_GUI();
+   }
  // UpdateScreen = 0;
   //      }
     

@@ -33,6 +33,7 @@ extern volatile uint8_t UpdateScreen;
 extern volatile uint32_t TimeIsReady;
 extern volatile Disp DISP;
 extern volatile date_time_t dt;
+extern volatile uint8_t CAM_flag;
 extern uint8_t RateChange;
 void Load_GUI_0(void);
 void Load_GUI_2(void);

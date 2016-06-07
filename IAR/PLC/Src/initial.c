@@ -34,7 +34,7 @@ SDRAM_Initialization_Sequence(&hsdram1);
   PreLoadImages(SDRAM_BANK_ADDR);
   //LCD_Layers_Init();
  // BD_Init_TW8819(); 
-  Switch_Camera(1);
+ // Switch_Camera(1);
   MX_LTDC_Init();
   LCD_Init();
   LCD_SetLight(7);

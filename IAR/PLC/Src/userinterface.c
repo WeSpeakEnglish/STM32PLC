@@ -7,6 +7,9 @@
 #include "fonts.h"
 #include "timer14.h"
 #include "timer13.h"
+#include "ltdc.h"
+#include "tw8819.h"
+
 
 #define DOZE_LIMIT_H 200
 #define DOZE_LIMIT_L 100
@@ -27,6 +30,7 @@ uint8_t StrDATA[16][8];
 
 volatile uint32_t TimeIsReady = 0;
 volatile uint8_t UpdateScreen = 0;
+volatile uint8_t CAM_flag = 0;
 uint8_t RateChange = 0;
 
 volatile date_time_t dt;  
@@ -75,7 +79,7 @@ volatile PatchPARMS PatchParms;
    
    {{401,66},{652,142}},    //26 THE RATE UP 
    {{401,298},{652,380}},   //27 THE RATE DOWN 
-   
+   {{690,415},{784,498}},   //28 THE RATE DOWN 
  };   
 
 void Load_GUI_0(void){
@@ -174,6 +178,7 @@ uint16_t Temp_16;
 
 void Run_GUI(void){
 uint16_t Temp16;
+
   if(TimeIsReady){
     while (RESmutex_1) ;
     RESmutex_1 = 1;
@@ -291,6 +296,16 @@ uint16_t Temp16;
          DISP.Screen = 3;
          ViewScreen(); 
           break; 
+        case 28:
+          if(!CAM_flag) {
+            CAM_flag = 1;
+            LCD_Video_GPIO_Deinit();
+          }
+          else {
+            CAM_flag = 0;
+            LCD_Video_GPIO_Init();
+          }
+         break;
       }
   switch(DISP.Screen){
   case 0:
@@ -683,11 +698,11 @@ void TouchScreen_Handle(void){ //the handle of Touch Screen
   
    for(Index = 0; Index < sizeof(ZonesTS_0)/8; Index++){
       if(DISP.Screen == 0) {
-         if(Index > 15 ) continue; // throw unnecessary zones 
+         if((Index > 15 )&&(Index != 28)) continue; // throw unnecessary zones 
        }
       if(DISP.Screen == 1 || DISP.Screen == 2)
       {
-        if(Index > 23) continue; // throw unnecessary zones 
+        if((Index > 23)&&(Index != 28)) continue; // throw unnecessary zones 
       }
          
       
@@ -760,7 +775,7 @@ void ViewScreen(void){
       Text[14]->z_index = 1;
             break;          
   }
-
+UpdateScreen = 1;
 }
 
 void ReleaseFunction(void){
