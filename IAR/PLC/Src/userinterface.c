@@ -708,7 +708,7 @@ void TouchScreen_Handle(void){ //the handle of Touch Screen
 
 
       } 
- UpdateScreen = 1;
+// UpdateScreen = 1;
  return;
 }
 
@@ -780,8 +780,7 @@ void ReleaseFunction(void){
   } 
 
   UpdateScreen = 1;
-  TimeIsReady = 1;
-DISP.ReleaseTask = 0;
+  DISP.ReleaseTask = 0;
 }
 void UpDownRate(uint8_t Direction){
   if(Direction){

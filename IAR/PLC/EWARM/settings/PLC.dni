@@ -14,7 +14,7 @@ stlinkserialNo=B4060975
 stlinkfoundProbes=
 LeaveTargetRunning=_ 0
 [DebugChecksum]
-Checksum=-1693470097
+Checksum=-939590837
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -132,7 +132,12 @@ Bp1=_ 0 "EMUL_DATA" "DISP.SelectedField" 0 0 0 0 4294967295
 Bp2=_ 0 "EMUL_DATA" "KB_Status.EVENT" 0 0 0 0 4294967295
 Bp3=_ 0 "EMUL_DATA" "DISP.ReleaseTask" 0 0 0 0 4294967295
 Bp4=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\tw8819.c}.307.2" 0 0 1 "" 0 "" 0
-Count=5
+Bp5=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\video.c}.299.1" 0 0 1 "" 0 "" 0
+Bp6=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\dma2.c}.9.3" 0 0 1 "" 0 "" 0
+Bp7=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_dma.c}.918.1" 0 0 1 "" 0 "" 0
+Bp8=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_dma.c}.918.12" 0 0 1 "" 0 "" 0
+Bp9=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\dma2.c}.37.5" 0 0 1 "" 0 "" 0
+Count=10
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""

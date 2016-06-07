@@ -83,10 +83,9 @@ int main(void)
    RoutineFast(); // get and run deals from medium queue 
 
         if(UpdateScreen||TimeIsReady){
-    
-
   Run_GUI();//();
   Show_GUI();//();
+ // UpdateScreen = 0;
         }
     
   }

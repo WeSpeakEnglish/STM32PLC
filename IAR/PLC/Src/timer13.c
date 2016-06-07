@@ -71,10 +71,14 @@ static uint8_t FlagKBD_Repeat = 0;
     if(KB_Status.EVENT && !KB_Status.PRESSED && FlagKBD_Repeat)
       {KBD_Handle(KB_Status.code); FlagKBD_Repeat =0;}
     if((CounterUPD % 20) == 18){
-      if (RateChange  == 1)
+      if (RateChange  == 1){
         UpDownRate(1);  
-      if (RateChange  == 2) 
+        UpdateScreen = 1;
+      }
+      if (RateChange  == 2) {
         UpDownRate(0);
+        UpdateScreen = 1;
+      }
       
      CounterUPD = 0; 
     }
