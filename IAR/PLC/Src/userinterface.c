@@ -715,7 +715,8 @@ void TouchScreen_Handle(void){ //the handle of Touch Screen
             if((x > ZonesTS_0[Index].LeftTop.X  && x < ZonesTS_0[Index].RightBottom.X)&&
               (y > ZonesTS_0[Index].LeftTop.Y  && y < ZonesTS_0[Index].RightBottom.Y)) DISP.TS_ZoneNumber = Index;
      } 
-  SOUND.CounterSound= 0, SOUND.SoundPeriod = 50;
+  SOUND.CounterSound= 0, SOUND.SoundPeriod = 50; 
+  
  }
  else{
   Timer14_Init_Deal(200, 3);
@@ -723,10 +724,10 @@ void TouchScreen_Handle(void){ //the handle of Touch Screen
  }
  if(DISP.TS_ZoneNumber != -1){    
   DISP.Event = 1;
-
+  UpdateScreen = 1;
 
       } 
-// UpdateScreen = 1;
+
  return;
 }
 
@@ -778,7 +779,7 @@ void ViewScreen(void){
       Text[14]->z_index = 1;
             break;          
   }
-UpdateScreen = 1;
+
 }
 
 void ReleaseFunction(void){
