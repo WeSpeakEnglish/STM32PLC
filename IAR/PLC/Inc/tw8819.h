@@ -2,7 +2,7 @@
 #define __TW8819_H
 #include "stm32f7xx.h"
 #include "variables.h"
-#define	TW8819_ADDRESS		0x8A
+#define	TW8819_ADDRESS		        0x8A
 
 #define PAGE0_GENERAL		        0x00
 #define PAGE0_OUTPUT		        0x00	//0x007::0x00F & 0x01F

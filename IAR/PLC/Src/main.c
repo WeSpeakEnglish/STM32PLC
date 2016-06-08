@@ -4,6 +4,7 @@
 #include "files.h"
 #include "calculations.h"
 #include "userinterface.h"
+#include "keyboard.h"
 
 /* USER CODE END Includes */
 
@@ -82,11 +83,17 @@ int main(void)
   /* USER CODE BEGIN 3 */
    RoutineFast(); // get and run deals from medium queue 
 
-         if(UpdateScreen||TimeIsReady){
+         if(UpdateScreen||TimeIsReady|| DISP.ReleaseFlag){
    
   Run_GUI();
+  
+  if(DISP.ReleaseFlag){
+  if((Touch_Data.status != TOUCH_PRESSED) && (!KB_Status.PRESSED))ReleaseFunction();
+  DISP.ReleaseFlag = 0;
+  }
+  Show_GUI();
   if(!CAM_flag){
-    Show_GUI();
+    
    }
    UpdateScreen = 0;
          }

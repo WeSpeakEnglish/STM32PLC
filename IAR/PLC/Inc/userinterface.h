@@ -12,7 +12,7 @@ typedef struct{
   int8_t        TS_ZoneNumber;
   int8_t        SelectedField;
   int8_t        ReleaseTask; // task for release button or touch screen
- // int8_t        ReleaseFlag; // task for release button or touch screen
+  int8_t        ReleaseFlag; // task for release button or touch screen
 }Disp;
 
 typedef struct{

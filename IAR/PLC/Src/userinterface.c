@@ -653,15 +653,18 @@ void KBD_Handle(uint8_t code){ //the handle of KBD
       switch(DISP.Screen){
         case 1:
           DISP.ReleaseTask = 1;
-          ReleaseFunction();
+          DISP.ReleaseFlag = 1;
+          //ReleaseFunction();
           break;
         case 2:
           DISP.ReleaseTask = 2;
-          ReleaseFunction();
+         // ReleaseFunction();
+          DISP.ReleaseFlag = 1;
           break;
         case 3:
           DISP.ReleaseTask = 3;
-          ReleaseFunction();
+         // ReleaseFunction();
+          DISP.ReleaseFlag = 1;
           break;  
      }
   // DISP.SelectedField =1;
@@ -779,7 +782,7 @@ UpdateScreen = 1;
 }
 
 void ReleaseFunction(void){
-  if(!KB_Status.PRESSED){
+//  if(!KB_Status.PRESSED){
   switch(DISP.ReleaseTask){
    case 1 :
      Images[24]->params[0] = (uint32_t) &IMAGES.ImgArray[36];
@@ -792,7 +795,7 @@ void ReleaseFunction(void){
      RateChange  = 0;
          break;
   } 
-  } 
+//  } 
 
   UpdateScreen = 1;
   DISP.ReleaseTask = 0;

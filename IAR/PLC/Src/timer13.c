@@ -60,8 +60,8 @@ static uint8_t FlagKBD_Repeat = 0;
    }
     else
       if(SOUND.CounterSound == SOUND.SoundPeriod){
-         if(DISP.ReleaseTask && (Touch_Data.status == TOUCH_RELEASED)) ReleaseFunction();
-         SOUND.CounterSound ++;
+         if(DISP.ReleaseTask && (Touch_Data.status == TOUCH_RELEASED) && (!DISP.ReleaseFlag)) DISP.ReleaseFlag++;//ReleaseFunction();
+         
       }
     
     if((KB_Status.EVENT && KB_Status.PRESSED) &&((CounterUPD % 20) == 18))

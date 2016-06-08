@@ -50,7 +50,8 @@ switch (DealNumber){
    TouchScreen_Handle();       
           break;
   case 3: 
-    ReleaseFunction();
+   // ReleaseFunction();
+    DISP.ReleaseFlag = 1;
     break;
   case 4: 
     break;
