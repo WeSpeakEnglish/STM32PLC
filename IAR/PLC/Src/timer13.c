@@ -27,7 +27,7 @@ static uint32_t Counter = 0;
 static uint32_t CounterUPD = 0;
 
 static uint8_t FlagKBD_Repeat = 0;
- TIM13->SR &= ~TIM_SR_UIF; //—брасываем флаг UIF
+ //TIM13->SR &= ~TIM_SR_UIF; //—брасываем флаг UIF
 
  switch (Counter){
   case 0:
@@ -61,6 +61,7 @@ static uint8_t FlagKBD_Repeat = 0;
     else
       if(SOUND.CounterSound == SOUND.SoundPeriod){
          if(DISP.ReleaseTask && (Touch_Data.status == TOUCH_RELEASED)) ReleaseFunction();
+         SOUND.CounterSound ++;
       }
     
     if((KB_Status.EVENT && KB_Status.PRESSED) &&((CounterUPD % 20) == 18))

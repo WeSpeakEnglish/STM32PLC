@@ -43,7 +43,7 @@ switch (DealNumber){
     break;
     
   case 2: 
-   while (RESmutex_1) ;
+   if (RESmutex_1){Timer14_Init_Deal(100,2); return;}
    RESmutex_1 = 1;
           MX_Touch_Read();
     RESmutex_1 = 0;

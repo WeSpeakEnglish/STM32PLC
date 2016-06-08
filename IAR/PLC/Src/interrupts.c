@@ -12,7 +12,7 @@
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
  NVIC_ClearPendingIRQ (EXTI0_IRQn);
 
-  
+   EXTI->PR |= (1<<0);
    Timer14_Init_Deal(350, 1);
  
  return;
@@ -25,16 +25,10 @@ void   EXTI9_5_IRQHandler(void)        //; EXTI Line 9..5
 {
 // static uint8_t Counter = 0;     
         
- NVIC_ClearPendingIRQ (EXTI9_5_IRQn);
+// NVIC_ClearPendingIRQ (EXTI9_5_IRQn);
         
- if ((GPIOD->IDR)&(1<<7) == (1<<7)){
-        
-         EXTI->PR |= (1<<7);
          
-    
-   TimeIsReady = 1;
-   
-        };
-  
+      TimeIsReady = 1;   
+      EXTI->PR |= EXTI_PR_PR7;
         return;
 }
