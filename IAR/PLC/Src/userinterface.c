@@ -178,8 +178,9 @@ uint16_t Temp_16;
 
 void Run_GUI(void){
 uint16_t Temp16;
+uint8_t Temp8;
 
-  if(TimeIsReady){
+if(TimeIsReady){
     while (RESmutex_1) ;
     RESmutex_1 = 1;
     PCF8563_read_datetime(&dt);
@@ -302,7 +303,12 @@ uint16_t Temp16;
             LCD_Video_GPIO_Deinit();
              while (RESmutex_1) ;
               RESmutex_1 = 1;
+              BD_Init_TW8819();
               ChangeCVBS();
+              Temp8 = 0;
+              WriteTW88( 0xff, &Temp8 );
+              ReadTW88(REG000, &Temp8);
+              OSDSetDEDelay();
               RESmutex_1 = 0;
           }
           else {

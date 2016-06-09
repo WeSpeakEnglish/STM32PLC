@@ -645,3 +645,27 @@ uint8_t ChangeCVBS( void )
 	
 	return(result);
 }
+
+void OSDSetDEDelay(void)
+{
+	uint8_t	page;
+	uint8_t	HDE, PCLKO;
+	uint8_t	result, tmp;
+
+	ReadTW88( 0xff, &page );
+        result = PAGE2_SCALER; 
+	WriteTW88(0xff, &result);
+	ReadTW88(REG210, &HDE);
+        ReadTW88(REG20D, &result);
+	PCLKO = result & 0x03;
+	if (PCLKO == 3 ) PCLKO = 2; 
+	result = HDE + PCLKO - 36;
+
+	
+        tmp = PAGE3_FOSD;
+	WriteTW88(0xff, &tmp);
+	WriteTW88(REG303, &result); 
+
+	WriteTW88( 0xff, &page );
+}
+

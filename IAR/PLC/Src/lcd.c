@@ -55,8 +55,8 @@ void LCD_LayerDefaultInit(uint16_t LayerIndex, uint32_t FB_Address)
   layer_cfg.Backcolor.Blue = 0;
   layer_cfg.Backcolor.Green = 0;
   layer_cfg.Backcolor.Red = 0;
-  layer_cfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
-  layer_cfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_PAxCA;
+  layer_cfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_CA;
+  layer_cfg.BlendingFactor2 = LTDC_BLENDING_FACTOR1_CA;
   layer_cfg.ImageWidth = LCD_GetXSize();
   layer_cfg.ImageHeight = LCD_GetYSize();
   

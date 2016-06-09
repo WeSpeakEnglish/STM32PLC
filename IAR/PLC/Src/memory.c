@@ -1,5 +1,6 @@
 #include "memory.h"
 #include "fmc.h"
+#include "lcd.h"
 
 void SDRAM_free(void){
  uint32_t i;
@@ -36,7 +37,7 @@ void NAND_readId(void)
   
 
 void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram) {    //***********************************************
-
+uint32_t Dummy;
 //static void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef *Cmd) {    //***********************************************
 FMC_SDRAM_CommandTypeDef Cmd;
 __IO uint32_t tmpmrd =0;
@@ -59,7 +60,7 @@ HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
 
 Cmd.CommandMode= FMC_SDRAM_CMD_AUTOREFRESH_MODE;    //Step 6 : Configure a Auto-Refresh command
 Cmd.CommandTarget= FMC_SDRAM_CMD_TARGET_BANK1;
-Cmd.AutoRefreshNumber= 4;
+Cmd.AutoRefreshNumber= 2;
 Cmd.ModeRegisterDefinition= 0;
 HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
 
@@ -74,7 +75,7 @@ HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
 
 tmpmrd = (uint32_t)SDRAM_MODEREG_BURST_LENGTH_8          |        //Step 7: Program the external memory mode register
                      SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |
-                     SDRAM_MODEREG_CAS_LATENCY_3           |
+                     SDRAM_MODEREG_CAS_LATENCY_2           |
                      SDRAM_MODEREG_OPERATING_MODE_STANDARD |
                      SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;
 Cmd.CommandMode= FMC_SDRAM_CMD_LOAD_MODE;
@@ -82,7 +83,7 @@ Cmd.CommandTarget= FMC_SDRAM_CMD_TARGET_BANK1;
 Cmd.AutoRefreshNumber= 1;
 Cmd.ModeRegisterDefinition= tmpmrd;
 HAL_SDRAM_SendCommand(hsdram, &Cmd, 0x1000);
-//Dummy = *((volatile uint32_t *)(SDRAM_BASE_ADDR | (0x33<<12)));
+//Dummy = *((volatile uint32_t *)(SDRAM_BANK_ADDR | (0x33<<12)));
 
 
     /* Step 8: Set the refresh rate counter

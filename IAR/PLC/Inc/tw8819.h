@@ -1162,5 +1162,5 @@ void Switch_Camera(uint8_t cam);
 uint8_t ChangeCVBS(void);
 void LCD_Video_GPIO_Deinit(void);
 void LCD_Video_GPIO_Init(void);
-
+void OSDSetDEDelay(void);
 #endif

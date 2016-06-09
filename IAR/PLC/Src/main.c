@@ -68,7 +68,7 @@ int main(void)
   MX_TIM14_Init();
 
   /* USER CODE BEGIN 2 */
- // MPU_Config(); 
+  MPU_Config(); 
   InitPeriph();
   
   //WriteNewTextFileSD(buff,  "0:hi.txt", sizeof(buff));
