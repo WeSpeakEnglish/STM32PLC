@@ -15,7 +15,7 @@ TW8819_ADDRESS,0,
 0x02, 0xCA,
 0x03, 0xFF,
 0x04, 0x10,
-0x06, 0x26,
+0x06, 0xAE, // 0x26,
 0x07, 0x00,
 0x08, 0xC6,
 0x1F, 0x00,
@@ -78,7 +78,7 @@ TW8819_ADDRESS,0,
 0x2C, 0x30,
 0x2D, 0x14,
 0x2E, 0xA5,
-0x2F, 0xE4,
+0x2F, 0xE6,
 0x30, 0x00,
 0x31, 0x10,
 0x32, 0xFF,
@@ -295,34 +295,31 @@ void Switch_Camera(uint8_t type)
 
 void BD_Init_TW8819(void)
 {
-	uint8_t 	 addr, index, val;//, mode;
+	int		cnt=0,cnt1;
+	uint8_t 	addr, index, val, mode;
 	uint8_t 	*RegSet;
-        static uint8_t buffer[2]={0xff,0x00};
         
-HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-
-	val = 0;
-//	WriteTW88Page(&val);
-//	ReadTW88(0,&mode);
+HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);	
+	val=0;
+	cnt=WriteTW88Page(&val);
+	ReadTW88(0,&mode);
 	
 	RegSet = InitCVBSAll;
 	addr = *RegSet;
-	//cnt = *(RegSet+1);
+	cnt = *(RegSet+1);
 	RegSet+=2;
 
 	while (( RegSet[0] != 0xFF ) || ( RegSet[1]!= 0xFF )) // 0xff, 0xff is end of data
 	{			
 		index = *RegSet;
 		val = *(RegSet+1);
-	//	WriteTW88(index,&val);
-  buffer[0] = index;                
-  buffer[1] = val;
-HAL_I2C_Master_Transmit(&hi2c2, addr, buffer, 2, 1000);
-	//	ReadTW88(index,&mode);
+		cnt=WriteTW88(index,&val);
+		cnt1=ReadTW88(index,&mode);
 		RegSet+=2;
-//		WriteTW88( 0xff, PAGE1_DECODER );
-//		ReadTW88( REG102, &val);
-//		val *=1;
+        val= PAGE1_DECODER;        
+	WriteTW88( 0xff, &val);
+        ReadTW88( REG102, &val);
+		val *=1;
 	}
 }
 

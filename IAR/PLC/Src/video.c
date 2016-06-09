@@ -298,7 +298,7 @@ if (res == FR_OK){
 void Transfer_DMA2D_Completed(DMA2D_HandleTypeDef *hdma2d){
   
   PLC_DMA2D_Status.Ready = 1;
-  RCC->PLLSAICFGR = 0x44003FC0;
+//  RCC->PLLSAICFGR = 0x44003FC0;
 }
 
 void TwoDigitsToChars(uint8_t * Src){
