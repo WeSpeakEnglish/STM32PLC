@@ -303,16 +303,15 @@ if(TimeIsReady){
             LCD_Video_GPIO_Deinit();
              while (RESmutex_1) ;
               RESmutex_1 = 1;
-              BD_Init_TW8819();
-          //    ChangeCVBS();
-              Temp8 = 0;
-              WriteTW88( 0xff, &Temp8 );
-              ReadTW88(REG000, &Temp8);
-              OSDSetDEDelay();
-              Temp8 = PAGE1_DECODER;
-              WriteTW88Page(&Temp8);
-              Temp8  = 0x40;	
-		WriteTW88( REG102, &Temp8 );
+              HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+              //Switch_Camera(1);
+              I2CDeviceInitialize(InitCVBSAll);
+            // ChangeCVBS();
+              WriteTW88( 0xff, 0 );
+              Temp8 = ReadTW88(REG000);
+           //   OSDSetDEDelay();
+           //   WriteTW88Page(PAGE1_DECODER);
+           //   WriteTW88( REG102, 0x40);
             //    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
               RESmutex_1 = 0;
           }

@@ -1137,6 +1137,8 @@
 //#define	WriteTW88(a, b)		I2C_BufferWrite(TW8819_ADDRESS, a, b, 1, 0) // I2C_BufferWrite(uint8_t dev,uint16_t addr, uint8_t *buf, uint16_t len,uint8_t mode16)
 //#define WriteTW88Page(a)	HAL_I2C_Master_Transmit(&hi2c2, TW8819_ADDRESS, a, 2, 1000);//I2C_BufferWrite(TW8819_ADDRESS, 0xff, a, 1, 0) uint8_t I2C_BufferWrite(uint8_t dev,uint16_t addr, uint8_t *buf, uint16_t len,uint8_t mode16)
 
+extern uint8_t InitCVBSAll[];
+
 uint16_t SetYCbCrContrast(uint16_t val);
 uint16_t ReadYCbCrContrast(void);
 uint16_t SetYCbCrBright(uint16_t val);
@@ -1150,13 +1152,15 @@ uint16_t ReadYCbCrSharp(void);
 
 
 ////////////
-uint8_t ReadTW88(uint8_t addr, uint8_t* buf ); 
-uint8_t WriteTW88(uint8_t addr, uint8_t* buf);
-uint8_t WriteTW88Page(uint8_t* buf);
+uint8_t ReadTW88(uint8_t addr); 
+void WriteTW88(uint8_t addr, uint8_t buf);
+void WriteTW88Page(uint8_t buf);
 //
 
 
-void BD_Init_TW8819();
+void I2CDeviceInitialize(uint8_t *RegSet);
+void BlueScreenOnOff(uint8_t on);
+void WaitVBlank(uint8_t cnt);
 void ReadTW8819ID(void);
 void Switch_Camera(uint8_t cam);
 uint8_t ChangeCVBS(void);
