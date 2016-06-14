@@ -310,7 +310,7 @@ if(TimeIsReady){
              // WriteTW88( 0xff, 0 );
             //  Temp8 = ReadTW88(REG000);
               OSDSetDEDelay();
-              BlueScreenOnOff(1);
+              BlueScreenOnOff(0);
            //   WriteTW88Page(PAGE1_DECODER);
            //   WriteTW88( REG102, 0x40);
             //    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
