@@ -41,7 +41,7 @@ TW8819_ADDRESS,0,
 
 0xFF, 0x01, 	// Page 01
 0x01, 0x68,	
-0x02, 0x4c,		// for intput Y0
+0x02, 0x4C,		// for intput Y0  5Ñ is for BW 
 0x04, 0x00,
 0x05, 0x09,
 0x06, 0x00,
@@ -98,7 +98,7 @@ TW8819_ADDRESS,0,
 0xFF, 0x02, 	// Page 02 Scaler
 0x01, 0x00,			
 0x02, 0x20,				
-0x03, 0x8F,		// XScale = 2000
+0x03, 0x9F,// 0x8F,		// XScale = 2000
 0x04, 0x18,		// XScale 
 0x05, 0xA2,		// YScale = 2000	
 0x06, 0x12,		// YScale 
@@ -115,11 +115,11 @@ TW8819_ADDRESS,0,
 0x11, 0x20,		// 
 0x12, 0x03,		//
 0x13, 0x28,		// back porch = 40 = 0x28
-0x14, 0x30,		// H sync width = 0x30 
+0x14, 0x25,		// H sync width = 0x30 
 0x15, 0x30,		// DE H
 0x16, 0xE0,		
 0x17, 0x01,
-0x18, 0xd3,		// V sync line =3,  back porch = 13 = 0xd
+0x18, 0xCB,		// V sync line =3,  back porch = 13 = 0xd
 0x19, 0x00,
 0x1A, 0x00,
 0x1B, 0x00,
@@ -241,7 +241,7 @@ void Switch_Camera(uint8_t type)
 	{
 //		BD_TW8819_Config();
 		I2CDeviceInitialize(InitCVBSAll);
-		ChangeCVBS();	
+	//	ChangeCVBS();	
 //		BD_I2C_Init();		//Re-initialize once, when there is no cause to prevent TW8819 I2C obstruction
 	}
 	
@@ -249,7 +249,7 @@ void Switch_Camera(uint8_t type)
 	{
 		
                 
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to STM	
+	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to STM	
                 //WaitOnFastQ(); // one task from queue instead of waiting	
                 DelayOnFastQ(10);
                 LCD_Video_GPIO_Init();		
@@ -267,7 +267,7 @@ void Switch_Camera(uint8_t type)
                 DelayOnFastQ(10); //one task from queue instead of waiting
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);		
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819		
+	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819		
 	}
 	else if(type==2)
 	{
@@ -279,7 +279,7 @@ void Switch_Camera(uint8_t type)
                 DelayOnFastQ(10);// one task from queue instead of waiting
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);		
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819	
+	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819	
 	}
 	else if(type==3)
 	{
@@ -296,16 +296,14 @@ void Switch_Camera(uint8_t type)
 	}
 	else if(type==4)
 	{
-		mode = PAGE1_DECODER;
-		WriteTW88Page(mode);
-		val = 0x4C;	
-		WriteTW88( REG102, val );	
+		WriteTW88Page(PAGE1_DECODER);
+		WriteTW88( REG102, 0x4C );	
 //		ChangeCVBS();		
-		LCD_Video_GPIO_Deinit();
-                DelayOnFastQ(10);
+//		LCD_Video_GPIO_Deinit();
+ //               DelayOnFastQ(10);
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819		
+//		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819		
 	}	
 }
 
@@ -625,7 +623,7 @@ uint8_t ChangeCVBS( void )
 	result = CheckAndSetDecoderScaler();
 	
  	OSDSetDEDelay();
- 	BlueScreenOnOff(1);
+ //	BlueScreenOnOff(1);
 	
 	return(result);
 }
