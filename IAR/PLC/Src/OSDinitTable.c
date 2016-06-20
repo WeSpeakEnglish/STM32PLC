@@ -252,7 +252,7 @@ const uint8_t Init_Osd_DisplayInput[] = {
 	0 // End of Data
 };          
 
-#ifdef ADD_ANALOGPANEL
+
 const uint8_t Init_Osd_DisplayInput_A[] = {
 	//----- Input Selection : Zoom 1
 	16,
@@ -293,7 +293,7 @@ const uint8_t Init_Osd_DisplayInput_A[] = {
 
 	0
 };
-#endif
+
 //=============================================================================
 //			Initialize Window for MainMenu
 //=============================================================================

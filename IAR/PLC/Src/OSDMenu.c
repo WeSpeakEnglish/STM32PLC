@@ -851,7 +851,7 @@ void DisplayOSDMenuOneItem(const struct DefineMenu *DMp, uint8_t x, uint8_t y, u
 	if( DMp->DescColor !=NIL ) {		// Draw Desc.
 
 		Str = DMp->Desc[OSDLang];
-		j=strlen((uint8_t *)Str);
+		j=strlenA((uint8_t *)Str);
 
 		for( i=0,k=0; i<j; i++ )
 			if( *(Str+i) == ROMFONT || *(Str+i) == RAMFONT ) k++;
@@ -1244,7 +1244,7 @@ void DrawNum(uint16_t addr, const struct NumType *nptr, uint16_t val)
 			Num_str[k] = *str++;
 	// Draw number.
 	utoa(val,mstr,BAR_NUM_RADIX);
-	len = strlen(mstr);
+	len = strlenA(mstr);
 	str=mstr;
 	for(k=0; k<len; k++)
 		Num_str[k+i] = *str++;
@@ -1272,7 +1272,7 @@ void DrawStringByLang( uint16_t addr, const struct EnumType *yptr, uint16_t val 
 	if ( yptr->ByLang)
 	{
 		for(j=0; j<OSDLang*Size_val; j++)			
-		Str += ( strlen((uint8_t *)Str) + 1 );
+		Str += ( strlenA((uint8_t *)Str) + 1 );
 	}
 
 	if( val ){ 
@@ -1283,7 +1283,7 @@ void DrawStringByLang( uint16_t addr, const struct EnumType *yptr, uint16_t val 
 	WriteStringToAddr(addr, Buf, BARNUM_LENGTH); 
 
 
-	l = CStrlen((uint8_t *)Str);
+	l = strlen((uint8_t *)Str);
 	WriteStringToAddr(addr, (uint8_t *)Str, l); 
 
 }
@@ -1335,7 +1335,7 @@ void DrawMenulist(uint8_t NOTViewflag)
  
 		DMp = &MenuTitle[title_item];
 		Desc = DMp->Desc[OSDLang];
-		j=strlen((uint8_t *)Desc);
+		j=strlenA((uint8_t *)Desc);
 
 		for( i=0,k=0; i<j; i++ )
 			if( *(Desc+i) == ROMFONT || *(Desc+i) == RAMFONT ) k++;

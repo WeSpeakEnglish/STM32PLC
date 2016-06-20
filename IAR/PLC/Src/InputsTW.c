@@ -160,16 +160,16 @@ uint8_t	ChangeCVBS2( void )
 uint8_t	result=0;
 
 	if ( InputMain == INPUT_CVBS2 ) return(0);
-	Puts("\nChange to CVBS2");
+//	Puts("\nChange to CVBS2");
 	InputMain = INPUT_CVBS2;
-	Puts("\nSave to EE");
-	SaveInputEE( InputMain );
+
+//	SaveInputEE( InputMain );
 
 	BacklightOnOff(0);
 
-	Puts("\nInitialize CVBS2");
 
-	InitCVBSRegister( );
+
+	I2CDeviceInitialize( InitCVBSAll );
 
 	//=========== these change for CVBS2 diff input =====================
 	WriteTW88( 0xff, PAGE1_DECODER );		// set Decoder page

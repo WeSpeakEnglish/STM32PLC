@@ -1,5 +1,6 @@
 #include "OSDBasic.h"
 #include "tw8819.h"
+#include "stm32f7xx_hal.h"
 
 #ifdef BIG_FONT
 #define COLORFONT				0x80
@@ -61,7 +62,6 @@ void WriteStringToAddr(uint8_t addr, uint8_t *str, uint8_t cnt)
 {
 uint8_t	page, i;
 
-	Printf("\nWriteStringToAddr :%s: size: %bd", str, cnt);
 	page = ReadTW88( 0xff );
 
 	WriteTW88( 0xff, PAGE3_FOSD );
@@ -128,7 +128,7 @@ uint8_t	page, i, j;
 	for ( i=0; i<(cnt/8); i++) {
 		for ( j=0; j<8; j++ )
 			WriteTW88(REG308, color);
-		Delay1ms(1);
+		HAL_Delay(1);
 	}
 	for ( j=0; j<(cnt%8); j++ )
 		WriteTW88(REG308, color);
@@ -169,14 +169,10 @@ uint8_t	page, i;
 //*****************************************************************************
 uint8_t utoa(uint16_t value, uint8_t *str, uint8_t radix)
 {
-	uint8_t cnt, *str1;
+	uint8_t cnt;//, *str1;
 	uint16_t i, div;
 
-	#ifdef DEBUG_OSD
-	dPrintf("\r\n++(utoa):0x%x__", value);
-	#endif
-
-	str1 = str;
+//	str1 = str;
 	cnt=0;
 	if( radix==10) {
 		for(div = 10000; div>=10; div/=10) {
@@ -212,7 +208,7 @@ uint8_t utoa(uint16_t value, uint8_t *str, uint8_t radix)
 	}
 	return 1;
 }
-uint8_t strlen( uint8_t *str )
+uint8_t strlenA( uint8_t *str )
 {
 	uint8_t i=0;
 

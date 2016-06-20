@@ -353,9 +353,8 @@ void Reset_OSDColorLookup(void);
 //====================================================================
 uint8_t utoa(uint16_t value, uint8_t *str, uint8_t radix);
 uint8_t ltoa_K(long value, uint8_t *str, uint8_t);
-uint8_t strlen( uint8_t *str );
+uint8_t strlenA( uint8_t *str );
 
-#define CStrlen(A)				strlen(A)
 
 
 

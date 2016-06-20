@@ -25,9 +25,9 @@ extern const uint8_t Init_Osd_DisplayMuteInfo[];
 extern const uint8_t Init_Osd_DisplayTVChannel[];
 extern const uint8_t Init_Osd_DisplayPCInfo[];
 extern const uint8_t Init_Osd_DisplayInput[];
-#ifdef ADD_ANALOGPANEL
+
 extern const uint8_t Init_Osd_DisplayInput_A[];
-#endif
+
 
 extern const uint8_t                    Init_Osd_MainMenu[];
 extern const uint8_t                    Init_Osd_BarWindow[];
