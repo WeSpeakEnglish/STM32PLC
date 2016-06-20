@@ -1009,6 +1009,9 @@
         <name>$PROJ_DIR$\..\Src\dac.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\DispInfo.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\dma2d.c</name>
       </file>
       <file>
@@ -1033,7 +1036,13 @@
         <name>$PROJ_DIR$\..\Src\i2c.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\ImageControl.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\initial.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\InputsTW.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\interrupts.c</name>
@@ -1055,6 +1064,21 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\memory.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\OSDBasic.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\OSDFont.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\OSDinitTable.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\OSDMenu.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\OSDstring.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\RIAD_16pt.c</name>

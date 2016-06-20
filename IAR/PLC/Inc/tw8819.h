@@ -1136,7 +1136,151 @@
 //#define	ReadTW88(a, b)		I2C_BufferRead( TW8819_ADDRESS, a, b, 1, 0)
 //#define	WriteTW88(a, b)		I2C_BufferWrite(TW8819_ADDRESS, a, b, 1, 0) // I2C_BufferWrite(uint8_t dev,uint16_t addr, uint8_t *buf, uint16_t len,uint8_t mode16)
 //#define WriteTW88Page(a)	HAL_I2C_Master_Transmit(&hi2c2, TW8819_ADDRESS, a, 2, 1000);//I2C_BufferWrite(TW8819_ADDRESS, 0xff, a, 1, 0) uint8_t I2C_BufferWrite(uint8_t dev,uint16_t addr, uint8_t *buf, uint16_t len,uint8_t mode16)
+#define PAGE0_GENERAL		0x00
+#define PAGE0_OUTPUT		0x00	//0x007::0x00F & 0x01F
+#define PAGE0_INPUT			0x00	//0x040::0x046
+#define PAGE0_BT656			0x00	//0x047::0x04A
+#define PAGE0_DTV			0x00	//0x050::0x05F
+#define PAGE0_GPIO			0x00	//0x080::0x09E
+#define PAGE0_MBIST			0x00	//0x0A0::0x0A4
+#define PAGE0_TOUCH			0x00	//0x0B0::0x0B4
+#define PAGE0_LOPOR			0x00	//0x0D4::0x0DF
+#define PAGE0_LEDC			0x00	//0x0E0::0x0E6
+#define PAGE0_DCDC			0x00	//0x0E8::0x0EC
+#define PAGE0_VCOM			0x00	//0x0ED::0x0EE
+#define PAGE0_SSPLL			0x00	//0x0F6::0x0FD
+#define PAGE1_DECODER		0x01	//0x101::0x142
+#define PAGE1_VADC			0x01	//0x1C0::0x1E7	include LLPLL
+#define PAGE2_SCALER		0x02	//0x201::0x21E
+#define PAGE2_TCON			0x02	//0x240::0x24E
+#define PAGE2_IMAGE			0x02	//0x280::0x2BF
+#define PAGE2_GAMMA			0x02	//0x2E0::0x2E3 include LCDC
+#define PAGE2_DITHER		0x02	//0x2E4::0x2E4
+#define PAGE2_RGBLEVEL		0x02	//0x2F0::0x2F5
+#define PAGE2_8BITPANEL		0x02	//0x2F8::0x2F9
+#define PAGE3_FOSD			0x03	//0x300::0x354
+#define PAGE4_SOSD			0x04	//0x400::0x3BE
+#define PAGE3_SPI			0x04	//0x4C0::0x4DA include MCU
+#define PAGE4_SPI			0x04	//0x4C0::0x4DA include MCU
+#define TWBASE_SPI			0xC0	//note:Not a page. it is a offset.
+#define PAGE4_CLOCK			0x04	//0x4E0::0x4EB
+#define PAGE5_MEAS			0x05	//0x500::0x545
 
+//-----------------------------------------------------------------------------
+//				Individual Decoder Registers 
+//-----------------------------------------------------------------------------
+
+#define	REG_PAGE		0xff
+
+//-----------------------------------------------------------------------------
+//				Common Registers : Page 1
+//-----------------------------------------------------------------------------
+#define CSTATUS			0x01	// Chip Status
+#define INFORM			0x02	// Input Format
+#define ACNTL			0x06	// Analog Control
+#define CROP_HI			0x07	// Cropping High
+#define VDELAY_LO		0x08	// Vertical Delay Low
+#define VACTIVE_LO		0x09	// Vertical Active Low
+#define HDELAY_LO		0x0a	// Horizontal Delay Low
+#define HACTIVE_LO		0x0b	// Horizontal Active Low
+#define CNTRL1			0x0c	// Control 1
+#define	CC_WSS			0x0d	// closed caption
+
+#define BRIGHT			0x10	// Brightness Control
+#define CONTRAST		0x11	// Contrast Control
+#define SHARPNESS		0x12	// Sharpness Control
+#define SAT_U			0x13	// Chroma(U) Gain
+#define SAT_V			0x14	// Chroma(V) Gain
+#define HUE				0x15	// Hue Conrol
+#define V_PEAKING		0x17	// Vertical Peaking
+#define CORING			0x18	// Coring Control Register
+
+#define CC_STATUS		0x1a	// CC/EDS Status
+#define CC_DATA			0x1b	// CC/EDS Data
+#define SDT				0x1c	// Standard Selection
+#define SDTR			0x1d	// Standard Recognition
+#define CVFMT			0x1e	// Component Video Format
+
+#define	CLMPG			0x20	// Clamping Gain
+#define	IAGC			0x21	// Individual AGC Gain
+#define	AGCGAIN			0x22	// AGC Gain
+#define	PEAKWT			0x23	// White Peak Threshold
+#define	CLMPL			0x24	// Clamping Level
+#define	SYNCT			0x25	// Sync Amplitude
+#define	MISSCNT			0x26	// Sync Miss Count
+#define	PCLAMP			0x27	// Clamping Position
+
+#define V_CONTROL1		0x28	// Vertical Control I
+#define V_CONTROL2		0x29	// Vertical Control II
+#define HFILTER			0x2c	// LUMA nad HFilter Control
+#define MISC1			0x2d	// Miscellaneous Control 1
+#define MISC2			0x2e	// Miscellaneous Control 2
+#define MISC3			0x2f	// Miscellaneous Control 2
+
+#define MACROV			0x30	// Macrovision control
+#define CSTATUS2		0x31	// Chip Status 2
+#define HFREF			0x32	// H Monitor
+#define CLMD			0x33	// Clamp Mode
+#define NSP_SEN			0x34	// ID Detection Control
+#define CLCNTL			0x35	// Clamp Control
+
+#define WSS0			0x40	// WSS data bit[19:14]
+#define WSS1			0x41	// WSS data bit[13:8]
+#define WSS2			0x42	// WSS data bit[7:0]
+
+
+//=================== page 2 ==================================================
+#define SHUE			0x80	// RGB Hue
+#define SCONTRAST_R		0x81	// Red Contrast
+#define SCONTRAST_G		0x82	// Green Contrast
+#define SCONTRAST_B		0x83	// Blue Contrast
+#define SCONTRAST_Y		0x84	// Y Contrast
+#define SCONTRAST_Cb	0x85	// Cb Contrast
+#define SCONTRAST_Cr	0x86	// Cr Contrast
+#define SBRIGHT_R		0x87	// Red Brightness
+#define SBRIGHT_G		0x88	// Green Brightness
+#define SBRIGHT_B		0x89	// Blue Brightness
+#define SBRIGHT_Y		0x8a	// Y Brightness
+/*
+#define RGBCONTROL		0x36	// RGB Powerdown..
+#define RGBMISC			0x39
+#define FBCONTRL		0x3F
+*/
+#define PNLSHARPNESS	0x8B	// Sharpness Control
+#define FWVER			0x003		// rev 0.03
+
+#define DEVICE_ID_TW8819	0x8a
+
+#define REMO_RC5
+
+//-----------------------------------------------------------------------------
+//		Panel Resolution
+//-----------------------------------------------------------------------------
+#define	PANEL_H		800
+#define	PANEL_V		480
+#define PHR_ PANEL_H
+#define PVR_ PANEL_V
+
+#define SUPPORT_CVBS2
+
+//color type
+#define	RED		0
+#define	GREEN	1
+#define	BLUE	2
+#define WHITE	3
+
+#define NIL			0xff
+
+#define UNKNOWN	0xfe
+//VInputStd
+#define NTSC	1			
+#define PAL		2
+#define SECAM	3
+#define NTSC4	4
+#define PALM	5
+#define PALN	6
+#define PAL60	7
+extern uint8_t Sharpness[];
 extern uint8_t InitCVBSAll[];
 
 uint16_t SetYCbCrContrast(uint16_t val);
