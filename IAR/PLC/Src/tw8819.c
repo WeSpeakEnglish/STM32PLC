@@ -681,7 +681,7 @@ void OSDSetDEDelay(void)
         result = ReadTW88(REG20D);
 	PCLKO = result & 0x03;
 	if (PCLKO == 3 ) PCLKO = 2; 
-	result = HDE + PCLKO - 36;
+	result = HDE + PCLKO - 220;
 
 	WriteTW88(0xff, PAGE3_FOSD);
 	WriteTW88(REG303, result); 

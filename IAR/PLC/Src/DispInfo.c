@@ -165,59 +165,24 @@ void ClearOSDInfo(void)
 	if( (dt & TVVOL) || ( dt & TVCHN) )	ClearTVInfo();
 
 	if( dt & MUTE )			ClearMuteInfo();
-	if( dt & INPUTINFO )	ClearInput();
+	if( dt & INPUTINFO )	        ClearInput();
 	if( dt & MENU )			CloseOSDMenu();
-	if( dt & PCINFO )			ClearPCInfo();
+	if( dt & PCINFO )		ClearPCInfo();
 	
 }
 
 void OSDDisplayInput(void)
 {
-	uint8_t	inputs, len1, len2,i, SystemAddr;
-	#ifdef SUPPORT_COMPONENT
-	uint8_t const 	*Str;
-	#endif
-
-	SystemAddr=INPUTINFO1_ADDR;
-
-	if( (DisplayedOSD & INPUTINFO ) && DisplayInputHold ) return;
-
-	ClearOSDInfo();
-
-
-	inputs = InputMain;
-
-
-
-
-	len2 = strlen( (uint8_t *)struct_VInputStd[GetVInputStdInx()].Name );
-
-
-	for (i=1; ;i++)
-		if( struct_InputSelection[i].Id==inputs )  break;
-
-	len1 = strlen(struct_InputSelection[i].Name);
-
+	uint8_t	len1;
+	len1 = strlenA("KAM 1");
+ClearOSDInfo();
 	InitOSDWindow((uint8_t*)Init_Osd_DisplayInput);
-	#ifdef ADD_ANALOGPANEL
-	if(IsAnalogOn())
-		InitOSDWindow(Init_Osd_DisplayInput_A);
-	#endif
-	ClearDataCnt(INPUTINFO_ADDR, 51); // Total 42 Char.
-	DrawAttrCnt(INPUTINFO_ADDR, DEFAULT_COLOR, 51 );	
-	WriteStringToAddr(INPUTINFO_ADDR, struct_InputSelection[i].Name, len1); 
-
-	{
-		if( IsNoInput() == 0 ) 
-		WriteStringToAddr(SystemAddr, struct_VInputStd[GetVInputStdInx()].Name, len2); 
-	}
-
-	FOSDWinEnable(OSD_Win_Num(INPUTINFO_OSDWIN-1),1);
+        ClearDataCnt(INPUTINFO_ADDR, 51); // Total 42 Char.
+	DrawAttrCnt(INPUTINFO_ADDR, DEFAULT_COLOR, 51 );
+	WriteStringToAddr(INPUTINFO_ADDR, "KAM 1", len1); 
+	//FOSDWinEnable(OSD_Win_Num(INPUTINFO_OSDWIN-1),1);
 	FOSDWinEnable(OSD_Win_Num(INPUTINFO_OSDWIN),1);
 	FOSDShowWindowAll(1);
-
-	DisplayedOSD |= INPUTINFO;
-//	OSDDisplayedTime = GetTime_ms();	
 }
 
 uint8_t ClearInput(void)
@@ -260,7 +225,7 @@ void DisplayVol(void)
 	DrawAttrCnt(OSDMENU_BARADDR+25, BG_COLOR_WHITE | CH_COLOR_CYAN, 25 );
 
 	Str = StrVolume[OSDLang];
-	len=CStrlen((uint8_t *)Str);
+	len=strlenA((uint8_t *)Str);
 	WriteStringToAddr(OSDMENU_BARADDR, (uint8_t *)Str, len);  
 
 	FOSDWinEnable(OSDBARWINDOW, 1);
@@ -285,7 +250,7 @@ void DisplayMuteInfo(void)
 	InitOSDWindow((uint8_t *)Init_Osd_DisplayMuteInfo);
 
 	Str = MuteOnStr[OSDLang];
-	len = strlen((uint8_t *)Str);
+	len = strlenA((uint8_t *)Str);
 	WriteStringToAddr(MUTEINFO_ADDR, (uint8_t *) Str, len);  
 	DrawAttrCnt(MUTEINFO_ADDR, BACK_COLOR|CH_COLOR_RED, len );	 
 
@@ -305,7 +270,7 @@ uint8_t CheckAndClearOSD(void)
 {
 	uint16_t	ctime,  stime, diff;
 	uint8_t	dt;
-	uint8_t	Result=0;
+//	uint8_t	Result=0;
 
 	dt = DisplayedOSD;
 	if ( dt & ( MENU | INPUTINFO | TVCHN | TVVOL  ) ) {
@@ -365,7 +330,7 @@ void DisplayPCInfo(uint8_t const *ptr)
 	uint16_t xstart, ystart;
 	uint8_t len;
 
-	len  = strlen((uint8_t *)ptr);
+	len  = strlenA((uint8_t *)ptr);
 
 	xstart = ( PHR_ - len*PCINFO_ZOOM*FONT_WIDTH ) / 2;
 	ystart =  PVR_ / 3;

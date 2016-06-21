@@ -1277,13 +1277,13 @@ void DrawStringByLang( uint16_t addr, const struct EnumType *yptr, uint16_t val 
 
 	if( val ){ 
 		for(j=0; j<val; j++)			
-		Str += ( strlen((uint8_t *)Str) + 1 );	
+		Str += ( strlenA((uint8_t *)Str) + 1 );	
 	}
 
 	WriteStringToAddr(addr, Buf, BARNUM_LENGTH); 
 
 
-	l = strlen((uint8_t *)Str);
+	l = strlenA((uint8_t *)Str);
 	WriteStringToAddr(addr, (uint8_t *)Str, l); 
 
 }
