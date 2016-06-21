@@ -230,15 +230,10 @@ void InitOSDWindow(uint8_t *ptr)
 	j = *ptr;
     while( j ) {
 		ptr++;
-		#ifdef DEBUG_OSD
-		dPrintf("\nOSD data down counts: %bd, WindowNo: %bd", j, *ptr);
-		#endif
 		i = FOSDWinBase[*ptr];				// start register address
 		ptr++;
 		do {
-			#ifdef DEBUG_OSD
-			dPrintf("\nOSD data down: 0x%02bx - 0x%02bx", i, *ptr);
-			#endif
+
 			WriteTW88( i, *ptr );
 			i++; ptr++;
 			j--;

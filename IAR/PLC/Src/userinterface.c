@@ -12,6 +12,7 @@
 #include "OSDFont.h"
 #include "OSDBasic.h"
 #include "OSDinitTable.h"
+#include "DispInfo.h"
 
 #define DOZE_LIMIT_H 200
 #define DOZE_LIMIT_L 100
@@ -306,14 +307,17 @@ if(TimeIsReady){
              while (RESmutex_1) ;
               RESmutex_1 = 1;
               HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-              FOSDDownloadFont(1);	
-             // I2CDeviceInitialize(InitCVBSAll);
-          //   Switch_Camera(4);
+              	
+              I2CDeviceInitialize(InitCVBSAll);
+              FOSDDownloadFont(1);
+              Switch_Camera(4);
+         //     SetYCbCrBright(100);
              InitOSDWindow((uint8_t *)Init_Osd_DisplayInput_A);
            //  ChangeCVBS();
              // WriteTW88( 0xff, 0 );
             //  Temp8 = ReadTW88(REG000);
-           //   OSDSetDEDelay();
+              OSDSetDEDelay();
+              OSDDisplayInput();
            //   BlueScreenOnOff(1);
            //   WriteTW88Page(PAGE1_DECODER);
            //   WriteTW88( REG102, 0x40);
