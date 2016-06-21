@@ -312,7 +312,7 @@ if(TimeIsReady){
               FOSDDownloadFont(1);
               Switch_Camera(4);
          //     SetYCbCrBright(100);
-             InitOSDWindow((uint8_t *)Init_Osd_DisplayInput_A);
+             InitOSDWindow((uint8_t *)Init_Osd_DisplayInput);
            //  ChangeCVBS();
              // WriteTW88( 0xff, 0 );
             //  Temp8 = ReadTW88(REG000);

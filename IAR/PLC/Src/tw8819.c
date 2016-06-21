@@ -101,12 +101,12 @@ TW8819_ADDRESS,0,
 0x03, 0x9F,// 0x8F,		// XScale = 2000
 0x04, 0x18,		// XScale 
 0x05, 0xA2,		// YScale = 2000	
-0x06, 0x12,		// YScale 
+0x06, 0x11,		// YScale 
 0x07, 0x80,		// PScale
 0x08, 0x10,		// PScale
 0x09, 0x00,		// HDScale
 0x0A, 0x04,		// HDScale
-0x0B, 0x30,		// 
+0x0B, 0x30,		// matter where we are on x direction
 0x0C, 0x20,		// 
 0x0D, 0x0d,		// clock=1/2, V/H polarity inversion, 
 0x0E, 0x30,		// 
@@ -116,7 +116,7 @@ TW8819_ADDRESS,0,
 0x12, 0x03,		//
 0x13, 0x28,		// back porch = 40 = 0x28
 0x14, 0x25,		// H sync width = 0x30 
-0x15, 0x30,		// DE H
+0x15, 0x22,		// DE H
 0x16, 0xE0,		
 0x17, 0x01,
 0x18, 0xCB,		// V sync line =3,  back porch = 13 = 0xd
@@ -210,7 +210,7 @@ void WriteTW88(uint8_t addr, uint8_t buf){
   static uint8_t buffer[2];
   buffer[0] = addr;
   buffer[1] = buf;
-HAL_I2C_Master_Transmit(&hi2c2, TW8819_ADDRESS, buffer, 2, 10);
+HAL_I2C_Master_Transmit(&hi2c2, TW8819_ADDRESS, buffer, 2, 30);
 
 }
 
@@ -219,7 +219,7 @@ HAL_I2C_Master_Transmit(&hi2c2, TW8819_ADDRESS, buffer, 2, 10);
 // I2C_RequestMemoryRead(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize, uint32_t Timeout)
 uint8_t ReadTW88(uint8_t addr){
  uint8_t buf;
- HAL_I2C_Mem_Read(&hi2c2,(uint16_t)TW8819_ADDRESS, (uint16_t)addr, I2C_MEMADD_SIZE_8BIT, &buf, 1, 10);
+ HAL_I2C_Mem_Read(&hi2c2,(uint16_t)TW8819_ADDRESS, (uint16_t)addr, I2C_MEMADD_SIZE_8BIT, &buf, 1, 30);
 return buf;
 }
 /////////////////////////////////////////////////////////////////////////////////////
@@ -322,7 +322,7 @@ void I2CDeviceInitialize(uint8_t *RegSet)
                 buffer[0] = index;
                 buffer[1] = val;
 		//WriteI2C(addr, index, val);
-                HAL_I2C_Master_Transmit(&hi2c2, addr, buffer, 2, 10);
+                HAL_I2C_Master_Transmit(&hi2c2, addr, buffer, 2, 30);
 		//dPrintf("\n    addr=%02x  index=%02x   val=%02x", (WORD)addr, (WORD)index, (WORD)val );
 
 		RegSet+=2;
