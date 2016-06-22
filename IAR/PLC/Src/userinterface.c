@@ -311,7 +311,7 @@ if(TimeIsReady){
               	
               I2CDeviceInitialize(InitCVBSAll);
               FOSDDownloadFont(1);
-              Switch_Camera(4);
+              Switch_Camera(1);
          //     SetYCbCrBright(100);
           //   InitOSDWindow((uint8_t *)Init_Osd_DisplayInput);
            //  ChangeCVBS();

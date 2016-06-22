@@ -19,15 +19,15 @@ SDRAM_Initialization_Sequence(&hsdram1);
   
  // PCF8563_Init();
   
- // dt.weekday = 1;
- // dt.day = 30;
- // dt.month = 05;
-//  dt.year = 16;
-//  dt.hours = 16;
-//  dt.minutes = 19;
-//  dt.seconds = 0;
- // PCF8563_set_datetime(&dt);
- // config_CLKOUT(0x83); // 1 SECOND Clockuot
+//   dt.weekday = 3;
+//   dt.day = 22;
+//   dt.month = 06;
+//   dt.year = 16;
+//   dt.hours = 16;
+//   dt.minutes = 12;
+//   dt.seconds = 0;
+//   PCF8563_set_datetime(&dt);
+//   config_CLKOUT(0x83); // 1 SECOND Clockuot
   
   SDRAM_free();
   

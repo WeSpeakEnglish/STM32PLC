@@ -257,42 +257,47 @@ void Switch_Camera(uint8_t type)
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, ENABLE);
 	}
 	else if(type==1)
-	{	
-		mode = PAGE1_DECODER;
-		WriteTW88Page(mode);
-		val = 0x40;	
-		WriteTW88( REG102, val );
+	{
+                WriteTW88Page(PAGE1_DECODER);
+		WriteTW88( REG102, 0x40 );
+	//	mode = PAGE1_DECODER;
+	//	WriteTW88Page(mode);
+	//	val = 0x40;	
+	//	WriteTW88( REG102, val );
 //		ChangeCVBS();
-		LCD_Video_GPIO_Deinit();
-                DelayOnFastQ(10); //one task from queue instead of waiting
+	//	LCD_Video_GPIO_Deinit();
+          //      DelayOnFastQ(10); //one task from queue instead of waiting
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);		
 	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819		
 	}
 	else if(type==2)
 	{
-
-		WriteTW88Page(PAGE1_DECODER);
-		WriteTW88( REG102, 0x44 );		
+         	WriteTW88Page(PAGE1_DECODER);
+		WriteTW88( REG102, 0x44 );
+		//WriteTW88Page(PAGE1_DECODER);
+		//WriteTW88( REG102, 0x44 );		
 //		ChangeCVBS();
-		LCD_Video_GPIO_Deinit();
-                DelayOnFastQ(10);// one task from queue instead of waiting
+		//LCD_Video_GPIO_Deinit();
+               // DelayOnFastQ(10);// one task from queue instead of waiting
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);		
 	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819	
 	}
 	else if(type==3)
 	{
-	        mode = PAGE1_DECODER;
-		WriteTW88Page(mode);
-		val = 0x48;	
-		WriteTW88( REG102, val );	
+	//        mode = PAGE1_DECODER;
+	//	WriteTW88Page(mode);
+	//	val = 0x48;	
+	//	WriteTW88( REG102, val );	
 //		ChangeCVBS();		
-		LCD_Video_GPIO_Deinit();
-                DelayOnFastQ(10);
+	//	LCD_Video_GPIO_Deinit();
+        //        DelayOnFastQ(10);
 //		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);	
 //		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819		
+	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819	
+         	WriteTW88Page(PAGE1_DECODER);
+		WriteTW88( REG102, 0x48 );	 
 	}
 	else if(type==4)
 	{
