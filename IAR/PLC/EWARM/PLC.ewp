@@ -1057,6 +1057,9 @@
         <name>$PROJ_DIR$\..\Src\leds.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\lm75.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\ltdc.c</name>
       </file>
       <file>

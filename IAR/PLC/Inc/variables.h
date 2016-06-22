@@ -5,6 +5,17 @@
  extern "C" {
 #endif /* __cplusplus */
 #include <stdint.h>
+
+   typedef union {
+   uint8_t Bytes[2];
+   int16_t Word;
+   }
+   _TwoBytesS;
+      typedef union {
+   uint8_t Bytes[2];
+   int16_t Word;
+   }
+   _TwoBytesU;
    
 #ifdef __cplusplus
 }

@@ -1294,7 +1294,6 @@ uint16_t ReadYCbCrHUE(void);
 uint16_t SetYCbCrSharp(uint16_t val);
 uint16_t ReadYCbCrSharp(void);
 
-
 ////////////
 uint8_t ReadTW88(uint8_t addr); 
 void WriteTW88(uint8_t addr, uint8_t buf);

@@ -4,6 +4,7 @@
 #include "OSDBasic.h"
 #include "stm32f7xx_hal.h"
 #include "tw8819.h"
+#include "DispInfo.h"
 
 #define	INPUT_CHANGE_DELAY	300
 
@@ -179,14 +180,14 @@ uint8_t	result=0;
 	//=========== these change for CVBS2 diff input =====================
 
 	// Get Image control register value
-	SetYCbCrContrast( GetVideoDatafromEE( 0 ) );
-	SetYCbCrBright( GetVideoDatafromEE( 1 ) );
-	SetYCbCrSaturation( GetVideoDatafromEE( 2 ) );
+//	SetYCbCrContrast( GetVideoDatafromEE( 0 ) );
+//	SetYCbCrBright( GetVideoDatafromEE( 1 ) );
+//	SetYCbCrSaturation( GetVideoDatafromEE( 2 ) );
 	//SetDecoderContrast( GetVideoDatafromEE( 3 ) );
-	SetYCbCrHUE( GetVideoDatafromEE( 4 ) );
-	SetYCbCrSharp( GetVideoDatafromEE( 5 ) );
+//	SetYCbCrHUE( GetVideoDatafromEE( 4 ) );
+//	SetYCbCrSharp( GetVideoDatafromEE( 5 ) );
 
-	Delay1ms(100);
+//	Delay1ms(100);
 	result = CheckAndSetDecoderScaler();
 
 	OSDSetDEDelay();

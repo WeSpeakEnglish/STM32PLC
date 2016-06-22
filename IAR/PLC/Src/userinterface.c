@@ -13,6 +13,7 @@
 #include "OSDBasic.h"
 #include "OSDinitTable.h"
 #include "DispInfo.h"
+#include "lm75.h"
 
 #define DOZE_LIMIT_H 200
 #define DOZE_LIMIT_L 100
@@ -82,7 +83,7 @@ volatile PatchPARMS PatchParms;
    
    {{401,66},{652,142}},    //26 THE RATE UP 
    {{401,298},{652,380}},   //27 THE RATE DOWN 
-   {{690,415},{784,498}},   //28 THE RATE DOWN 
+   {{690,415},{784,498}},   //28 CAM
  };   
 
 void Load_GUI_0(void){
@@ -318,6 +319,7 @@ if(TimeIsReady){
             //  Temp8 = ReadTW88(REG000);
               OSDSetDEDelay();
               OSDDisplayInput();
+              GetTempLM75();
            //   BlueScreenOnOff(1);
            //   WriteTW88Page(PAGE1_DECODER);
            //   WriteTW88( REG102, 0x40);
@@ -733,6 +735,7 @@ void TouchScreen_Handle(void){ //the handle of Touch Screen
        }   
             if((x > ZonesTS_0[Index].LeftTop.X  && x < ZonesTS_0[Index].RightBottom.X)&&
               (y > ZonesTS_0[Index].LeftTop.Y  && y < ZonesTS_0[Index].RightBottom.Y)) DISP.TS_ZoneNumber = Index;
+      if(Index != 28 && CAM_flag) DISP.TS_ZoneNumber = 100;
      } 
   SOUND.CounterSound= 0, SOUND.SoundPeriod = 50; 
   

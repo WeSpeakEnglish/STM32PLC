@@ -61,10 +61,10 @@ const uint16_t LOGO_COLOR_8[16] = {
 };
 void DisplayLogo(uint8_t offset)
 {
-	uint8_t page, i;
+	uint8_t  i;
 
 	offset = (offset/8)*8;
-	page = ReadTW88( 0xff );
+	ReadTW88( 0xff );
 
  	InitOSDWindow((uint8_t *)Init_Osd_DisplayLogo);
 	
@@ -173,14 +173,20 @@ void ClearOSDInfo(void)
 
 void OSDDisplayInput(void)
 {
-	uint8_t	len1;
+	uint8_t	len1, len2;
 	len1 = strlenA("KAM 1");
+        len2 = strlenA("EXIT");
 ClearOSDInfo();
 	InitOSDWindow((uint8_t*)Init_Osd_DisplayInput);
         ClearDataCnt(INPUTINFO_ADDR, 51); // Total 42 Char.
-	DrawAttrCnt(INPUTINFO_ADDR, DEFAULT_COLOR, 51 );
-	WriteStringToAddr(INPUTINFO_ADDR, "KAM 1", len1); 
-	//FOSDWinEnable(OSD_Win_Num(INPUTINFO_OSDWIN-1),1);
+	DrawAttrCnt(INPUTINFO_ADDR, DEFAULT_COLOR,51 );
+	
+        ClearDataCnt(RATINGINFO_ADDR, 51); // Total 42 Char.
+	DrawAttrCnt(RATINGINFO_ADDR, DEFAULT_COLOR, 51 );
+        WriteStringToAddr(INPUTINFO_ADDR, "KAM 1", len1); 
+	WriteStringToAddr(RATINGINFO_ADDR, "EXIT", len2);
+        
+	FOSDWinEnable(OSD_Win_Num(RATINGINFO_OSDWIN),1);
 	FOSDWinEnable(OSD_Win_Num(INPUTINFO_OSDWIN),1);
 	FOSDShowWindowAll(1);
 }
@@ -268,44 +274,7 @@ void ClearMuteInfo(void)
 
 uint8_t CheckAndClearOSD(void)
 {
-	uint16_t	ctime,  stime, diff;
-	uint8_t	dt;
-//	uint8_t	Result=0;
-
-	dt = DisplayedOSD;
-	if ( dt & ( MENU | INPUTINFO | TVCHN | TVVOL  ) ) {
-
-		if( dt & MENU )	{ 
-			stime = OSDLastKeyInTime;	
-			diff =  20 * 1000; //GetOSDDuration()
-		}
-		else { 
-			stime = OSDDisplayedTime;	
-			diff = 2 * 1000;	
-		}
 	
-	//	ctime = GetTime_ms();			
-
-//		if( DiffTime_ms( stime, ctime ) >= diff ) {
-
-			//if( dt & LOGO )			ClearLogo();
-//			if( !DisplayInputHold )
-//				if( dt & INPUTINFO )	Result = ClearInput();
-//			if( dt & TVVOL )		Result = ClearTVInfo();
-
-//			if( dt & MENU )			Result = CloseOSDMenu();  
-
-//			if( Result == 1){
-//				if( DisplayInputHold ) OSDDisplayInput();
-//				else {
-
-//					if( IsAudioMuteOn() )	DisplayMuteInfo();
-//				}
-//			}
-//			return 1;
-//		}
-	}
-
 	return 0;
 }
 
