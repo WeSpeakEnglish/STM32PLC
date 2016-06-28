@@ -15,6 +15,8 @@
 #include "DispInfo.h"
 #include "lm75.h"
 #include "spi_mem.h"
+#include "variables.h"
+#include "fonts.h"
 
 #define DOZE_LIMIT_H 200
 #define DOZE_LIMIT_L 100
@@ -186,8 +188,9 @@ uint16_t Temp_16;
 
 void Run_GUI(void){
 uint16_t Temp16;
+_FourBytesU TestI,TestJ;
 uint8_t TempSend[32]={32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1};
-uint8_t TempReceive[32]={0};
+uint8_t TempReceive[128]={0};
 
 if(TimeIsReady){
     while (RESmutex_1) ;
@@ -317,25 +320,18 @@ if(TimeIsReady){
               I2CDeviceInitialize(InitCVBSAll);
               FOSDDownloadFont(1);
               Switch_Camera(1);
-         //     SetYCbCrBright(100);
-          //   InitOSDWindow((uint8_t *)Init_Osd_DisplayInput);
-           //  ChangeCVBS();
-             // WriteTW88( 0xff, 0 );
-            //  Temp8 = ReadTW88(REG000);
+/////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!////
               OSDSetDEDelay();
               OSDDisplayInput();
               GetTempLM75();
-            //  sEE_WritePage(TempSend, 0x0000, (uint16_t)sizeof(TempSend));
-              Temp16 = 32;
-              sEE_WriteBuffer(TempSend,0x0000,Temp16);
-              
-              sEE_ReadBuffer(TempReceive,0x0000,&Temp16);
-              
-              
-           //   BlueScreenOnOff(1);
-           //   WriteTW88Page(PAGE1_DECODER);
-           //   WriteTW88( REG102, 0x40);
-            //    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+
+
+
+              sEE_WriteBuffer((uint8_t *)RIAD_80pt.table, 0x0000, 65535);
+              Temp16 = 128;
+              sEE_ReadBuffer(TempReceive,62361,&Temp16);
+       //         TestJ.Bytes[0] = 89;
+       //         }
               RESmutex_1 = 0;
           }
           else {
