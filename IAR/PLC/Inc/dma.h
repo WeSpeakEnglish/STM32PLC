@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : SPI.h
-  * Description        : This file provides code for the configuration
-  *                      of the SPI instances.
+  * File Name          : dma.h
+  * Description        : This file contains all the function prototypes for
+  *                      the dma.c file
   ******************************************************************************
   *
   * COPYRIGHT(c) 2016 STMicroelectronics
@@ -32,8 +32,9 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __spi_H
-#define __spi_H
+#ifndef __dma_H
+#define __dma_H
+
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -41,20 +42,18 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f7xx_hal.h"
 
+/* DMA memory to memory transfer handles -------------------------------------*/
+void Error_Handler(void);
+
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
-
-extern SPI_HandleTypeDef hspi2;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-extern void Error_Handler(void);
-extern uint8_t SPI_received;
-extern uint8_t SPI_transmitted;
-void MX_SPI2_Init(void);
+void MX_DMA_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -63,11 +62,8 @@ void MX_SPI2_Init(void);
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ spi_H */
 
-/**
-  * @}
-  */
+#endif /* __dma_H */
 
 /**
   * @}

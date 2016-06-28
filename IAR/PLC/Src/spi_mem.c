@@ -1,6 +1,7 @@
 #include "stm32f7xx_hal.h"
 #include "spi_mem.h"
 #include "spi.h"
+
 #define sEE_SPI SPI2
 #define SPI_handle hspi2;
 
@@ -196,20 +197,13 @@ uint8_t sEE_ReadByte(void)
   */
 uint8_t sEE_SendByte(uint8_t byte)
 {
-  /*!< Loop while DR register in not empty */
+  uint8_t buff;
+  SPI_transmitted = SPI_received = 0;
+  HAL_SPI_TransmitReceive_DMA(&hspi2,&byte,&buff,1);
+   while((!SPI_transmitted )||(!SPI_received));
 
-//           uint8_t data_return; 
-           while ((SPI2->SR & SPI_SR_BSY));
-   while (!(SPI2->SR & SPI_SR_TXE));
-   SPI1->DR = byte;
-   while ((SPI2->SR & SPI_SR_BSY));
-   while (!(SPI2->SR & SPI_SR_RXNE));
-   
-	 
-	
+return buff;
 
- //  sEE_CS_HIGH(); 
-  return SPI2->DR;
 }
 /**
   * @brief  Enables the write access to the EEPROM.

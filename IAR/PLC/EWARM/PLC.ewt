@@ -1196,6 +1196,9 @@
         <name>$PROJ_DIR$\..\Src\DispInfo.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Src\dma.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\dma2d.c</name>
       </file>
       <file>
@@ -1290,6 +1293,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\spi.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\spi_mem.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\stm32f7xx_hal_msp.c</name>
