@@ -1081,12 +1081,6 @@
         <name>$PROJ_DIR$\..\Src\OSDinitTable.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\OSDMenu.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\OSDstring.c</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\..\Src\RIAD_16pt.c</name>
       </file>
       <file>

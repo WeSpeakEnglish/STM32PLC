@@ -2,6 +2,16 @@
 #define _OSD_INIT_H
 #include "variables.h"
 
+#define RATINGINFO_OSDWIN      1
+#define RATINGINFO_ADDR         0
+#define INPUTINFO_OSDWIN        2  
+#define RATINGINFO_OSDWIN	1	
+#define INPUTINFO_ADDR		160	// 9x1:9
+#define DEFAULT_COLOR			BG_COLOR_TRANS|CH_COLOR_RED
+
+#define	FONT_W	16
+#define	FONT_H	26
+
 typedef struct {
 uint8_t Id;
 uint8_t Name[10];
@@ -15,18 +25,10 @@ uint8_t Name[10];
 //=============================================================================
 //			Initialize Window for DisplayLogo "Techwell"
 //=============================================================================
-extern const uint8_t Init_Osd_DisplayLogo[];
-//
-#ifdef ADD_ANALOGPANEL
-extern const uint8_t Init_Osd_DisplayLogo_A[];
-#endif
-extern const uint8_t Init_Osd_DisplayVchipWindow[];
-extern const uint8_t Init_Osd_DisplayMuteInfo[];
-extern const uint8_t Init_Osd_DisplayTVChannel[];
-extern const uint8_t Init_Osd_DisplayPCInfo[];
-extern const uint8_t Init_Osd_DisplayInput[];
 
-extern const uint8_t Init_Osd_DisplayInput_A[];
+
+
+extern const uint8_t Init_Osd_DisplayInput[];
 
 
 extern const uint8_t                    Init_Osd_MainMenu[];

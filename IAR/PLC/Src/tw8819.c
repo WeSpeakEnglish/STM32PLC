@@ -233,69 +233,32 @@ void LCD_Video_GPIO_Init(void){
 }
 void Switch_Camera(uint8_t type)
 {
-	uint8_t mode, val;
-	
-//	cur_cam = type;
 	
 	if(type > 0)
 	{
-//		BD_TW8819_Config();
 		I2CDeviceInitialize(InitCVBSAll);
-	//	ChangeCVBS();	
-//		BD_I2C_Init();		//Re-initialize once, when there is no cause to prevent TW8819 I2C obstruction
 	}
 	
 	if(type==0)
 	{
-		
-                
-	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to STM	
-                //WaitOnFastQ(); // one task from queue instead of waiting	
+
                 DelayOnFastQ(10);
                 LCD_Video_GPIO_Init();		
-//		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, ENABLE);
-//		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, ENABLE);
 	}
 	else if(type==1)
 	{
                 WriteTW88Page(PAGE1_DECODER);
 		WriteTW88( REG102, 0x40 );
-	//	mode = PAGE1_DECODER;
-	//	WriteTW88Page(mode);
-	//	val = 0x40;	
-	//	WriteTW88( REG102, val );
-//		ChangeCVBS();
-	//	LCD_Video_GPIO_Deinit();
-          //      DelayOnFastQ(10); //one task from queue instead of waiting
-//		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
-//		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);		
-	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819		
+
 	}
 	else if(type==2)
 	{
          	WriteTW88Page(PAGE1_DECODER);
 		WriteTW88( REG102, 0x44 );
-		//WriteTW88Page(PAGE1_DECODER);
-		//WriteTW88( REG102, 0x44 );		
-//		ChangeCVBS();
-		//LCD_Video_GPIO_Deinit();
-               // DelayOnFastQ(10);// one task from queue instead of waiting
-//		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
-//		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);		
-	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819	
 	}
 	else if(type==3)
 	{
-	//        mode = PAGE1_DECODER;
-	//	WriteTW88Page(mode);
-	//	val = 0x48;	
-	//	WriteTW88( REG102, val );	
-//		ChangeCVBS();		
-	//	LCD_Video_GPIO_Deinit();
-        //        DelayOnFastQ(10);
-//		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);	
-//		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);
-	//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819	
+	
          	WriteTW88Page(PAGE1_DECODER);
 		WriteTW88( REG102, 0x48 );	 
 	}
@@ -303,12 +266,6 @@ void Switch_Camera(uint8_t type)
 	{
 		WriteTW88Page(PAGE1_DECODER);
 		WriteTW88( REG102, 0x4C );	
-//		ChangeCVBS();		
-//		LCD_Video_GPIO_Deinit();
- //               DelayOnFastQ(10);
-//		RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, DISABLE);
-//		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, DISABLE);
-//		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);		//Switch to TW8819		
 	}	
 }
 
@@ -317,7 +274,6 @@ void I2CDeviceInitialize(uint8_t *RegSet)
 	uint8_t addr, index, val;
         uint8_t buffer[2];
 	addr = *RegSet;
-	//dPrintf("\nI2C address : %02bx", addr);
 
 	RegSet+=2;
 
@@ -326,10 +282,7 @@ void I2CDeviceInitialize(uint8_t *RegSet)
 		val = *(RegSet+1);
                 buffer[0] = index;
                 buffer[1] = val;
-		//WriteI2C(addr, index, val);
                 HAL_I2C_Master_Transmit(&hi2c2, addr, buffer, 2, 30);
-		//dPrintf("\n    addr=%02x  index=%02x   val=%02x", (WORD)addr, (WORD)index, (WORD)val );
-
 		RegSet+=2;
 	}
 }
@@ -344,9 +297,7 @@ uint8_t CheckDecoderVDLOSS( uint8_t n )
 		mode = ReadTW88(REG101);
 		if (( mode & 0x80 ) == 0 ) 
 			return ( 0 );
-		//delay_nus(1000); 
                 DelayOnFastQ(10);
-                
 	}
 	return ( 1 );
 }
@@ -360,7 +311,6 @@ uint8_t CheckDecoderSTD( uint8_t n )
 	{
 		mode = ReadTW88(REG11C);
 		if (( mode & 0x80 ) == 0 ) return ( mode );
-		//delay_nus(10000);
                DelayOnFastQ(10); 
 	}
 	return ( 0x80 );
@@ -573,51 +523,7 @@ uint8_t ChangeCVBS( void )
 	I2CDeviceInitialize(InitCVBSAll);
 
 	// Get Image control register value
-//	SetYCbCrContrast( 50 );
-//	SetYCbCrBright( 80 );
-//	SetYCbCrSaturation( 50 );
-//	SetYCbCrHUE( 50 );
-//	SetYCbCrSharp( 20 );
 
-//	mode=PAGE0_GENERAL;
-//	WriteTW88( 0xff, &mode );
-//	ReadTW88(0x00,&val);
-//	mode = 0x26;
-//	WriteTW88( 0x06, &mode);
-//	ReadTW88(0x06,&val);
-//	mode = 0x2;
-//	WriteTW88( 0x07, &mode);	
-//	ReadTW88(0x07,&val);
-//	mode = 0xc6;
-//	WriteTW88( 0x08, &mode);	
-//	ReadTW88(0x08,&val);
-//	mode = 0x00;
-//	WriteTW88( 0x41, &mode);
-//	ReadTW88(0x41,&val);	
-//	
-//	mode=PAGE1_DECODER;
-//	WriteTW88( 0xff, &mode);
-//	ReadTW88(0xFF,&val);
-//	mode = 0x48;
-//	WriteTW88( 0x02, &mode);	
-//	ReadTW88(0x02,&val);
-	
-//	mode = 0x07;	
-//	WriteTW88( 0x1c, &mode);	
-//	ReadTW88(0x1c,&val);	
-	
-//	//soft start
-//	mode=PAGE0_GENERAL;
-//	WriteTW88( 0xff, &mode );
-//	mode = 0xa6;
-//	WriteTW88( 0x06, &mode);
-//	//decoder rescan
-//	mode=PAGE1_DECODER;
-//	WriteTW88( 0xff, &mode);
-//	mode = 0x8f;
-//	WriteTW88( 0x1d, &mode);	
-
-	//delay_nus(10000);	
         DelayOnFastQ(10);
 
 	ReadTW88(0xFF);
@@ -628,7 +534,6 @@ uint8_t ChangeCVBS( void )
 	result = CheckAndSetDecoderScaler();
 	
  	OSDSetDEDelay();
- //	BlueScreenOnOff(1);
 	
 	return(result);
 }
@@ -646,10 +551,10 @@ void WaitVBlank(uint8_t cnt)
 		WriteTW88( REG002, 0xff );
 		loop = 0;
 		while (!( ReadTW88( REG002 ) & 0x40 ) ) {
-			// wait VBlank
+
 			loop++;
 			if(loop > 0xFFFE) {
-	//			dPrintf("\nERR:WaitVBlank");
+
 				break;
 			}
 		}		

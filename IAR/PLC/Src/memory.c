@@ -37,8 +37,7 @@ void NAND_readId(void)
   
 
 void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram) {    //***********************************************
-uint32_t Dummy;
-//static void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef *Cmd) {    //***********************************************
+
 FMC_SDRAM_CommandTypeDef Cmd;
 __IO uint32_t tmpmrd =0;
 Cmd.CommandMode= FMC_SDRAM_CMD_CLK_ENABLE;    //Step 3:  Configure a clock configuration enable command

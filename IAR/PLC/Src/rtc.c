@@ -204,8 +204,10 @@ union{
 Time.Fields.bcd_sec = bin2bcd(dt->seconds);
 Time.Fields.bcd_min = bin2bcd(dt->minutes);
 Time.Fields.bcd_hrs = bin2bcd(dt->hours);   
-Time.Fields.bcd_day = bin2bcd(dt->day) | (dt->year << 6);
-Time.Fields.bcd_mon = bin2bcd(dt->month) | (dt->weekday << 5);
+Time.Fields.bcd_day = bin2bcd(dt->day);
+Time.Fields.bcd_day |= (dt->year << 6);
+Time.Fields.bcd_mon = bin2bcd(dt->month);
+Time.Fields.bcd_mon |= (dt->weekday << 5);
 Time.Fields.bcd_yer = bin2bcd(dt->year);
 Time.Fields.wek     = dt->weekday;
 // Stop the RTC from counting, before we write to
@@ -325,26 +327,26 @@ dt->year    = bcd2bin(Time.Fields.bcd_yer);
 //}
 void Set_Alarm(uint8_t AMode,PCF8563_Alarm *AT)
 {
-uint8_t min = 0x80;
-uint8_t hrs = 0x80;
-uint8_t day = 0x80;
-uint8_t wek = 0x80;
+//uint8_t min = 0x80;
+//uint8_t hrs = 0x80;
+//uint8_t day = 0x80;
+//uint8_t wek = 0x80;
  
-switch (AMode){
-          case 0x01: min = AT->minutes;
-                     break;
-          case 0x04: min = AT->minutes;
-                     hrs = AT->hours;
-                     break;
-          case 0x07: min = AT->minutes;
-                     hrs = AT->hours;
-                     wek = AT->weekday;
-                     break;
-          case 0x0B: min = AT->minutes;
-                     hrs = AT->hours;
-                     day = AT->day;
-                     break;
-               }
+//switch (AMode){
+   //       case 0x01: min = AT->minutes;
+  //                   break;
+  //        case 0x04: min = AT->minutes;
+  //                   hrs = AT->hours;
+  //                   break;
+ //         case 0x07: min = AT->minutes;
+ //                    hrs = AT->hours;
+ //                    wek = AT->weekday;
+ //                    break;
+  //        case 0x0B: min = AT->minutes;
+  //                   hrs = AT->hours;
+  //                   day = AT->day;
+   //                  break;
+   //            }
 
 //disable_interrupts(GLOBAL);
 //i2c_start();
