@@ -14,6 +14,7 @@
 #include "OSDinitTable.h"
 #include "DispInfo.h"
 #include "lm75.h"
+#include "spi_mem.h"
 
 #define DOZE_LIMIT_H 200
 #define DOZE_LIMIT_L 100
@@ -35,6 +36,9 @@ uint8_t StrDATA[16][8];
 volatile uint32_t TimeIsReady = 0;
 volatile uint8_t UpdateScreen = 0;
 volatile uint8_t CAM_flag = 0;
+
+uint8_t Temp8;
+
 uint8_t RateChange = 0;
 
 volatile date_time_t dt;  
@@ -182,7 +186,8 @@ uint16_t Temp_16;
 
 void Run_GUI(void){
 uint16_t Temp16;
-uint8_t Temp8;
+uint8_t TempSend[32]={32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1};
+uint8_t TempReceive[32]={0};
 
 if(TimeIsReady){
     while (RESmutex_1) ;
@@ -320,6 +325,13 @@ if(TimeIsReady){
               OSDSetDEDelay();
               OSDDisplayInput();
               GetTempLM75();
+            //  sEE_WritePage(TempSend, 0x0000, (uint16_t)sizeof(TempSend));
+              Temp16 = 32;
+              sEE_WriteBuffer(TempSend,0x0000,Temp16);
+              
+              sEE_ReadBuffer(TempReceive,0x0000,&Temp16);
+              
+              
            //   BlueScreenOnOff(1);
            //   WriteTW88Page(PAGE1_DECODER);
            //   WriteTW88( REG102, 0x40);
