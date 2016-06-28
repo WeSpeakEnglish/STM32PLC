@@ -37,45 +37,8 @@ uint8_t	TW9900Mode = 7;
 extern	uint8_t	InputMain;
 
 
-//=============================================================================
-//	BACKLIGHT Turn On Off			                                               
-//=============================================================================
-void	BacklightOnOff( uint8_t on )
-{
-//	WaitVBlank(1);	
-//	if ( on )
-//		WriteI2C( 0x58, 1, ReadI2C(0x58, 1)|1);			// Turn on backlight
-//	else
-//		WriteI2C( 0x58, 1, ReadI2C(0x58, 1)& ~1);		// Trun off backlight
-}
 
-uint8_t GetVInputStdInx(void)
-{
-	uint8_t i, std;
 
-	std = ReadVInputSTD();
-
-	switch( std ) {
-
-	case NTSC4:
-	case PALM:
-	case PAL60:
-	case NTSC:		IVF = 60;		IHF = 15723;	break;	// 15734
-
-	case SECAM:
-	case PALN:
-	case PAL:		IVF = 50;		IHF = 15723;	break;  // 15625
-	default:		IVF = 0;		IHF = 0;		break;
-	}
-
-	for(i=0; ; i++) {
-		if( struct_VInputStd[i].Id ==std )
-			return i;
-		if( struct_VInputStd[i].Id ==0 )
-			break;
-	}
-	return 0;
-}
 
 
 //=============================================================================

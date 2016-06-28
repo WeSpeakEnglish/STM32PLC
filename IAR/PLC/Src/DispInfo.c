@@ -27,20 +27,11 @@ uint8_t  DisplayedOSD = 0;
 uint8_t InputMain;
 
 
-const uint8_t TW8806String[]=	{ "   TW8806   "};
 
-const uint8_t TechwellString[]=	{ "Techwell,Inc" };
 
-const uint8_t COMPONENT_STR[][15] = {
-    "YPbPr 480i",	// 0
-    "YPbPr 576i",	// 1
-    "YPbPr 480p",	// 2
-    "YPbPr 576p",	// 3
-    "YPbPr 1080i",	// 4
-    "YPbPr 720p",	// 5
-	"YPbPr 1080p",	
-    "YPbPr NONE",
-};
+
+
+
 
 
 
@@ -55,24 +46,10 @@ const uint16_t INTERSIL_COLOR_8[8] = {
 const uint16_t TECHWELL_COLOR_8[8] = {
      0xFFFF,0xC806,0xC98C,0xCB31,0xFE79,0xFCD9,0xCCD4,0xE71C
 };
-const uint16_t LOGO_COLOR_8[16] = {
-     0xFFFF,0x0020,0xDEDB,0xA534,0x6B6D,0xC826,0x4A49,0xDCD5,
-     0xFFFF,0xC806,0xC98C,0xCB31,0xFE79,0xFCD9,0xCCD4,0xE71C
-};
 
 
 
-/*
-void ClearDisplayedOSD( uint8_t newd )
-{
-	DisplayedOSD &= (~(newd));
-}
-*/
 
-void SetDisplayedOSD( uint8_t newd )
-{
-	DisplayedOSD |= newd;
-}
 	
 #define INPUTINFO			0x10
 

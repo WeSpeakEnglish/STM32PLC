@@ -12,10 +12,7 @@
 #define	FONT_W	16
 #define	FONT_H	26
 
-typedef struct {
-uint8_t Id;
-uint8_t Name[10];
-}IdName;
+
 
 //*****************************************************************************
 //
@@ -31,10 +28,7 @@ uint8_t Name[10];
 extern const uint8_t Init_Osd_DisplayInput[];
 
 
-extern const uint8_t                    Init_Osd_MainMenu[];
-extern const uint8_t                    Init_Osd_BarWindow[];
 
-extern IdName	struct_InputSelection[];
-extern IdName   struct_VInputStd[];
+
 
 #endif
