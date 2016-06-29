@@ -494,7 +494,11 @@ if(TimeIsReady){
   
   DISP.TS_ZoneNumber = -1; 
   DISP.Event = 0;
-  } 
+  }
+    if(DISP.ReleaseFlag){
+     if((Touch_Data.status != TOUCH_PRESSED) && (!KB_Status.PRESSED))ReleaseFunction();
+     DISP.ReleaseFlag = 0;
+   }
 }
 
 void Load_GUI_2(void){

@@ -18,7 +18,8 @@
 //here is our variables
 extern volatile int8_t Semaphore; // that semaphore for queues and routines control if you need :)
 extern volatile uint32_t TicksGlobalUS; //US MUST be ticking in timer in the timer interrupt handle, it needs just ++ operation
-extern volatile uint8_t RESmutex_1; //the Resource mutex
+extern volatile uint8_t RESmutex_1; //the Resource mutex for I2C
+extern volatile uint8_t RESmutex_2; //the second Resource mutex for Timetick update
 ///////////////////////  
 void RoutineFast(void);
 void RoutineMedium(void);

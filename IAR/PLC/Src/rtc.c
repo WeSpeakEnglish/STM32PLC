@@ -1,5 +1,6 @@
 #include "rtc.h"
 #include "i2c.h"
+#include "core.h"
 // PCF8563.C
 // Command Set:
 // PCF8563_init(void)
@@ -367,4 +368,5 @@ void GetTimeToStr(uint8_t * StrDstTime, date_time_t volatile * dt){ // getting d
   StrDstTime[7] = dt->seconds%10 + 0x30;
   StrDstTime[8] ='\0';
 }
+
 

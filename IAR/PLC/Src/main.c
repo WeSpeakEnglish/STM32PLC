@@ -72,8 +72,6 @@ int main(void)
   MPU_Config(); 
   InitPeriph();
   
-
-
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -84,23 +82,14 @@ int main(void)
   /* USER CODE BEGIN 3 */
    RoutineFast(); // get and run deals from medium queue 
 
-         if(UpdateScreen||TimeIsReady|| DISP.ReleaseFlag){
-   
+ if(UpdateScreen||TimeIsReady|| DISP.ReleaseFlag){
   Run_GUI();
-  
-  if(DISP.ReleaseFlag){
-  if((Touch_Data.status != TOUCH_PRESSED) && (!KB_Status.PRESSED))ReleaseFunction();
-  DISP.ReleaseFlag = 0;
-  }
-  Show_GUI();
-  if(!CAM_flag){
-    
-   }
-   UpdateScreen = 0;
-         }
-    
-  }
 
+  Show_GUI();
+  UpdateScreen = 0;
+  }
+    
+  }
   /* USER CODE END 3 */
 
 }

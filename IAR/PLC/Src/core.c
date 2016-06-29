@@ -10,7 +10,8 @@ volatile uint8_t mutexM = 0;
 volatile uint8_t mutexS = 0;
 
 //////
-volatile uint8_t RESmutex_1 = 0; //the Resource mutex
+volatile uint8_t RESmutex_1 = 0; //the Resource mutex I2C
+volatile uint8_t RESmutex_2 = 0; //the Resource mutex TimeReady(for update)
 //////
 
 
