@@ -6,6 +6,14 @@
 #include "ltdc.h"
 #include "ff.h"
 #include "rtc.h"
+#include "variables.h"
+#include "fonts.h"
+#include "tw8819.h"
+#include "OSDFont.h"
+#include "OSDBasic.h"
+#include "OSDinitTable.h"
+#include "DispInfo.h"
+
 
 volatile DMA2D_Status PLC_DMA2D_Status = {1};
 volatile uint8_t LayerOfView = 0;
@@ -305,4 +313,31 @@ void TwoDigitsToChars(uint8_t * Src){
   Src[0] += 0x30; 
   Src[1] += 0x30;
   return;
+}
+
+void VideoCAMOnOff(uint8_t NumbCam, uint8_t On){
+   uint8_t DispCamN[]={'K','A','M',' ',0x30};
+    if(On){
+          LCD_Video_GPIO_Deinit();
+             while (RESmutex_1) ;
+              RESmutex_1 = 1;
+              HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+              HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);	
+              I2CDeviceInitialize(InitCVBSAll);
+              FOSDDownloadFont(1);
+              Switch_Camera(NumbCam);
+              OSDSetDEDelay();
+              DispCamN[4] = 0x30 + NumbCam;
+              OSDDisplayInput((uint8_t * )DispCamN);
+ //             GetTempLM75();
+//             sEE_WriteBuffer((uint8_t *)RIAD_80pt.table, 0x0000, 65535);
+  //            Temp16 = 128;
+  //            sEE_ReadBuffer(TempReceive,62361,&Temp16);
+              RESmutex_1 = 0;
+  }
+  else {
+            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_RESET);
+            LCD_Video_GPIO_Init();
+          }
 }

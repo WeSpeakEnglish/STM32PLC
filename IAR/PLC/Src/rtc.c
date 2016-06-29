@@ -14,8 +14,8 @@
 // config_PCF8563_Timer(uint8_t mode)
 // config_PCF8563_Interrupt(uint8_t mode,ti_tp)
 
-#define PCF8563_WRITE_ADDRESS 0xA2
-#define PCF8563_READ_ADDRESS  0xA2
+#define PCF8563_WRITE_ADDRESS      0xA2
+#define PCF8563_READ_ADDRESS       0xA2
 // Register addresses
 #define PCF8563_CTRL_STATUS_REG1   0x00
 #define PCF8563_CTRL_STATUS_REG2   0x01
@@ -92,31 +92,14 @@ uint8_t LV_sec,C_Mon;
 //----------------------------------------------
 void PCF8563_write_byte(uint8_t address, uint8_t data)
 {
-//disable_interrupts(GLOBAL);
    HAL_I2C_Mem_Write(&hi2c2, (uint16_t)PCF8563_WRITE_ADDRESS, (uint16_t)address, I2C_MEMADD_SIZE_8BIT, &data, 1, 200);
-//i2c_start();
-//i2c_write(PCF8563_WRITE_ADDRESS);
-//i2c_write(address);
-//i2c_write(data);
-//i2c_stop();
-//enable_interrupts(GLOBAL);
 }   
 
 //----------------------------------------------
 uint8_t PCF8563_read_byte(uint8_t address)
 {
 uint8_t retval;
-//disable_interrupts(GLOBAL);
-//i2c_start();
  HAL_I2C_Mem_Read(&hi2c2,(uint16_t)PCF8563_WRITE_ADDRESS,(uint16_t)address, I2C_MEMADD_SIZE_8BIT,&retval,1,100);
- 
-//i2c_write(PCF8563_WRITE_ADDRESS);
-//i2c_write(address);
-//i2c_start();
-//i2c_write(PCF8563_READ_ADDRESS);
-//retval = i2c_read(0);
-//i2c_stop();
-//enable_interrupts(GLOBAL);
 return(retval);
 }   
 
@@ -182,7 +165,15 @@ return(temp + (temp >> 2) + (bcd_value & 0x0f));
 }
 //----------------------------------------------
 //----------------------------------------------
-
+//   dt.weekday = 3;
+//   dt.day = 22;
+//   dt.month = 06;
+//   dt.year = 16;
+//   dt.hours = 16;
+//   dt.minutes = 12;
+//   dt.seconds = 0;
+//   PCF8563_set_datetime(&dt);
+//   config_CLKOUT(0x83); // 1 SECOND Clockuot
 void PCF8563_set_datetime(date_time_t volatile *dt)
 {
 
@@ -216,22 +207,9 @@ Time.Fields.wek     = dt->weekday;
 
 // Write to the date and time registers.  Disable interrupts
 // so they can't disrupt the i2c operations.
-//disable_interrupts(GLOBAL);
-//i2c_start();
- HAL_I2C_Mem_Write(&hi2c2, (uint16_t)PCF8563_WRITE_ADDRESS, (uint16_t)PCF8563_SECONDS_REG, I2C_MEMADD_SIZE_8BIT, Time.arrWeekDays, 7, 200);
-//i2c_write(PCF8563_WRITE_ADDRESS);
-//i2c_write(PCF8563_SECONDS_REG);   // Start at seconds reg.   
-//i2c_write(bcd_sec);
-//i2c_write(bcd_min);
-//i2c_write(bcd_hrs);   
-//i2c_write(bcd_day);
-//i2c_write(wek);
-//i2c_write(bcd_mon);
-//i2c_write(bcd_yer);
-//i2c_stop();
-//enable_interrupts(GLOBAL);
 
-// Now allow the PCF8563 to start counting again.
+ HAL_I2C_Mem_Write(&hi2c2, (uint16_t)PCF8563_WRITE_ADDRESS, (uint16_t)PCF8563_SECONDS_REG, I2C_MEMADD_SIZE_8BIT, Time.arrWeekDays, 7, 200);
+
 
 PCF8563_write_byte(PCF8563_CTRL_STATUS_REG1,PCF8563_START_COUNTING);
 
@@ -271,32 +249,13 @@ data = PCF8563_SECONDS_REG;
 
  HAL_I2C_Master_Transmit(&hi2c2, PCF8563_WRITE_ADDRESS, &data, 1, 200);
 // Read the date/time registers inside the PCF8563.
-//i2c_start();
-//i2c_write(PCF8563_WRITE_ADDRESS);
-//i2c_write(PCF8563_SECONDS_REG);   // Start at seconds reg.
+
 HAL_I2C_Master_Receive(&hi2c2, PCF8563_READ_ADDRESS, Time.arrWeekDays, 7, 100); 
  
-//i2c_start();
-//i2c_write(PCF8563_READ_ADDRESS);
-
-//LV_sec  = i2c_read();     
-//bcd_min = i2c_read();     
-//bcd_hrs = i2c_read();
-//bcd_day = i2c_read();
-//wek     = i2c_read();
-//C_Mon   = i2c_read();
-//bcd_yer = i2c_read(0);
-
-//i2c_stop();
-
-//enable_interrupts(GLOBAL);
-
 // Convert the date/time values from BCD to
 // unsigned 8-bit integers.  Unpack the bits
 // in the PCF8563 registers where required.
-//bcd_sec     = LV_sec & 0x7F;
  Time.Fields.bcd_sec &= 0x7F;
- //bcd_mon     = C_Mon  & 0x7F;
  Time.Fields.bcd_mon &= 0x7F;
  
 dt->seconds = bcd2bin(Time.Fields.bcd_sec);   

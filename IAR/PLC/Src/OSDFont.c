@@ -526,13 +526,7 @@ void FOSDDownloadFont( uint8_t FontMode )
 				WriteTW88( REG354, 0x92 );				// 4bit multi color start = 0
 				FOSDLUT( (uint16_t *)SPI_FONT1, 16, 40 );
 			break;
-			case 2:
-				FOSDDownloadFontDirect( 0, &Logo[0][0], (uint16_t)0x7E, 12, 30);
-				WriteTW88( 0xff, PAGE3_FOSD );
-				WriteTW88( REG30B, 0 );				// 2bit multi color start = 0
-				WriteTW88( REG353, 0 );				// 3bit multi color start = 0
-				WriteTW88( REG354, 0xff );			// 4bit multi color start = 0
-			break;
+
 			default:
 				FOSDDownloadFontDirect( 0, (uint8_t *)SPI_FONT0_ADDRESS, (uint16_t)0x100, 12, 18);
 			break;

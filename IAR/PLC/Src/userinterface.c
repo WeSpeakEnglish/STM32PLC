@@ -8,15 +8,10 @@
 #include "timer14.h"
 #include "timer13.h"
 #include "ltdc.h"
-#include "tw8819.h"
-#include "OSDFont.h"
-#include "OSDBasic.h"
-#include "OSDinitTable.h"
-#include "DispInfo.h"
+
 #include "lm75.h"
 #include "spi_mem.h"
-#include "variables.h"
-#include "fonts.h"
+
 
 #define DOZE_LIMIT_H 200
 #define DOZE_LIMIT_L 100
@@ -188,9 +183,9 @@ uint16_t Temp_16;
 
 void Run_GUI(void){
 uint16_t Temp16;
-_FourBytesU TestI,TestJ;
-uint8_t TempSend[32]={32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1};
-uint8_t TempReceive[128]={0};
+//_FourBytesU TestI,TestJ;
+//uint8_t TempSend[32]={32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1};
+//uint8_t TempReceive[128]={0};
 
 if(TimeIsReady){
     while (RESmutex_1) ;
@@ -309,36 +304,14 @@ if(TimeIsReady){
          DISP.Screen = 3;
          ViewScreen(); 
           break; 
-        case 28:
+        case 28: ///!!!-----------------------------------------------------------------------
           if(!CAM_flag) {
             CAM_flag = 1;
-            LCD_Video_GPIO_Deinit();
-             while (RESmutex_1) ;
-              RESmutex_1 = 1;
-              HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
-              HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_SET);	
-              I2CDeviceInitialize(InitCVBSAll);
-              FOSDDownloadFont(1);
-              Switch_Camera(1);
-/////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!////
-              OSDSetDEDelay();
-              OSDDisplayInput();
-              GetTempLM75();
-
-
-
-              sEE_WriteBuffer((uint8_t *)RIAD_80pt.table, 0x0000, 65535);
-              Temp16 = 128;
-              sEE_ReadBuffer(TempReceive,62361,&Temp16);
-       //         TestJ.Bytes[0] = 89;
-       //         }
-              RESmutex_1 = 0;
+            VideoCAMOnOff(4, 1); //number four on
           }
           else {
+            VideoCAMOnOff(4, 0); //number four off
             CAM_flag = 0;
-            HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
-            HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6, GPIO_PIN_RESET);
-            LCD_Video_GPIO_Init();
           }
          break;
       }

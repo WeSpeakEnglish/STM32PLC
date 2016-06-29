@@ -72,7 +72,7 @@ int main(void)
   MPU_Config(); 
   InitPeriph();
   
-  //WriteNewTextFileSD(buff,  "0:hi.txt", sizeof(buff));
+
 
   /* USER CODE END 2 */
   /* Infinite loop */

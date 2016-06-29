@@ -32,6 +32,7 @@ extern const uint32_t ProjectionLayerAddress[2]; // Were we fill out our objects
  void _HW_Fill_ImageToRAM(uint32_t SrcAddress, uint32_t DstAddress, uint32_t xSize, uint32_t  ySize); 
  ImgSize LoadBitmapFromSD(uint8_t *NameOfFile, uint32_t AddressOfImage);
  void TwoDigitsToChars(uint8_t * Src);
+ void VideoCAMOnOff(uint8_t NumbCam, uint8_t On);
 #ifdef __cplusplus
  }
 #endif

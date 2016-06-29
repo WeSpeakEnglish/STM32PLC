@@ -73,7 +73,7 @@ static uint8_t FlagKBD_Repeat = 0;
       CounterUPD = 0;
     if(KB_Status.EVENT && !KB_Status.PRESSED && FlagKBD_Repeat)
       {KBD_Handle(KB_Status.code); FlagKBD_Repeat =0;}
-    if((CounterUPD % 20) == 18){
+    if((CounterUPD % 20) == 17){
       if (RateChange  == 1){
         UpDownRate(1);  
         UpdateScreen = 1;
@@ -87,17 +87,8 @@ static uint8_t FlagKBD_Repeat = 0;
     }
     CounterUPD++;
     break;
-    
- //  case 90: 
-//        if(UpdateScreen||TimeIsReady){
-    
-
-//   F_push(Run_GUI);//();
-//   F_push(Show_GUI);//();
-
- //   }
-    break;
- }  
+  
+}  
  if (SOUND.CounterSound < SOUND.SoundPeriod) {
   // if(KB_Status.PRESSED)
    Bip(SOUND.CounterSound%2); 

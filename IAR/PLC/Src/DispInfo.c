@@ -63,10 +63,10 @@ void ClearOSDInfo(void)
         if( dt & INPUTINFO )	        ClearInput();
 }
 
-void OSDDisplayInput(void)
+void OSDDisplayInput(uint8_t * StringDisp)
 {
 	uint8_t	len1, len2;
-	len1 = strlenA("KAM 1");
+	len1 = strlenA(StringDisp);
         len2 = strlenA("EXIT");
 ClearOSDInfo();
 	InitOSDWindow((uint8_t*)Init_Osd_DisplayInput);
@@ -75,7 +75,7 @@ ClearOSDInfo();
 	
         ClearDataCnt(RATINGINFO_ADDR, 51); // Total 42 Char.
 	DrawAttrCnt(RATINGINFO_ADDR, DEFAULT_COLOR, 51 );
-        WriteStringToAddr(INPUTINFO_ADDR, "KAM 1", len1); 
+        WriteStringToAddr(INPUTINFO_ADDR, StringDisp, len1); 
 	WriteStringToAddr(RATINGINFO_ADDR, "EXIT", len2);
         
 	FOSDWinEnable(OSD_Win_Num(RATINGINFO_OSDWIN),1);
