@@ -30,7 +30,7 @@ uint8_t StrTime[9]="20:00:00";
 uint8_t StrDATA[16][8];
 
 
-volatile uint32_t TimeIsReady = 0;
+
 volatile uint8_t UpdateScreen = 0;
 volatile uint8_t CAM_flag = 0;
 
@@ -808,6 +808,7 @@ void ReleaseFunction(void){
 
   UpdateScreen = 1;
   DISP.ReleaseTask = 0;
+  RESmutex_2 = 0;
 }
 void UpDownRate(uint8_t Direction){
   if(Direction){
@@ -816,3 +817,4 @@ void UpDownRate(uint8_t Direction){
   else
    if(PatchParms.Rate > RATE_LIMIT_L)PatchParms.Rate -=10; 
 }
+

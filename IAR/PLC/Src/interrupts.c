@@ -28,7 +28,6 @@ void   EXTI9_5_IRQHandler(void)        //; EXTI Line 9..5
   if(!RESmutex_2){ 
         
       TimeIsReady = 1;   
-     
   }
   else{
    TimeIsReady = 0; 

@@ -21,7 +21,9 @@ uint8_t day;        // 1 to 31
 uint8_t weekday;    // 0 = Sunday, 1 = Monday, etc.
 }PCF8563_Alarm;
 
+extern volatile uint8_t TimeIsReady;
 
+void CheckTheTick(void);
 void PCF8563_Init(void);
 void PCF8563_set_datetime(date_time_t volatile *dt);
 void PCF8563_read_datetime(date_time_t volatile *dt);

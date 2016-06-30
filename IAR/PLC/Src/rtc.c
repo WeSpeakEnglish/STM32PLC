@@ -75,8 +75,9 @@ char const weekday_names[7][10] =
 {"Thursday"},
 {"Friday"},
 {"Saturday"}
-};   
-               
+};  
+
+volatile uint8_t TimeIsReady = 0;              
 // This structure defines the user's date and time data.
 // The values are stored as unsigned integers.  The user
 // should declare a structure of this type in the application
@@ -369,4 +370,15 @@ void GetTimeToStr(uint8_t * StrDstTime, date_time_t volatile * dt){ // getting d
   StrDstTime[8] ='\0';
 }
 
+void CheckTheTick(void){
+static uint8_t oldFlag = 0;
 
+if(HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_7)!= oldFlag ){
+  if (!oldFlag){ 
+    oldFlag =1;
+    TimeIsReady = 1;
+  }
+  else oldFlag =0;
+};
+return ;
+}

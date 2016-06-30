@@ -157,7 +157,9 @@ void Show_GUI(void){
  LayerOfView %= 2;
 // FillImageSoft(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, ProjectionLayerAddress[LayerOfView], 800, 480);  
  _HW_Fill_Display_From_Mem(SDRAM_BANK_ADDR + LAYER_BACK_OFFSET, ProjectionLayerAddress[LayerOfView]);
+            
 
+            
 }  
 
 

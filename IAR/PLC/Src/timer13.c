@@ -12,14 +12,12 @@
 
 // 
 void Timer13_Init(void){
-
-TIM13->PSC = 20;
-TIM13->ARR = 1759; //one second
-TIM13->DIER |= TIM_DIER_UIE; //разрешаем прерывание от таймера
-TIM13->CR1 |= TIM_CR1_CEN; // Начать отсчёт!
-NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn); //Разрешение TIM6_DAC_IRQn прерывания
-
-  return;
+  TIM13->PSC = 20;
+  TIM13->ARR = 1759; //one second
+  TIM13->DIER |= TIM_DIER_UIE; //разрешаем прерывание от таймера
+  TIM13->CR1 |= TIM_CR1_CEN; // Начать отсчёт!
+  NVIC_EnableIRQ(TIM8_UP_TIM13_IRQn); //Разрешение TIM6_DAC_IRQn прерывания
+return;
 }
 
 void TIM13_IRQHandler(void){
@@ -69,7 +67,7 @@ static uint8_t FlagKBD_Repeat = 0;
       RESmutex_2 = 1;
     KBD_Handle(KB_Status.code);
     FlagKBD_Repeat =1;
-      RESmutex_2 = 0;
+
     }
     if((!KB_Status.PRESSED) && (Touch_Data.status == TOUCH_RELEASED))
       CounterUPD = 0;
@@ -87,10 +85,11 @@ static uint8_t FlagKBD_Repeat = 0;
       }
       
      CounterUPD = 0; 
-     RESmutex_2 = 0;
+     
     }
     CounterUPD++;
     break;
+
   
 }  
  if (SOUND.CounterSound < SOUND.SoundPeriod) {

@@ -48,7 +48,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_ADC1_Init();
-   MX_DMA_Init();
+  MX_DMA_Init();
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_DAC_Init();
@@ -69,7 +69,7 @@ int main(void)
   MX_TIM14_Init();
 
   /* USER CODE BEGIN 2 */
-  MPU_Config(); 
+  //MPU_Config(); 
   InitPeriph();
   
   /* USER CODE END 2 */
@@ -82,11 +82,12 @@ int main(void)
   /* USER CODE BEGIN 3 */
    RoutineFast(); // get and run deals from medium queue 
 
- if(UpdateScreen||TimeIsReady|| DISP.ReleaseFlag){
+ if(UpdateScreen|| DISP.ReleaseFlag || TimeIsReady){
   Run_GUI();
 
   Show_GUI();
   UpdateScreen = 0;
+  DISP.ReleaseFlag = 0;
   }
     
   }

@@ -12,9 +12,9 @@ ByteLimit=50
 CStepIntDis=_ 0
 stlinkserialNo=9069AF3F
 stlinkfoundProbes=
-LeaveTargetRunning=_ 0
+LeaveTargetRunning=_ 1
 [DebugChecksum]
-Checksum=-277199128
+Checksum=-1255685139
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -128,8 +128,7 @@ SumSortOrder=0
 mode=1
 [Breakpoints2]
 Bp0=_ 0 "EMUL_DATA" "CAM_flag" 2 0 0 0 4294967295
-Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\interrupts.c}.34.4" 0 0 1 "" 0 "" 0
-Count=2
+Count=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
