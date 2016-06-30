@@ -1,6 +1,11 @@
 # STM32PLC
 The PLC based on STM32F746
 Hi, my name is Alex 
+This REPO dedicate the PLC implemented ON new ST's STM32F7 MCU.
+It consist:
+1. the LCD driver as native for display's without controller time management
+2. 
+3. \()
 
 THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
