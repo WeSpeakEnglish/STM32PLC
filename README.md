@@ -1,7 +1,7 @@
 # STM32PLC
 The PLC based on STM32F746
 Hi, my name is Alex 
-This REPO dedicate the PLC implemented ON new ST's STM32F7 MCU.
+This REPO dedicate the PLC implemented on the new ST's STM32F7 MCU.
 It consist:
 1. the LCD driver as native for display's without a controller time management system on displays (8'', 9'' 800x480 are tested)
 2. The GIU library suppors multilayer paradigma to displaying objects on different orders while they will put to the screen.
