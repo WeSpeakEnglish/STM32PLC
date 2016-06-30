@@ -3,7 +3,7 @@ The PLC based on STM32F746
 Hi, my name is Alex 
 This REPO dedicate the PLC implemented on the new ST's STM32F7 MCU.
 It consist:
-1. the LCD driver as native for display's without a controller time management system on displays (8'', 9'' 800x480 are tested)
+1. the LCD driver as native for display's without a controller time management system on displays (8", 9" 800x480 are tested)
 2. The GIU library suppors multilayer paradigma to displaying objects on different orders while they will put to the screen.
 3. The displaying of images support "invisible" colour, setted up by user to provide displaying such things as button with rounded corners
 4. Two CAN's
