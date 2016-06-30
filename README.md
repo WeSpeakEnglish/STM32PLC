@@ -9,6 +9,10 @@ It consist:
 4. Two CAN's
 5. RS-485 and RS-232
 6. LM75 on I2C, we read temperature in easy manner in float point format, also I2C to an external device 
+7. PLC ready to drive tw8819, up to 4 cameras PAL/NTSC it has been implemented yet.
+8. 2 analog inputs and two powerful outputs, whitch can connect the load.
+9. The PCF8563 RTC on board
+10. Touch screen 
 
 THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
