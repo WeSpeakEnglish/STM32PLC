@@ -196,4 +196,5 @@ void LCD_Fill_Image(ImageInfo * Image, uint32_t x, uint32_t y);
 void LCD_Fill_ImageTRANSP(ImageInfo * Image, uint32_t x, uint32_t y);
 void FillImageSoft(uint32_t ImageAddress, uint32_t address, uint32_t xSize, uint32_t ySize);
 void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
+void LL_ConvertLineToRGB888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode);
 #endif /* __LCD_H */

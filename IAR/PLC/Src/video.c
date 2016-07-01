@@ -289,10 +289,10 @@ if (res == FR_OK){
   for(index=0; index < Size.height; index++)
   {
     /* Pixel format conversion */
-    LL_ConvertLineToARGB8888(pbmp, (void *)AddressOfImage, (uint32_t) Size.width, (uint32_t) input_color_mode);
-    
+   // LL_ConvertLineToARGB8888(pbmp, (void *)AddressOfImage, (uint32_t) Size.width, (uint32_t) input_color_mode);
+    LL_ConvertLineToRGB888(pbmp, (void *)AddressOfImage, (uint32_t) Size.width, (uint32_t) input_color_mode);
     /* Increment the source and destination buffers */
-    AddressOfImage +=  (Size.width * 4);
+    AddressOfImage +=  (Size.width * 3);
     PositionOfFile -= psw;
   f_lseek(&OurFile, PositionOfFile); //pointer to the last line of bitmap
   f_read(&OurFile, pbmp, LineBytesSize + (Size.width) % 4, &br);

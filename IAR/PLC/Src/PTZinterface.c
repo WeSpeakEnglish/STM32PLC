@@ -121,9 +121,9 @@ uint16_t Temp_16;
    Images[14] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[0], 151, 250); // unselected square at zero screen
    Images[15] = GUI_SetObject(IMAGE_FAST_FILL,0, 1, 3, &IMAGES.ImgArray[42], 414, 112); // TRUCK with brush picture
    
-   Images[16] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 1, 3, &IMAGES.ImgArray[7], 684, 47); // DOSE RIGHT after reflow change to 0xFF333333 
-   Images[17] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 0, 3, &IMAGES.ImgArray[7], 684, 169); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
-   Images[18] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333733, 0, 3, &IMAGES.ImgArray[7], 684, 293); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
+   Images[16] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333333, 1, 3, &IMAGES.ImgArray[7], 684, 47); // DOSE RIGHT after reflow change to 0xFF333333 
+   Images[17] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333333, 0, 3, &IMAGES.ImgArray[7], 684, 169); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
+   Images[18] = GUI_SetObject(IMAGE_WITH_TRANSP,0xFF333333, 0, 3, &IMAGES.ImgArray[7], 684, 293); // RANGE RIGHT after reflow change to 0xFF333333 read transp colour
       
    //IMAGES load to STRUCT and HIDE they for the Zero screen
  //  Images[19] = GUI_SetObject(IMAGE_FAST_FILL,0, 0, 3, &IMAGES.ImgArray[31], 150, 61); // SCREEN 2 LEFT PRESSED(BIG IMG)
@@ -519,12 +519,12 @@ uint32_t FillStructIMG(uint32_t address, uint16_t startIndex, uint16_t stopIndex
     Name[1] = (i/10 - 10*(i/100))  + 0x30;
     Name[2] = (i%10)  + 0x30;
    SizesIMG = LoadBitmapFromSD(Name, address);
-  
+     
    IMAGES.ImgArray[IMAGES.Number].index   = i;
    IMAGES.ImgArray[IMAGES.Number].xsize   = SizesIMG.width;
    IMAGES.ImgArray[IMAGES.Number].ysize   = SizesIMG.height; 
    IMAGES.ImgArray[IMAGES.Number].address = address;
-   address += ((uint32_t)SizesIMG.height ) * ((uint32_t)SizesIMG.width) * 4;
+   address += ((uint32_t)SizesIMG.height ) * ((uint32_t)SizesIMG.width) * 3;
    IMAGES.Number++;
   }
   return address;

@@ -14,6 +14,7 @@
     
 /* Default LCD configuration with LCD Layer 1 */
 static uint32_t            ActiveLayer = 0;
+static _FourBytesU dataIMG;
 static LCD_DrawPropTypeDef DrawProp[MAX_LAYER_NUMBER];
 static uint32_t LayerIndex = 0;
 static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c, uint16_t SignWide);
@@ -975,6 +976,35 @@ void LL_ConvertLineToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t C
   } 
 }
 
+void LL_ConvertLineToRGB888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ColorMode)
+{    
+  /* Configure the DMA2D Mode, Color Mode and output offset */
+  hdma2d.Init.Mode         = DMA2D_M2M;
+  hdma2d.Init.ColorMode    = DMA2D_RGB888;
+  hdma2d.Init.OutputOffset = 0;     
+  
+  /* Foreground Configuration */
+//  hdma2d.LayerCfg[1].AlphaMode = DMA2D_NO_MODIF_ALPHA;
+//  hdma2d.LayerCfg[1].InputAlpha = 0xFF;
+  hdma2d.LayerCfg[1].InputColorMode = ColorMode;
+  hdma2d.LayerCfg[1].InputOffset = 0;
+  
+  hdma2d.Instance = DMA2D; 
+  
+  /* DMA2D Initialization */
+  if(HAL_DMA2D_Init(&hdma2d) == HAL_OK) 
+  {
+    if(HAL_DMA2D_ConfigLayer(&hdma2d, 1) == HAL_OK) 
+    {
+      if (HAL_DMA2D_Start(&hdma2d, (uint32_t)pSrc, (uint32_t)pDst, xSize, 1) == HAL_OK)
+      {
+        /* Polling For DMA transfer */  
+        HAL_DMA2D_PollForTransfer(&hdma2d, 10);
+      }
+    }
+  } 
+}
+
 void LL_ConvertImageToARGB8888(void *pSrc, void *pDst, uint32_t xSize, uint32_t ySize, uint32_t ColorMode)
 {    
   /* Configure the DMA2D Mode, Color Mode and output offset */
@@ -1105,16 +1135,25 @@ void LCD_Fill_Image(ImageInfo * Image, uint32_t x, uint32_t y){
 
 }
 
+
+
 void FillImageSoft(uint32_t ImageAddress, uint32_t address, uint32_t xSize, uint32_t ySize){
-uint32_t S_Y, data, i , j;
-uint32_t* pImageAddress = (uint32_t*)ImageAddress;
+uint32_t S_Y, i , j;
+uint8_t* pImageAddress = (uint8_t*)ImageAddress;
+dataIMG.Bytes[3] = 0xFF;
  
  for(j = 0; j < ySize; j++){
    S_Y = 4 * j * DisplayWIDTH;
   for(i = 0; i < xSize; i++){
-       data = *pImageAddress++;
-       if(data & 0xFF000000) // is it not transparent?
-       *(__IO uint32_t*)(address + i * 4 + S_Y) = data;
+    
+    dataIMG.Bytes[0] = *pImageAddress++; 
+    dataIMG.Bytes[1] = *pImageAddress++;
+    dataIMG.Bytes[2] = *pImageAddress++;
+       
+   
+    
+//       if(data & 0xFF000000) // is it not transparent?
+       *(__IO uint32_t*)(address + i * 4 + S_Y) = dataIMG.DWord;
    }
  }
 }
@@ -1123,14 +1162,17 @@ void LCD_Fill_ImageTRANSP(ImageInfo * Image, uint32_t x, uint32_t y){
 static uint32_t address;
 address = ProjectionLayerAddress[LayerOfView] + 4 * y * DisplayWIDTH + 4 * x;
 uint32_t S_Y, data, i , j;
-uint32_t* pImageAddress = (uint32_t*) Image->address;
+uint8_t* pImageAddress = (uint8_t*) Image->address;
+dataIMG.Bytes[3] = 0xFF;
 
  for(j = 0; j < (Image->ysize); j++){
    S_Y = 4 * j * DisplayWIDTH;
   for(i = 0; i < (Image->xsize); i++){
-       data = *pImageAddress++;
-       if(data != DrawProp[LayerIndex].TextColor) // is it not transparent?
-       *(__IO uint32_t*)(address + i * 4 + S_Y) = data;
+    dataIMG.Bytes[0] = *pImageAddress++; 
+    dataIMG.Bytes[1] = *pImageAddress++;
+    dataIMG.Bytes[2] = *pImageAddress++;
+       if(dataIMG.DWord != DrawProp[LayerIndex].TextColor) // is it not transparent?
+       *(__IO uint32_t*)(address + i * 4 + S_Y) = dataIMG.DWord;;
    }
  }
 }
