@@ -24,7 +24,7 @@
 #include "video.h"
 #include "gui.h"
 #include "variables.h"  
-#include "userinterface.h" 
+
 #include "memory.h"
 #include "timer13.h"
 #include "timer14.h"
@@ -32,6 +32,14 @@
 #include "ff.h"
 #include "rtc.h"
 #include "leds.h"
+#define PTZ_interface 1
 
+#ifdef PTZ_interface
+#include "PTZinterface.h" 
+#endif
+
+#ifdef DOR_interface
+#include "userinterface.h" 
+#endif
 void InitPeriph(void);
 #endif

@@ -1,7 +1,7 @@
 #include "timer13.h"
 #include "tim.h"
 
-#include "userinterface.h"
+#include "initial.h"
 #include "core.h"
 #include "gui.h"
 #include "lcd.h"
@@ -67,13 +67,15 @@ static uint8_t FlagKBD_Repeat = 0;
       RESmutex_2 = 1;
     KBD_Handle(KB_Status.code);
     FlagKBD_Repeat =1;
-
+    CounterUPD = 0;
     }
-    if((!KB_Status.PRESSED) && (Touch_Data.status == TOUCH_RELEASED))
+    if((!KB_Status.PRESSED) && (Touch_Data.status == TOUCH_RELEASED)){
+      RESmutex_2 = 0;
       CounterUPD = 0;
+    }
     if(KB_Status.EVENT && !KB_Status.PRESSED && FlagKBD_Repeat)
       {KBD_Handle(KB_Status.code); FlagKBD_Repeat =0;}
-    if((CounterUPD % 20) == 17){
+    if((CounterUPD % 20) == 18){
       RESmutex_2 = 1;
       if (RateChange  == 1){
         UpDownRate(1);  

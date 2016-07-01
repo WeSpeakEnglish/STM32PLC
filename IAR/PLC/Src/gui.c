@@ -5,7 +5,7 @@
 #include "core.h"
 #include "ltdc.h"
 #include "calculations.h"
-#include "userinterface.h"
+#include "initial.h"
 
 static GUI_Object GUI_Objects[MAX_OBJECTS_Q];
 

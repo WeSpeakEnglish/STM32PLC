@@ -2,7 +2,7 @@
 #include "stmpe811.h"
 #include "timer14.h"
 #include "core.h"
-#include "userinterface.h"
+#include "initial.h"
 #include "rtc.h"
 
 
