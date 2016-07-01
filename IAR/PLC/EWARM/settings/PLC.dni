@@ -14,7 +14,7 @@ stlinkserialNo=9069AF3F
 stlinkfoundProbes=
 LeaveTargetRunning=_ 1
 [DebugChecksum]
-Checksum=-1255685139
+Checksum=378551252
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -133,9 +133,6 @@ Count=1
 LoggingEnabled=_ 0
 LogFile=_ ""
 Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
 [Aliases]
 A0=_ "E:\CODE\PLC\Drivers\CMSIS\Include\core_cm7.h" ""
 A1=_ "E:\CODE\PLC\Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_tim_ex.c" ""
@@ -152,3 +149,6 @@ Exclusions=
 Enabled=0
 [CallStackStripe]
 ShowTiming=1
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""

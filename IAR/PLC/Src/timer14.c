@@ -38,12 +38,13 @@ switch (DealNumber){
     if (RESmutex_1){Timer14_Init_Deal(100,1); return;} 
    RESmutex_1 = 1;
    P_Touch_FreeIRQ();
+   MX_Touch_Read();
    RESmutex_1 = 0;
-   Timer14_Init_Deal(300,2);
+   Timer14_Init_Deal(50,2);
     break;
     
   case 2: 
-   if (RESmutex_1){Timer14_Init_Deal(100,2); return;}
+   if (RESmutex_1){Timer14_Init_Deal(50,2); return;}
    RESmutex_1 = 1;
           MX_Touch_Read();
     RESmutex_1 = 0;
