@@ -1161,7 +1161,7 @@ dataIMG.Bytes[3] = 0xFF;
 void LCD_Fill_ImageTRANSP(ImageInfo * Image, uint32_t x, uint32_t y){
 static uint32_t address;
 address = ProjectionLayerAddress[LayerOfView] + 4 * y * DisplayWIDTH + 4 * x;
-uint32_t S_Y, data, i , j;
+uint32_t S_Y, i, j;
 uint8_t* pImageAddress = (uint8_t*) Image->address;
 dataIMG.Bytes[3] = 0xFF;
 

@@ -5,6 +5,7 @@
 // Character bitmaps for GOST type B 16pt
 const uint8_t RIAD_16ptBitmaps[] = 
 {
+	// @0 ' ' (2 pixels wide)
 	0x00, //   
 	0x00, //   
 	0x00, //   
@@ -4554,7 +4555,32 @@ const uint8_t RIAD_16ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @6325 'O' (10 pixels wide)
+	// @6325 'O' (11 pixels wide)
+	0x00, 0x00, //            
+	0x00, 0x00, //            
+	0x00, 0x00, //            
+	0x00, 0x00, //            
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0x80, 0xC0, // #       ## 
+	0xFF, 0xC0, // ########## 
+	0xFF, 0xE0, // ###########
+	0x00, 0x60, //          ##
+	0x00, 0x60, //          ##
+	0x00, 0x60, //          ##
+	0x00, 0x00, //            
+	0x00, 0x00, //            
+
+	// @6371 '?' (10 pixels wide)
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 	0x00, 0x00, //           
@@ -4579,7 +4605,7 @@ const uint8_t RIAD_16ptBitmaps[] =
 	0x00, 0x00, //           
 	0x00, 0x00, //           
 
-	// @6371 '?' (14 pixels wide)
+	// @6417 'O' (14 pixels wide)
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 	0x00, 0x00, //               
@@ -4604,7 +4630,7 @@ const uint8_t RIAD_16ptBitmaps[] =
 	0x00, 0x00, //               
 	0x00, 0x00, //               
 
-	// @6417 'O' (15 pixels wide)
+	// @6463 'U' (15 pixels wide)
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 	0x00, 0x00, //                
@@ -4629,7 +4655,7 @@ const uint8_t RIAD_16ptBitmaps[] =
 	0x00, 0x00, //                
 	0x00, 0x00, //                
 
-	// @6463 'U' (12 pixels wide)
+	// @6509 'U' (12 pixels wide)
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
@@ -4653,31 +4679,6 @@ const uint8_t RIAD_16ptBitmaps[] =
 	0x00, 0x00, //             
 	0x00, 0x00, //             
 	0x00, 0x00, //             
-
-	// @6509 'U' (15 pixels wide)
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0x83, 0x0C, // #     ##    ## 
-	0xFF, 0xFC, // ############## 
-	0xFF, 0xFE, // ###############
-	0x00, 0x02, //               #
-	0x00, 0x02, //               #
-	0x00, 0x02, //               #
-	0x00, 0x00, //                
-	0x00, 0x00, //                
 
 	// @6555 'U' (12 pixels wide)
 	0x00, 0x00, //             
@@ -5602,7 +5603,7 @@ const uint8_t RIAD_16ptBitmaps[] =
 	0x00, //         
 	0x00, //         
 	0x00, //         
-	0x00, //                   
+	0x00, //            
 };
 
 // Character descriptors for GOST type B 16pt
@@ -5610,7 +5611,7 @@ const uint8_t RIAD_16ptBitmaps[] =
 
 const struct FONT_CHAR_INFO RIAD_16ptDescriptors[] = 
 {
-		{2, 0}, 		//   
+	{2, 0}, 		//   
 	{3, 23}, 		// ! 
 	{5, 46}, 		// " 
 	{9, 69}, 		// # 
@@ -5792,11 +5793,11 @@ const struct FONT_CHAR_INFO RIAD_16ptDescriptors[] =
 	{11, 6187}, 		// O 
 	{13, 6233}, 		// O 
 	{10, 6279}, 		// O 
-	{10, 6325}, 		// O 
-	{14, 6371}, 		// ? 
-	{15, 6417}, 		// O 
-	{12, 6463}, 		// U 
-	{15, 6509}, 		// U 
+	{11, 6325}, 		// O 
+	{10, 6371}, 		// ? 
+	{14, 6417}, 		// O 
+	{15, 6463}, 		// U 
+	{12, 6509}, 		// U 
 	{12, 6555}, 		// U 
 	{9, 6601}, 		// U 
 	{10, 6647}, 		// Y 
@@ -5833,8 +5834,7 @@ const struct FONT_CHAR_INFO RIAD_16ptDescriptors[] =
 	{9, 7889}, 		// u 
 	{8, 7935}, 		// y 
 	{13, 7958}, 		// ? 
-        {8, 8004}, 		// ? 
-
+	{8, 8004}, 		// ÿ 
 };
 
 // Font information for GOST type B 16pt

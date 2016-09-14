@@ -32,7 +32,7 @@
 #include "ff.h"
 #include "rtc.h"
 #include "leds.h"
-#define PTZ_interface 1
+#define DOR_interface 1
 
 #ifdef PTZ_interface
 #include "PTZinterface.h" 
