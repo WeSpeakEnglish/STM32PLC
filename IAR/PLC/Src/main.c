@@ -34,6 +34,7 @@ void MX_USB_HOST_Process(void);
 
 int main(void)
 {
+  uint8_t oldRelease = 0;
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
   /* Enable I-Cache-------------------------------------------------------------*/
@@ -82,6 +83,11 @@ int main(void)
   /* USER CODE BEGIN 3 */
    RoutineFast(); // get and run deals from medium queue 
 
+   if(oldRelease && Touch_Data.status == TOUCH_RELEASED){
+   ReleaseFunction();
+   }
+   else
+   {oldRelease = 1;}
  if(UpdateScreen|| DISP.ReleaseFlag || TimeIsReady){
   Run_GUI();
 

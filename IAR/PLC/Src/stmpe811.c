@@ -132,7 +132,7 @@ void P_Touch_FreeIRQ(void){
 
 void P_Touch_Config(void)
 {
- static uint8_t regArray[12]={0x50,0x9A,0x9A,0x01,0x01,0x00,0x01,0x01,0x03,0xFF,1,1};
+  static uint8_t regArray[12]= {0x50,0x00,0x9A,0x01,0x01,0x00,0x01,0x01,0x03,0xFF,1,1};
   P_Touch_FnctCmd(IOE_TP_FCT, ENABLE);
   HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_ADC_CTRL1, I2C_MEMADD_SIZE_8BIT, &regArray[0], 1, 2);
   HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_INT_CTRL, I2C_MEMADD_SIZE_8BIT, &regArray[10], 1, 2);
@@ -201,8 +201,8 @@ uint8_t P_Touch_IOAFConfig(uint8_t IO_Pin, FunctionalState NewState)
    HAL_I2C_Mem_Write(&hi2c2, (uint16_t)STMPE811_I2C_ADDR, (uint16_t)IOE_REG_GPIO_AF, I2C_MEMADD_SIZE_8BIT, &temp, 1, 2);
    return(0);
 }
-#define DISPLAY_8IN             1U 
-//#define DISPLAY_9IN           1U 
+//#define DISPLAY_8IN             1U 
+#define DISPLAY_9IN           1U 
 
 ///CALIBRATING DATA
 #ifdef DISPLAY_8IN

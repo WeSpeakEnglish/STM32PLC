@@ -35,18 +35,14 @@ TIM14->DIER &= ~TIM_DIER_UIE; //разрешаем прерывание от таймера
 switch (DealNumber){
   case 0: break;
   case 1: 
-    if (RESmutex_1){Timer14_Init_Deal(100,1); return;} 
-   RESmutex_1 = 1;
-   P_Touch_FreeIRQ();
-   MX_Touch_Read();
-   RESmutex_1 = 0;
    Timer14_Init_Deal(50,2);
     break;
     
   case 2: 
    if (RESmutex_1){Timer14_Init_Deal(50,2); return;}
-   RESmutex_1 = 1;
-          MX_Touch_Read();
+   RESmutex_1 = 1; 
+   P_Touch_FreeIRQ();
+   MX_Touch_Read();
     RESmutex_1 = 0;
    TouchScreen_Handle();       
           break;
