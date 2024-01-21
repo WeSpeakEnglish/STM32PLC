@@ -15,6 +15,9 @@ It consist:
 11. Power sound class D amplifier on board to provide "talking" functions
 12. GPS module could be soldered and controlled via UART
 
+## PCB project in Altium Designer
+see [here](https://github.com/WeSpeakEnglish/PLC_PCB)
+
 THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
