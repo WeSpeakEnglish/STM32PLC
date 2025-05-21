@@ -1,19 +1,45 @@
-# STM32PLC
-The PLC based on STM32F746
-This REPO dedicate the PLC implemented on the new ST's STM32F7 MCU.
-It consist:
-1. the LCD driver as native for display's without a controller time management system on displays (8", 9" 800x480 are tested)
-2. The GIU library suppors multilayer paradigma (Z-indexed layers) to displaying objects on different orders while they will put to the screen.
-3. The displaying of images support "invisible" colour, setted up by user to provide displaying such things as button with rounded corners
-4. Two CAN's!
-5. RS-485 and RS-232!
-6. LM75 on I2C, we read temperature in easy manner in float point format, also I2C to an external device 
-7. PLC ready to drive tw8819, up to 4 cameras PAL/NTSC!
-8. 2 analog inputs and two powerful outputs, whitch can connect the load.
-9. The PCF8563 RTC on board to keep the time for a long time
-10. Touch screen STMPE811 on board
-11. Power sound class D amplifier on board to provide "talking" functions
-12. GPS module could be soldered and controlled via UART
+# STM32PLC  
+A Programmable Logic Controller Based on the STM32F746
+
+This repository showcases a PLC built around ST's powerful STM32F7 microcontroller. It includes a range of hardware and software features designed for robust industrial or embedded applications.
+
+## Features
+
+1. **Native LCD Driver**  
+   Designed for displays without a built-in controller (tested on 8" and 9" 800x480 panels). Supports precise timing and rendering.
+
+2. **GUI Library with Layered Rendering**  
+   Implements a multi-layer (Z-indexed) GUI system, allowing overlapping objects to be rendered in the correct visual order.
+
+3. **Image Rendering with Transparency Support**  
+   Enables user-defined "invisible" colors, perfect for elements like buttons with rounded corners.
+
+4. **Dual CAN Bus Support**  
+   Two CAN interfaces for industrial communication and device networking.
+
+5. **RS-485 and RS-232 Interfaces**  
+   Standard serial communication options for a wide range of peripherals.
+
+6. **Temperature Sensing with LM75 over I2C**  
+   Easy-to-use temperature readings in floating-point format. Additional I2C devices supported.
+
+7. **TW8819 Video Decoder Support**  
+   Ready to drive the TW8819 chip, enabling support for up to 4 PAL/NTSC cameras.
+
+8. **Analog I/O**  
+   Includes two analog inputs and two high-current outputs capable of driving external loads.
+
+9. **Real-Time Clock (PCF8563)**  
+   On-board RTC for long-term timekeeping.
+
+10. **Capacitive Touchscreen Support (STMPE811)**  
+    Built-in controller for touch interface applications.
+
+11. **Class-D Audio Amplifier**  
+    On-board amplifier enables sound output for voice or audio signals.
+
+12. **Optional GPS Module**  
+    GPS module support via UART for location-based applications.
 
 ## PCB project in Altium Designer
 see [here](https://github.com/WeSpeakEnglish/PLC_PCB)
